@@ -1,0 +1,41 @@
+site_name: Watsonx.data and Milvus RAG Demonstration
+# theme:
+#   name: material
+nav:
+  - Introduction: "wxd-intro.md"
+  - Getting Started:
+    - Requesting an image: "wxd-reference-techzone.md"
+    - Accessing the reservation: "wxd-reference-access.md"
+    - Available Ports: "wxd-reference-ports.md"
+    - Userids and Passwords: "wxd-reference-passwords.md"
+    - Documentation: "wxd-reference-documentation.md"
+  - Lab Instructions: "wxd-lab-instructions.md" 
+  - Watsonx.data Overview:
+    - Watsonx UI Overview: "wxd-intro-watsonui.md"
+    - Infrastructure Manager: "wxd-intro-infrastructure.md"
+    - Data Manager: "wxd-intro-datamanager.md"
+    - Query Workspace: "wxd-intro-queryworkspace.md"
+    - Milvus: "wxd-milvus.md"
+  - Appendix: 
+    - Disclaimer: "wxd-disclaimer.md"
+    - Acknowledgements: "wxd-acknowledgements.md"
+
+  # Copyright
+copyright: Copyright &copy; 2024 IBM 
+
+# Theme
+theme:
+  name: material
+  font:
+    text: IBM Plex Sans
+    code: IBM Plex Mono
+  logo: wxd-images/IBM_logo®_rev_RGB.png  
+  palette:
+    scheme: default
+    primary: black
+    accent: black
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences    

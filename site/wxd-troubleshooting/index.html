@@ -1,0 +1,890 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.3.9">
+    
+    
+      
+        <title>Troubleshooting watsonx.data - Watsonx.data and Milvus RAG Demonstration</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.1d29e8d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#000000">
+        
+      
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="black">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#troubleshooting-watsonxdata" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Watsonx.data and Milvus RAG Demonstration" class="md-header__button md-logo" aria-label="Watsonx.data and Milvus RAG Demonstration" data-md-component="logo">
+      
+  <img src="../wxd-images/IBM_logo®_rev_RGB.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Watsonx.data and Milvus RAG Demonstration
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Troubleshooting watsonx.data
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Watsonx.data and Milvus RAG Demonstration" class="md-nav__button md-logo" aria-label="Watsonx.data and Milvus RAG Demonstration" data-md-component="logo">
+      
+  <img src="../wxd-images/IBM_logo®_rev_RGB.png" alt="logo">
+
+    </a>
+    Watsonx.data and Milvus RAG Demonstration
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-intro/" class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Getting Started
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Getting Started" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Getting Started
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-reference-techzone/" class="md-nav__link">
+        Requesting an image
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-reference-access/" class="md-nav__link">
+        Accessing the reservation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-reference-ports/" class="md-nav__link">
+        Available Ports
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-reference-passwords/" class="md-nav__link">
+        Userids and Passwords
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-reference-documentation/" class="md-nav__link">
+        Documentation
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-lab-instructions/" class="md-nav__link">
+        Lab Instructions
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Watsonx.data Overview
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Watsonx.data Overview" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Watsonx.data Overview
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-intro-watsonui/" class="md-nav__link">
+        Watsonx UI Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-intro-infrastructure/" class="md-nav__link">
+        Infrastructure Manager
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-intro-datamanager/" class="md-nav__link">
+        Data Manager
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-intro-queryworkspace/" class="md-nav__link">
+        Query Workspace
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-milvus/" class="md-nav__link">
+        Milvus
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          Appendix
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Appendix" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Appendix
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-disclaimer/" class="md-nav__link">
+        Disclaimer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-acknowledgements/" class="md-nav__link">
+        Acknowledgements
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-are-the-passwords-for-the-services" class="md-nav__link">
+    What are the passwords for the services?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-sql-statement-failed-but-there-are-no-error-messages" class="md-nav__link">
+    A SQL Statement failed, but there are no error messages
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#apache-superset-isnt-starting" class="md-nav__link">
+    Apache Superset isn't Starting
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#apache-superset-screens-differ-from-the-lab" class="md-nav__link">
+    Apache Superset screens differ from the lab
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#presto-doesnt-appear-to-be-working" class="md-nav__link">
+    Presto doesn't appear to be working
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#displaying-db2-schema-is-failing" class="md-nav__link">
+    Displaying Db2 Schema is failing
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#queries-are-failing-with-a-400-code" class="md-nav__link">
+    Queries are failing with a 400 code
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#queries-are-failing-with-a-200-or-500-code" class="md-nav__link">
+    Queries are failing with a 200 or 500 code
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#queries-fail-become-of-insufficient-memory" class="md-nav__link">
+    Queries fail become of insufficient memory
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ssh-vnc-and-watsonxdata-ui-are-not-working" class="md-nav__link">
+    SSH, VNC and watsonx.data UI are not working
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reset-watsonxdata" class="md-nav__link">
+    Reset watsonx.data
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#no-access-to-prestominio-ui-after-restart" class="md-nav__link">
+    No access to Presto/Minio UI after restart
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#firefox-and-chrome-freeze-when-connecting-to-minio" class="md-nav__link">
+    Firefox and Chrome freeze when connecting to MinIO
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+<h1 id="troubleshooting-watsonxdata">Troubleshooting watsonx.data</h1>
+<p>Although we have tried to make the lab as error-free as possible, occasionally things will go wrong. Here is a list of common questions, problems, and potential solutions.</p>
+<ul>
+<li><a href="#what-are-the-passwords-for-the-services">What are the passwords for the services</a></li>
+<li><a href="#a-sql-statement-failed-but-there-are-no-error-messages">A SQL Statement failed but there are no error messages</a></li>
+<li><a href="#apache-superset-isnt-starting">Apache Superset isn't Starting</a></li>
+<li><a href="#apache-superset-screens-differ-from-the-lab">Apache Superset screens differ from the lab</a></li>
+<li><a href="#too-many-incorrect-logins-using-vnc-and-now-im-blocked-from-connecting">Too many incorrect logins using VNC and now I'm blocked</a></li>
+<li><a href="#presto-doesnt-appear-to-be-working">Presto doesn't appear to be working</a></li>
+<li><a href="#displaying-db2-schema-is-failing">Displaying Db2 Schema is failing</a></li>
+<li><a href="#queries-are-failing-with-a-400-code">Queries are failing with a 400 code</a></li>
+<li><a href="#queries-are-failing-with-a-200-or-500-code">Queries are failing with a 200 or 500 code</a></li>
+<li><a href="#queries-fail-become-of-insufficient-memory">Queries are failing with memory errors</a></li>
+<li>
+<p><a href="#ssh-vnc-and-watsonxdata-ui-are-not-working">SSH, VNC and watsonx.data UI are not working</a></p>
+</li>
+<li>
+<p><a href="#no-access-to-prestominio-ui-after-restart">No access to Presto/Minio UI after restart</a></p>
+</li>
+<li><a href="#firefox-and-chrome-freeze-when-connecting-to-minio">Firefox and Chrome freeze when connecting to MinIO</a></li>
+</ul>
+<h3 id="what-are-the-passwords-for-the-services">What are the passwords for the services?</h3>
+<p>See the section on <a href="wxd-reference-passwords#passwords">Passwords</a>.</p>
+<p>You can get all passwords for the system when you are logged in as the <code style="color:blue;font-size:medium;">watsonx</code> user by using the following command.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>/certs/passwords
+</code></pre></div>
+</div>
+<p>You can also use the Jupyter notebook link to display the userids and passwords for the services.</p>
+<h3 id="a-sql-statement-failed-but-there-are-no-error-messages">A SQL Statement failed, but there are no error messages</h3>
+<p>You need to use the Presto console and search for the SQL statement. Click on the Query ID to find more details of the statement execution and scroll to the bottom of the web page to see any error details. </p>
+<h3 id="apache-superset-isnt-starting">Apache Superset isn't Starting</h3>
+<p>If Superset doesn't start for some reason, you will need to reset it completely to try it again. First make sure you are connected as the <code>watsonx</code> user <strong>not</strong> <code>root</code>.</p>
+<p>Make sure you have stopped the terminal session that is running Apache Superset. Next remove the Apache Superset directory.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/home/watsonx/superset
+</code></pre></div>
+</div>
+<p>We remove the docker images associated with Apache Superset. If no containers or volumes exist you will get an error message.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>ps<span class="w"> </span>-a<span class="w"> </span>-q<span class="w"> </span>--filter<span class="w"> </span><span class="s2">&quot;name=superset&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>xargs<span class="w"> </span>docker<span class="w"> </span>container<span class="w"> </span>rm<span class="w"> </span>--force
+docker<span class="w"> </span>volume<span class="w"> </span>list<span class="w"> </span>-q<span class="w">  </span>--filter<span class="w"> </span><span class="s2">&quot;name=superset&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>xargs<span class="w"> </span>docker<span class="w"> </span>volume<span class="w"> </span>rm<span class="w"> </span>--force
+</code></pre></div>
+</div>
+<p>Download the superset code again.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/apache/superset.git
+</code></pre></div>
+</div>
+<p>The <code>docker-compose-non-dev.yml</code> file needs to be updated so that Apache Superset can access the same network that watsonx.data is using. </p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>./superset
+cp<span class="w"> </span>docker-compose-non-dev.yml<span class="w"> </span>docker-compose-non-dev-backup.yml
+
+sed<span class="w"> </span><span class="s1">&#39;/version: &quot;3.7&quot;/q&#39;</span><span class="w"> </span>docker-compose-non-dev.yml<span class="w"> </span>&gt;<span class="w"> </span>yamlfix.txt
+cat<span class="w"> </span><span class="s">&lt;&lt;EOF &gt;&gt; yamlfix.txt</span>
+<span class="s">networks:</span>
+<span class="s">  default:</span>
+<span class="s">    external: True</span>
+<span class="s">    name: ibm-lh-network</span>
+<span class="s">EOF</span>
+sed<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;1,/version: &quot;3.7&quot;/ d&#39;</span><span class="w"> </span>docker-compose-non-dev.yml<span class="w">  </span>&gt;&gt;<span class="w"> </span>yamlfix.txt
+</code></pre></div>
+</div>
+<p>We update the Apache Superset code to version <code>2.1.0</code>.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>sed<span class="w"> </span><span class="s1">&#39;s/\${TAG:-latest-dev}/2.1.0/&#39;</span><span class="w"> </span>yamlfix.txt<span class="w"> </span>&gt;<span class="w"> </span>docker-compose-non-dev.yml
+</code></pre></div>
+</div>
+<p>Use docker-compose to start Apache Superset.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>nohup<span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker-compose-non-dev.yml<span class="w"> </span>up<span class="w"> </span><span class="p">&amp;</span>
+</code></pre></div>
+</div>
+<p>The <code>nohup</code> command will issue a message indicating that output will be directed to the <code>nohup.out</code> file. It takes some time for the service to start, so be patient! You can view any output from the Apache Superset system by viewing the <code>nohup.out</code> file in the directory where you installed superset.</p>
+<h3 id="apache-superset-screens-differ-from-the-lab">Apache Superset screens differ from the lab</h3>
+<p>The Apache Superset project makes frequent changes to the types of charts that are available. In some cases they remove or merge charts. Since these charts changes are dynamic, we are not able to guarantee that our examples will look the same as what you might have on your system.</p>
+<h3 id="presto-doesnt-appear-to-be-working">Presto doesn't appear to be working</h3>
+<p>If you find that the watsonx.data UI is generating error messages that suggest that queries are not running, or that the Presto service is dead, you can force a soft restart of Presto with the following command:</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>docker restart ibm-lh-presto
+</code></pre></div>
+</div>
+<p>This will restart the Presto server. If you find that does not fix your problem, you will need to do a hard reset using the following commands:</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>sudo su -
+cd /root/ibm-lh-dev/bin
+./stop_service ibm-lh-presto
+export LH_RUN_MODE=diag
+./start_service ibm-lh-presto
+check-presto
+</code></pre></div>
+</div>
+<p>The command will wait until the service is running before exiting.</p>
+<h3 id="displaying-db2-schema-is-failing">Displaying Db2 Schema is failing</h3>
+<p>Occasionally when attempting to expand the Db2 catalog (schema), the watsonx.data UI will not display any data or issue an error message. You can try refreshing the browser (not the refresh icon inside the UI) and try again. If you find that this is failing again, open the Query workspace and run the following SQL (replace db2_gosales with the name you cataloged the database with).</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code><span class="k">select</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">db2_gosales</span><span class="p">.</span><span class="n">gosalesdw</span><span class="p">.</span><span class="n">go_org_dim</span><span class="w"> </span>
+</code></pre></div>
+</div>
+<p>The result should be <code>123</code> and hopefully the tables that are part of the schema will display for you. </p>
+<h3 id="queries-are-failing-with-a-400-code">Queries are failing with a 400 code</h3>
+<p>The watsonx.data UI will log you out after a period of inactivity, but doesn't tell you that this has happened. When you attempt to run a query, the error that is returned (400) indicates that you need to log back in again.</p>
+<h3 id="queries-are-failing-with-a-200-or-500-code">Queries are failing with a 200 or 500 code</h3>
+<p>A 500 code may indicate the watsonx.data UI has a problem connecting with the Presto engine. First log out of the console and trying logging back on. If that fails to solve the problem, you will need to reboot the console. Open up a terminal window into the server:</p>
+<p>As the root user, restart the docker container that is running the watsonx.data UI.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>restart<span class="w"> </span>lhconsole-nodeclient-svc
+</code></pre></div>
+</div>
+<h3 id="queries-fail-become-of-insufficient-memory">Queries fail become of insufficient memory</h3>
+<p>If you are running a complex query, you may get an error message similar to "Query exceeded per-node user memory limit" or a something similar. Watsonx.data (Presto) attempts to limit the amount of resources being using in a query and will stop a query if it exceeds a certain threshold. </p>
+<p>You can change the behavior of the system by making the following changes. </p>
+<div class="admonition error">
+<p class="admonition-title">During this step you will disconnect anyone running a query on the server.</p>
+</div>
+<p>What you need to do is make a change to the configuration settings of the Presto engine. As the root user, enter the docker container for the presto engine:</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>ibm-lh-presto<span class="w"> </span>/bin/bash
+</code></pre></div>
+</div>
+<p>Next, copy the original config file to a safe place in case we make an error:</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>cp<span class="w"> </span>/opt/presto/etc/config.properties<span class="w"> </span>/opt/presto/etc/config.properties.backup
+</code></pre></div>
+</div>
+<p>Then update the properties file.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>&gt;&gt;<span class="w"> </span>/opt/presto/etc/config.properties<span class="w"> </span><span class="s">&lt;&lt; EOL</span>
+<span class="s">experimental.spiller-spill-path=/tmp</span>
+<span class="s">experimental.spiller-max-used-space-threshold=0.7</span>
+<span class="s">experimental.max-spill-per-node=10GB</span>
+<span class="s">experimental.query-max-spill-per-node=10GB</span>
+<span class="s">experimental.spill-enabled=true</span>
+<span class="s">query.max-memory=10GB</span>
+<span class="s">query.max-memory-per-node=10GB</span>
+<span class="s">query.max-total-memory-per-node=10GB</span>
+<span class="s">query.max-total-memory=10GB</span>
+<span class="s">EOL</span>
+</code></pre></div>
+</div>
+<p>Doublecheck that it worked.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>/opt/presto/etc/config.properties<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>experimental
+</code></pre></div>
+</div>
+<pre style="font-size: small; color: darkgreen; overflow: auto">
+experimental.max-spill-per-node=10GB
+experimental.query-max-spill-per-node=10GB
+experimental.spill-enabled=true
+experimental.spiller-max-used-space-threshold=0.7
+experimental.spiller-spill-path=/tmp
+</pre>
+
+<p>If it is all good then exit the container.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code><span class="nb">exit</span>
+</code></pre></div>
+</div>
+<p>And now we restart the container. Make sure that you don't impact other users!</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>restart<span class="w"> </span>ibm-lh-presto
+</code></pre></div>
+</div>
+<p>Now try running your query again. </p>
+<div class="admonition note">
+<p class="admonition-title">Once you make this change, only restart presto using the above command, otherwise you will lose the changes.</p>
+</div>
+<h3 id="ssh-vnc-and-watsonxdata-ui-are-not-working">SSH, VNC and watsonx.data UI are not working</h3>
+<p>Symptoms:</p>
+<ul>
+<li>You've tried to use SSH to log into the system, and you get a timeout error.</li>
+<li>All the Web-based UIs (watsonx.data UI, Presto) fail.</li>
+</ul>
+<p>Find your email message that contains details of your reservation. Details of what the reservations and the page containing details of the reservation can be found in the <a href="../wxd-reference-access/">Accessing the reservation</a> section. </p>
+<p>Once the details appear, scroll down to the bottom of the web page, and you will see the VM Remote Console button.</p>
+<p><img alt="Browser" src="../wxd-images/techzone-vpn.png" /></p>
+<p>You can access the logon screen of the virtual machine by pressing the VM Remote Console button. </p>
+<p><img alt="Browser" src="../wxd-images/techzone-console.png" /></p>
+<p>Clicking on this button will display the logon screen for the server.</p>
+<p><img alt="Browser" src="../wxd-images/techzone-guacamole.png" /></p>
+<p>If you see this screen, the system is running and there is something wrong the watsonx.data service (see instructions below).</p>
+<p>If you see the following screen:</p>
+<p><img alt="Browser" src="../wxd-images/desktop-poweroff.png" /></p>
+<p>This means your server has been turned off. Click on the Power on button.</p>
+<p><img alt="Browser" src="../wxd-images/desktop-poweronyes.png" /></p>
+<p>Make sure to press the Yes button to turn the power on! In a few minutes you should see the logon screen again.</p>
+<p><img alt="Browser" src="../wxd-images/techzone-guacamole.png" /></p>
+<p>Wait for a few minutes for all the services to start, and then you will be able to use SSH, VNC, and watsonx.data UI.</p>
+<h3 id="reset-watsonxdata">Reset watsonx.data</h3>
+<p>If you can log into the watsonx userid using the VM Remove console, you can reset the watsonx.data server with the following steps.</p>
+<p>SSH into the server as the root user. Then switch to the development code bin directory.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/root/ibm-lh-dev/bin
+</code></pre></div>
+</div>
+<p>Check the status of the system with the following command.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>./status.sh<span class="w"> </span>--all
+</code></pre></div>
+</div>
+<p>Output will look similar to:</p>
+<pre style="font-size: small; color: darkgreen; overflow: scroll"">
+using /root/ibm-lh-dev/localstorage/volumes as data root directory for user: root/1001 
+infra config location is /root/ibm-lh-dev/localstorage/volumes/infra
+lhconsole-ui              running   0.0.0.0:9443->8443/tcp, :::9443->8443/tcp
+lhconsole-nodeclient-svc  running   3001/tcp
+lhconsole-javaapi-svc     running   8090/tcp
+lhconsole-api             running   3333/tcp, 8081/tcp
+ibm-lh-presto             running   0.0.0.0:8443->8443/tcp, :::8443->8443/tcp
+ibm-lh-hive-metastore     running       
+ibm-lh-postgres           running   5432/tcp
+ibm-lh-minio              running           
+</pre>
+
+<p>If the any of the services are not running, you will need to restart the system with the following set of commands.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/root/ibm-lh-dev/bin
+./stop-milvus
+./stop
+<span class="nb">export</span><span class="w"> </span><span class="nv">LH_RUN_MODE</span><span class="o">=</span>diag
+./start
+./start-milvus<span class="w"> </span>
+</code></pre></div>
+</div>
+<p>Wait for all services to start and then check to see if you can connect to the watsonx.data UI. </p>
+<h3 id="no-access-to-prestominio-ui-after-restart">No access to Presto/Minio UI after restart</h3>
+<p>If you are using a TechZone image that has been suspended, or restarted, you may come across a situation where you are unable to connect to any service that uses the <code>http</code> protocol. The <code>watsonx.service</code> needs to have a diagnostic flag set that opens up these ports, and sometimes this diagnostic setting is not being updated. </p>
+<p>To manually stop and start the system, you will need to connect with root user privileges and run the following commands:</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/root/ibm-lh-dev/bin
+./stop-milvus
+./stop
+<span class="nb">export</span><span class="w"> </span><span class="nv">LH_RUN_MODE</span><span class="o">=</span>diag
+./start
+./start-milvus<span class="w"> </span>
+</code></pre></div>
+</div>
+<p>This set of commands will stop all the services in watsonx.data and restart them in diagnostic mode. This will now open the <code>http</code> ports for use.</p>
+<h3 id="firefox-and-chrome-freeze-when-connecting-to-minio">Firefox and Chrome freeze when connecting to MinIO</h3>
+<p>Firefox and Chrome on OSX will occasionally freeze when connecting to the MinIO console. The Safari browser is much more reliable. This problem appears to be caused by some features which are not properly handled by these browsers. </p>
+
+              
+            </article>
+            
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 IBM
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.b97dbffb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.6c7ad80a.min.js"></script>
+      
+    
+  </body>
+</html>
