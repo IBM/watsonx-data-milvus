@@ -1,0 +1,1016 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.3.9">
+    
+    
+      
+        <title>Using the MinIO console UI - Watsonx.data and Milvus RAG Demonstration</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.1d29e8d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#000000">
+        
+      
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="black">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#using-the-minio-console-ui" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Watsonx.data and Milvus RAG Demonstration" class="md-header__button md-logo" aria-label="Watsonx.data and Milvus RAG Demonstration" data-md-component="logo">
+      
+  <img src="../wxd-images/IBM_logo®_rev_RGB.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Watsonx.data and Milvus RAG Demonstration
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Using the MinIO console UI
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Watsonx.data and Milvus RAG Demonstration" class="md-nav__button md-logo" aria-label="Watsonx.data and Milvus RAG Demonstration" data-md-component="logo">
+      
+  <img src="../wxd-images/IBM_logo®_rev_RGB.png" alt="logo">
+
+    </a>
+    Watsonx.data and Milvus RAG Demonstration
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-intro/" class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Getting Started
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Getting Started" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Getting Started
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-reference-techzone/" class="md-nav__link">
+        Requesting an image
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-reference-access/" class="md-nav__link">
+        Accessing the reservation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-reference-ports/" class="md-nav__link">
+        Available Ports
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-reference-passwords/" class="md-nav__link">
+        Userids and Passwords
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-reference-documentation/" class="md-nav__link">
+        Documentation
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-lab-instructions/" class="md-nav__link">
+        Lab Instructions
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Watsonx.data Overview
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Watsonx.data Overview" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Watsonx.data Overview
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-intro-watsonui/" class="md-nav__link">
+        Watsonx UI Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-intro-infrastructure/" class="md-nav__link">
+        Infrastructure Manager
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-intro-datamanager/" class="md-nav__link">
+        Data Manager
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-intro-queryworkspace/" class="md-nav__link">
+        Query Workspace
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-milvus/" class="md-nav__link">
+        Milvus
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          Appendix
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Appendix" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Appendix
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-disclaimer/" class="md-nav__link">
+        Disclaimer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-acknowledgements/" class="md-nav__link">
+        Acknowledgements
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#creating-schemas-and-tables" class="md-nav__link">
+    Creating Schemas and Tables
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating Schemas and Tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-tables" class="md-nav__link">
+    Creating tables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#do-i-really-need-apache-iceberg" class="md-nav__link">
+    Do I really need Apache Iceberg?
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#minio-cli" class="md-nav__link">
+    MinIO CLI
+  </a>
+  
+    <nav class="md-nav" aria-label="MinIO CLI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#minio-system-alias" class="md-nav__link">
+    Minio System Alias
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-buckets" class="md-nav__link">
+    List Buckets
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-a-bucket" class="md-nav__link">
+    Create a Bucket
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loading-data" class="md-nav__link">
+    Loading Data
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-a-file-or-bucket" class="md-nav__link">
+    Delete a File or Bucket
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+<h1 id="using-the-minio-console-ui">Using the MinIO console UI</h1>
+<p>MinIO is a high-performance, S3 compatible object store. Rather than connect to an external S3 object store, we are going to use MinIO locally to run with  watsonx.data.</p>
+<p>To connect to MinIO, you will need to extract the MinIO credentials by querying the docker container. You must be the <code>root</code> user to issue these commands.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>export LH_S3_ACCESS_KEY=$(docker exec ibm-lh-presto printenv | grep LH_S3_ACCESS_KEY | sed &#39;s/.*=//&#39;)
+export LH_S3_SECRET_KEY=$(docker exec ibm-lh-presto printenv | grep LH_S3_SECRET_KEY | sed &#39;s/.*=//&#39;)
+echo &quot;MinIO Userid  : &quot; $LH_S3_ACCESS_KEY
+echo &quot;MinIO Password: &quot; $LH_S3_SECRET_KEY
+</code></pre></div>
+</div>
+<pre style="font-size: small; color: darkgreen; overflow: auto">
+MinIO Userid  :  c4643026087cc21989eb5c12
+MinIO Password:  93da45c5af87abd86c9dbc83
+</pre>
+
+<p>You can get all passwords for the system when you are logged in as the <code style="color:blue;font-size:medium;">watsonx</code> user by using the following command.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>cat /certs/passwords
+</code></pre></div>
+</div>
+<p>Your TechZone reservation will include the server name and port number to use when connecting to the MinIO. The default port number is 9001, while the server will be referred to as <tt style="font-size: large; color: darkgreen;">region.services.cloud.techzone.ibm.com</tt>. Replace these values with those found in your reservation.</p>
+<p>Open your browser and navigate to:</p>
+<ul>
+<li>Minio console - http://region.services.cloud.techzone.ibm.com:port</li>
+<li><strong>Note</strong>: Firefox on OSX occasionally freezes when connecting to the MinIO console. The Safari browser is much more reliable.</li>
+</ul>
+<p><img alt="Browser" src="../wxd-images/minio-logon.png" /></p>
+<p>Login with object store credentials found above (These will be different for your system). You should see current buckets in MinIO.</p>
+<p><img alt="Browser" src="../wxd-images/minio-objects.png" /></p>
+<p>We are going to examine these buckets after we populate them with some data.</p>
+<h2 id="creating-schemas-and-tables">Creating Schemas and Tables</h2>
+<p>Not all catalogs support creation of schemas - as an example, the TPCH catalog is not writeable. We will use the iceberg_data catalog for this exercise. We will need to get some details before we continue.</p>
+<p>Make sure you are connected as the root user and are in the proper directory.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>cd /root/ibm-lh-dev/bin
+</code></pre></div>
+</div>
+<p>Login to the Presto CLI.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>./presto-cli --catalog iceberg_data
+</code></pre></div>
+</div>
+<p>Create schema <code style="color:blue;font-size:medium;">workshop</code> in catalog<code style="color:blue;font-size:medium;">iceberg_data</code>. Note how we are using the <code style="color:blue;font-size:medium;">iceberg-bucket</code> bucket which you should have seen in the MinIO object browser.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>CREATE SCHEMA IF NOT EXISTS workshop with (location=&#39;s3a://iceberg-bucket/&#39;);
+</code></pre></div>
+</div>
+<p>Show the available schemas.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>show schemas;
+</code></pre></div>
+</div>
+<pre style="font-size: small; color: darkgreen; overflow: auto">
+  Schema  
+----------
+ workshop
+(1 row)
+</pre>
+
+<p>Switch to the workshop schema.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>use workshop;
+</code></pre></div>
+</div>
+<h3 id="creating-tables">Creating tables</h3>
+<p>Create a new Apache Iceberg table using existing data in the sample Customer table as part of the TPCH catalog schema called TINY.</p>
+<p>Create the customer table.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>create table customer as select * from tpch.tiny.customer;
+</code></pre></div>
+</div>
+<p>Show the tables in the schema.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>show tables;
+</code></pre></div>
+</div>
+<pre style="font-size: small; color: darkgreen; overflow: auto">
+  Table   
+----------
+ customer 
+(1 row)
+</pre>
+
+<p>Quit Presto.</p>
+<div class="admonition abstract">
+<p><div class="highlight"><pre><span></span><code>quit;
+</code></pre></div>
+</p>
+</div>
+<p>Refresh the Minio screen (see button on the far-right side).</p>
+<p><img alt="Browser" src="../wxd-images/minio-refresh.png" /></p>
+<p>You should now see new objects under <code style="color:blue;font-size:medium;">iceberg-bucket</code> Click on the bucket name and you will see the customer table.</p>
+<p><img alt="Browser" src="../wxd-images/minio-customer.png" /></p>
+<p>Selecting the <code style="color:blue;font-size:medium;">customer</code> object will show that there is data and metadata in there.</p>
+<p><img alt="Browser" src="../wxd-images/minio-customer-data.png" /></p>
+<p>How do we know that this data is based on Apache iceberg? If you open the file under <code style="color:blue;font-size:medium;">metadata</code>, you should see metadata information for the data we are storing in parquet file format. </p>
+<p><img alt="Browser" src="../wxd-images/minio-customer-metadata.png" /></p>
+<h3 id="do-i-really-need-apache-iceberg">Do I really need Apache Iceberg?</h3>
+<p>The following example demonstrates why you need something like Apache Iceberg to manage the files. Metadata is stored in the Parquet file format, but only for the single parquet file. If we add more data/partitions, the data is split into multiple Parquet files, and we don’t have a mechanism to get the table to parquet files mapping. Run the following example to understand this better.</p>
+<p>You need to get the access keys for MinIO before running the following lab. Make sure you are still connected as <code>root</code>.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>export LH_S3_ACCESS_KEY=$(docker exec ibm-lh-presto printenv | grep LH_S3_ACCESS_KEY | sed &#39;s/.*=//&#39;)
+export LH_S3_SECRET_KEY=$(docker exec ibm-lh-presto printenv | grep LH_S3_SECRET_KEY | sed &#39;s/.*=//&#39;)
+</code></pre></div>
+</div>
+<p>Open the developer sandbox to connect to MinIO, download the selected parquet file and inspect the parquet file contents.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>./dev-sandbox.sh
+</code></pre></div>
+</div>
+<p>Update the Python files to be executable (makes our commands more convenient).</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>chmod +x /scripts/*.py
+</code></pre></div>
+</div>
+<p>List all files in the object store (MinIO).</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>/scripts/s3-inspect.py --host ibm-lh-minio-svc:9000 --accessKey $LH_S3_ACCESS_KEY --secretKey $LH_S3_SECRET_KEY --bucket iceberg-bucket
+</code></pre></div>
+</div>
+<pre style="font-size: small; color: darkgreen; overflow: auto">
+iceberg-bucket b'customer/data/e9536a5e-14a1-4823-98ed-cc22d6fc38db.parquet' 2023-06-06 14:31:47.778000+00:00 6737d7268fcb3eb459b675f27f716f48 75373 None
+iceberg-bucket b'customer/metadata/00000-e26c56e0-c4d7-4625-8b06-422429f6ba8d.metadata.json' 2023-06-06 14:31:48.629000+00:00 2e722c7dd83c1dd260a7e6c9503c0e04 3272 None
+iceberg-bucket b'customer/metadata/7cb074a4-3da7-4184-9db8-567383bb588a-m0.avro' 2023-06-06 14:31:48.401000+00:00 655a5568207cc399b8297f1488ef77e7 6342 None
+iceberg-bucket b'customer/metadata/snap-6143645832277262458-1-7cb074a4-3da7-4184-9db8-567383bb588a.avro' 2023-06-06 14:31:48.445000+00:00 0c3714299d43ae86a46eabdcaac1351e 3753 None
+</pre>
+
+<p>You can extract the file name with the following command.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>PARQUET=$(/scripts/s3-inspect.py --host ibm-lh-minio-svc:9000 --accessKey $LH_S3_ACCESS_KEY --secretKey $LH_S3_SECRET_KEY --bucket iceberg-bucket | grep -o -m 1 &quot;.*&#39;customer.*parquet&quot; | sed -n &quot;s/.*b&#39;//p&quot;)
+</code></pre></div>
+</div>
+<p>The file name that is retrieved is substituted into the next command.</p>
+<div class="admonition note">
+<p class="admonition-title">The file name found in $PARQUET will be different on your system.</p>
+</div>
+<div class="admonition abstract">
+<p><div class="highlight"><pre><span></span><code>/scripts/s3-download.py --host ibm-lh-minio-svc:9000 --accessKey $LH_S3_ACCESS_KEY --secretKey $LH_S3_SECRET_KEY --bucket iceberg-bucket --srcFile $PARQUET --destFile /tmp/x.parquet
+</code></pre></div>
+</p>
+</div>
+<p>Describe the File Contents.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>/scripts/describe-parquet.py /tmp/x.parquet
+</code></pre></div>
+</div>
+<pre style="font-size: small; color: darkgreen; overflow: auto">
+----------------------
+metadata: 
+  <pyarrow._parquet.FileMetaData object at 0x7f8a80353e50>
+  created_by: 
+  num_columns: 8
+  num_rows: 1500
+  num_row_groups: 1
+  format_version: 1.0
+  serialized_size: 851
+----------------------
+
+----------------------
+schema:  
+ custkey: int64
+name: binary
+address: binary
+nationkey: int64
+phone: binary
+acctbal: double
+mktsegment: binary
+comment: binary
+----------------------
+
+----------------------
+row group 0:  
+ <pyarrow._parquet.RowGroupMetaData object at 0x7f8a80374090>
+  num_columns: 8
+  num_rows: 1500
+  total_byte_size: 74555
+----------------------
+
+----------------------
+row group 0, column 1:  
+ <pyarrow._parquet.ColumnChunkMetaData object at 0x7f8a7fb36310>
+  file_offset: 0
+  file_path: 
+  physical_type: BYTE_ARRAY
+  num_values: 1500
+  path_in_schema: name
+  is_stats_set: True
+  statistics:
+    <pyarrow._parquet.Statistics object at 0x7f8a7fb36360>
+      has_min_max: False
+      min: None
+      max: None
+      null_count: 0
+      distinct_count: 0
+      num_values: 1500
+      physical_type: BYTE_ARRAY
+      logical_type: None
+      converted_type (legacy): NONE
+  compression: GZIP
+  encodings: ('DELTA_BYTE_ARRAY',)
+  has_dictionary_page: False
+  dictionary_page_offset: None
+  data_page_offset: 112
+  total_compressed_size: 599
+  total_uncompressed_size: 2806
+----------------------
+</pre>
+
+<div class="admonition note">
+<p class="admonition-title">In this instance we used an <code>insert into select * from customer</code> with no partitioning defined there was only 1 parquet file and only 1 row group. This is not the norm, and we deliberately did this to show you the value of using Apache Iceberg file format which can be used by multiple runtimes to access Iceberg data stored in parquet format and managed by hive metastore.</p>
+</div>
+<p>Exit from the Sandbox.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>exit
+</code></pre></div>
+</div>
+<h2 id="minio-cli">MinIO CLI</h2>
+<p>The MinIO Client <code>mc</code> command line tool provides an alternative to UNIX commands like <code>ls</code>, <code>cat</code>, <code>cp</code>, <code>mirror</code>, and <code>diff</code> with support for both file systems and Amazon S3-compatible cloud storage services.</p>
+<p>The <code>mc</code> commandline tool is built for compatibility with the AWS S3 API and is tested with MinIO and AWS S3 for expected functionality and behavior. Complete details and restrictions around the use of the CLI command can be found on the <a href="https://min.io/docs/minio/linux/reference/minio-mc.html">MinIO Client</a> page.</p>
+<p>You can use the MinIO CLI from a variety of clients. The MinIO ports are open in the developer edition image, which provides an alternative to loading data directly from your workstation rather than using the MinIO UI interface.</p>
+<h3 id="minio-system-alias">Minio System Alias</h3>
+<p>Before running commands against the MinIO server, an alias must be created that includes the access and secret key. The values can be extracted from the system by listing the contents of the <code>/certs/passwords</code> file or by running the <code>passwords</code> command as the root user.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>cat /certs/passwords
+</code></pre></div>
+</div>
+<p>The values for the MinIO access and secret key can also be exported with the following code:</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>export LH_S3_ACCESS_KEY=$(docker exec ibm-lh-presto printenv | grep LH_S3_ACCESS_KEY | sed &#39;s/.*=//&#39;)
+export LH_S3_SECRET_KEY=$(docker exec ibm-lh-presto printenv | grep LH_S3_SECRET_KEY | sed &#39;s/.*=//&#39;)
+echo &quot;MinIO Userid  : &quot; $LH_S3_ACCESS_KEY
+echo &quot;MinIO Password: &quot; $LH_S3_SECRET_KEY
+</code></pre></div>
+</div>
+<p>The <code>alias</code> command has the following syntax:</p>
+<p><code style="color:blue;font-size:medium;">mc alias set alias-name hostname:port access_key secret_key</code></p>
+<p>For a local connection, we will use the following values:</p>
+<ul>
+<li>Alias Name - <code style="color:blue;font-size:medium;">watsonxdata</code></li>
+<li>Hostname – <code style="color:blue;font-size:medium;">watsonxdata</code></li>
+<li>Port – <code style="color:blue;font-size:medium;">9000</code></li>
+<li>Access Key – <code style="color:blue;font-size:medium;">$LH_S3_ACCESS_KEY</code></li>
+<li>Secret Key - <code style="color:blue;font-size:medium;">$LH_S3_SECRET_KEY</code></li>
+</ul>
+<p>If you are using an external client to connect to the MinIO service, you will need the URL and Port number from the TechZone reservation. The access key and secret key will be the same values that are found above.</p>
+<ul>
+<li>Hostname –<code style="color:blue;font-size:medium;">region.services.cloud.techzone.ibm.com</code></li>
+<li>Port – <code style="color:blue;font-size:medium;">12345</code></li>
+</ul>
+<p>The alias for local access is found below.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>mc alias set watsonxdata http://watsonxdata:9000 $LH_S3_ACCESS_KEY $LH_S3_SECRET_KEY
+</code></pre></div>
+</div>
+<pre style="font-size: small; color: darkgreen; overflow: auto">
+Added `watsonxdata` successfully.
+</pre>
+
+<h3 id="list-buckets">List Buckets</h3>
+<p>The <code>mc</code> command provides us with a number of commands that allows us to manage buckets and files within them. The following command checks to see what buckets currently exist in the system. </p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>mc ls tree watsonxdata
+</code></pre></div>
+</div>
+<pre style="font-size: small; color: darkgreen; overflow: auto">
+[2023-09-29 14:38:19 EDT]     0B hive-bucket/
+[2023-09-29 14:38:19 EDT]     0B iceberg-bucket/
+</pre>
+
+<p>You can view the contents of a bucket by traversing down the path.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>mc ls tree watsonxdata/hive-bucket
+</code></pre></div>
+</div>
+<pre style="font-size: small; color: darkgreen; overflow: auto">
+[2023-10-13 10:34:36 EDT]     0B gosalesdw/
+[2023-10-13 10:34:36 EDT]     0B hive_sql/
+[2023-10-13 10:34:36 EDT]     0B ontime/
+[2023-10-13 10:34:36 EDT]     0B taxi/
+</pre>
+
+<h3 id="create-a-bucket">Create a Bucket</h3>
+<p>At this point we will create a new bucket to hold some data. Use the <code>mb</code> (make bucket) command. The command requires the alias name for the MinIO connection followed by the name of the bucket.</p>
+<p><code style="color:blue;font-size:medium;">
+mc mb alias-name/new-bucket
+</code></p>
+<p>The following code will create a new bucket in the system called <code>sampledata</code>.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>mc mb watsonxdata/sampledata
+</code></pre></div>
+</div>
+<pre style="font-size: small; color: darkgreen; overflow: auto">
+Bucket created successfully `watsonxdata/sampledata`.
+</pre>
+
+<p>We can double check that the bucket it there.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>mc ls tree watsonxdata
+</code></pre></div>
+</div>
+<pre style="font-size: small; color: darkgreen; overflow: auto">
+[2023-09-29 14:38:19 EDT]     0B hive-bucket/
+[2023-09-29 14:38:19 EDT]     0B iceberg-bucket/
+[2023-10-13 10:39:47 EDT]     0B sampledata/
+</pre>
+
+<h3 id="loading-data">Loading Data</h3>
+<p>One of the most powerful features of the MinIO CLI is its ability to load data directory from your workstation into the bucket, rather than having to use the MinIO UI. It is also significantly faster than using the UI interface.</p>
+<p>The next example will load data into the bucket that was just created. The directory that we will be using to load data from is called <code>/sampledata</code> and found in the root directory of the watsonx.data server.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>ls /sampledata/csv
+</code></pre></div>
+</div>
+<pre style="font-size: small; color: darkgreen; overflow: auto">
+gosales  ontime  taxi
+</pre>
+
+<p>Next we will load the data from each one of these directories into the <code>sampledata</code> bucket. The <code>mc</code> command allows you to select which files to place into a bucket, or an entire directory with recursion. In this case we are loading all three directories the files into the bucket. Note the use of the
+<code>/</code> at the end of the directory name to prevent the directory name <code>csv</code> from being used as the high-level directory name in the target bucket.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>mc cp --recursive /sampledata/csv/ watsonxdata/sampledata/
+</code></pre></div>
+</div>
+<pre style="font-size: small; color: darkgreen; overflow: auto">
+...data/csv/taxi/taxi.csv: 306.16 MiB / 306.16 MiB ━━━━━━━━━━━━━━━━━━ 147.91 MiB/s 2s
+</pre>
+
+<p>We can double-check that our files are there with the <code>--files</code> option:</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>mc tree --files watsonxdata/sampledata/
+</code></pre></div>
+</div>
+<pre style="font-size: small; color: darkgreen; overflow: auto">
+watsonxdata/sampledata/
+├─ gosales
+│  ├─ DIST_INVENTORY_FACT.csv
+│  ├─ DIST_PRODUCT_FORECAST_FACT.csv
+│  ├─ DIST_RETURNED_ITEMS_FACT.csv
+│  ├─ DIST_RETURN_REASON_DIM.csv
+....
+│  ├─ EMP_EMPLOYEE_DIM.csv
+│  ├─ SLS_SALES_TARG_FACT.csv
+│  ├─ gosales_createtable.sql
+│  └─ gosales_load_postgres.sql
+├─ ontime
+│  ├─ aircraft.csv
+│  ├─ airline_id.csv
+│  ├─ airport_id.csv
+│  ├─ cancellation.csv
+│  └─ ontime.csv
+└─ taxi
+   └─ taxi.csv
+</pre>
+
+<h3 id="delete-a-file-or-bucket">Delete a File or Bucket</h3>
+<p>Use the <code>rb</code> (Remove bucket) command to remove a bucket and its contents. You can remove individual objects by using the <code>rm</code> (Remove) command by fully qualifying the object. The next command will remove the <code>ontime.csv</code> file from the <code>ontime</code> folder.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>mc rm watsonxdata/sampledata/ontime/ontime.csv
+</code></pre></div>
+</div>
+<pre style="font-size: small; color: darkgreen; overflow: auto">
+Removed `watsonxdata/sampledata/ontime/ontime.csv`.
+</pre>
+
+<p>The delete bucket command will fail if you still have data in the bucket.</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>mc rb watsonxdata/sampledata
+</code></pre></div>
+</div>
+<pre style="font-size: small; color: darkgreen; overflow: auto">
+mc: <ERROR> `watsonxdata/sampledata` is not empty. 
+Retry this command with ‘--force’ flag if you want to remove 
+`watsonxdata/sampledata` and all its contents 
+</pre>
+
+<p>Adding the <code>--force</code> option will remove the bucket and all the data in it. Use with caution!</p>
+<div class="admonition abstract">
+<div class="highlight"><pre><span></span><code>mc rb --force watsonxdata/sampledata
+</code></pre></div>
+</div>
+<pre style="font-size: small; color: darkgreen; overflow: auto">
+Removed `watsonxdata/sampledata` successfully.
+</pre>
+
+              
+            </article>
+            
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 IBM
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.b97dbffb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.6c7ad80a.min.js"></script>
+      
+    
+  </body>
+</html>

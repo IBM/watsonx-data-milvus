@@ -1,0 +1,741 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.3.9">
+    
+    
+      
+        <title>Query Workspace - Watsonx.data and Milvus RAG Demonstration</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.1d29e8d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#000000">
+        
+      
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="black">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#query-workspace" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Watsonx.data and Milvus RAG Demonstration" class="md-header__button md-logo" aria-label="Watsonx.data and Milvus RAG Demonstration" data-md-component="logo">
+      
+  <img src="../wxd-images/IBM_logo®_rev_RGB.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Watsonx.data and Milvus RAG Demonstration
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Query Workspace
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Watsonx.data and Milvus RAG Demonstration" class="md-nav__button md-logo" aria-label="Watsonx.data and Milvus RAG Demonstration" data-md-component="logo">
+      
+  <img src="../wxd-images/IBM_logo®_rev_RGB.png" alt="logo">
+
+    </a>
+    Watsonx.data and Milvus RAG Demonstration
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-intro/" class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Getting Started
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Getting Started" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Getting Started
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-reference-techzone/" class="md-nav__link">
+        Requesting an image
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-reference-access/" class="md-nav__link">
+        Accessing the reservation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-reference-ports/" class="md-nav__link">
+        Available Ports
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-reference-passwords/" class="md-nav__link">
+        Userids and Passwords
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-reference-documentation/" class="md-nav__link">
+        Documentation
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-lab-instructions/" class="md-nav__link">
+        Lab Instructions
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Watsonx.data Overview
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Watsonx.data Overview" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Watsonx.data Overview
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-intro-watsonui/" class="md-nav__link">
+        Watsonx UI Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-intro-infrastructure/" class="md-nav__link">
+        Infrastructure Manager
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-intro-datamanager/" class="md-nav__link">
+        Data Manager
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Query Workspace
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Query Workspace
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    Summary
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-milvus/" class="md-nav__link">
+        Milvus
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          Appendix
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Appendix" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Appendix
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-disclaimer/" class="md-nav__link">
+        Disclaimer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-acknowledgements/" class="md-nav__link">
+        Acknowledgements
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    Summary
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+<h1 id="query-workspace">Query Workspace</h1>
+<p>Databases and query engines such as Presto have multiple ways that users can interact with the data. For example, there is usually an interactive command line interface (CLI) that lets users run SQL statements from a command terminal. </p>
+<p>Applications can use JDBC (Java Database Connectivity) to connect to the data store and run SQL statements. The watsonx.data user interface includes an SQL interface for building and running SQL statements. This is called the Query workspace. Users can write or copy in their own SQL statements, or they can use templates to assist in building new SQL statements.</p>
+<div class="admonition abstract">
+<p class="admonition-title">Click on the Query Workspace icon on the left side of the screen<br><img alt="icon" src="../wxd-images/wxd-intro-workspace-icon.png" /></p>
+</div>
+<p><img alt="Browser" src="../wxd-images/wxd-intro-select-queryworkspace.png" /> </p>
+<p>The Query workspace will have a similar layout to the Data Manager screen, where you can navigate through the catalogs associated with the selected engine.</p>
+<p><img alt="Browser" src="../wxd-images/wxd-intro-query.png" /> </p>
+<p>The SQL work area is found to the right of the catalog and table names.</p>
+<p><img alt="Browser" src="../wxd-images/wxd-intro-sql-area.png" /> </p>
+<p>You can type, paste, or use saved workspaces to enter SQL (Structured Query Language) commands into this window. An SQL statement instructs the database engine what records to look for in one or more tables. The Query workspace provides several pre-built SQL statements that can be generated for tables already cataloged in the system.</p>
+<p>In the Data Manager lab, the Data sample tab was used to view a subset of the data in the airline_delay_cause table.</p>
+<p><img alt="Browser" src="../wxd-images/wxd-intro-ontime-data-sample.png" /> </p>
+<p>This data can be generated in the Query Workspace window by using a prebuilt SQL generator. </p>
+<div class="admonition abstract">
+<p class="admonition-title">Expand the hive_data catalog by clicking on the <span style="font-style:bold; color:blue;">&#9658;</span> beside the hive_data name</p>
+</div>
+<p>You should now see all the schemas associated with the catalog, including the <code>ontime</code> schema.</p>
+<div class="admonition abstract">
+<p class="admonition-title">Expand the ontime schema by pressing <span style="font-style:bold; color:blue;">&#9658;</span> beside the schema name</p>
+</div>
+<p>The <code>ontime</code> schema includes 5 tables.</p>
+<div class="admonition abstract">
+<p class="admonition-title">Hover your mouse over the ontime table name</p>
+</div>
+<p>When your mouse hovers over a table name, two icons will become visible.</p>
+<p><img alt="Browser" src="../wxd-images/wxd-intro-ontime-hover.png" /> </p>
+<p>The first icon the refresh symbol <span style="font-style:bold; color:blue;">&#8634;</span>.</p>
+<p>The refresh icon forces the watsonx.data UI to retrieve details about the schema or table. Note that watsonx.data does not always reflect the status of tables in the display. The refresh process in not synchronous (i.e., it does not know that an update may have occurred to a table), so changes are not immediately shown in the display. </p>
+<p>The second icon <span style="font-style:bold; color:blue;">&lt;/&gt;</span> is used to display query templates. </p>
+<div class="admonition abstract">
+<p class="admonition-title">Click on the query template icon when it appears on the ontime table line</p>
+</div>
+<p><img alt="Browser" src="../wxd-images/wxd-intro-query-template.png" /></p>
+<p>The menu provides four templates for your table:</p>
+<ul>
+<li>Generate Path – The path description (or location) of the object.</li>
+<li>Generate Select – An SQL statement that will return the contents of the table.</li>
+<li>Generate Alter – An SQL statement (DDL – Data Definition Language) used to alter characteristics of the table, like adding a column.</li>
+<li>Generate Drop – An SQL statement used to remove the object from the system.</li>
+</ul>
+<div class="admonition abstract">
+<p class="admonition-title">Select the Generate SELECT option</p>
+</div>
+<p><img alt="Browser" src="../wxd-images/wxd-intro-generated-sql.png" /></p>
+<p>The system has populated the SQL window with the catalog name, the schema and the table name. This SQL will retrieve all the columns of the table and limit the output to 10 rows (LIMIT 10). </p>
+<p>The Run on presto-01 button is highlighted at the far right of the SQL window. </p>
+<p><img alt="Browser" src="../wxd-images/wxd-intro-runpresto.png" /></p>
+<p>The button will reflect which engine watsonx.data will run your query on. There is a pulldown menu beside the button that provides an option to run the query to the point where your cursor is on the text, or from where your cursor is on the text.</p>
+<p>You can use these options to run portions of an SQL statement when you are debugging results. In this instance, you just want to run the query and display the results. </p>
+<div class="admonition abstract">
+<p class="admonition-title">Press the Run on presto-01 button and wait for the results to return</p>
+</div>
+<p><img alt="Browser" src="../wxd-images/wxd-intro-sql-results.png" /></p>
+<p>Near the middle of the screen, you will see the statement that was executed, the run time, and the success or failure of the statement.</p>
+<p><img alt="Browser" src="../wxd-images/wxd-intro-sql-success.png" /></p>
+<p>The result set (if there is one) is displayed below the SQL statement.</p>
+<p><img alt="Browser" src="../wxd-images/wxd-intro-sql-answerset.png" /></p>
+<p>An export icon <span style="font-style:bold; color:blue;">&DownArrowBar;</span> is found on the far-right side of the result set. Clicking on the export icon will download the results as a CSV file on your workstation.</p>
+<div class="admonition abstract">
+<p class="admonition-title">Select the Details tab in the result set window</p>
+</div>
+<p><img alt="Browser" src="../wxd-images/wxd-intro-sql-result-details.png" /></p>
+<p>This dialog provides more information on the execution of the SQL statement. If you want additional details on the query execution plan, you can press the Explain button beside the Run on presto-01 button.</p>
+<div class="admonition abstract">
+<p class="admonition-title">Press the Explain button in the SQL window</p>
+</div>
+<p><img alt="Browser" src="../wxd-images/wxd-intro-sql-explain-results.png" /></p>
+<p>The graph displays the steps the Presto engine took to compute the answer. 
+You can click on any one of the boxes in the diagram to display the details of the step. The system will not show many details because the data is in a hive catalog and not optimized for retrieval.</p>
+<div class="admonition abstract">
+<p class="admonition-title">Close the Explain dialog by pressing the [x]</p>
+</div>
+<p>If you find that you are running the same SQL repeatedly, you can save the SQL as a worksheet. The SQL window should still have your select statement that was generated to retrieve the first 10 rows of the table. The save button is found above the SQL.</p>
+<p><img alt="Browser" src="../wxd-images/wxd-intro-sql-save-button.png" /></p>
+<div class="admonition abstract">
+<p class="admonition-title">Press the save button</p>
+</div>
+<p>The Save icon will open a dialog to save the SQL statement.</p>
+<p><img alt="Browser" src="../wxd-images/wxd-intro-save-dialog.png" /></p>
+<div class="admonition abstract">
+<p class="admonition-title">Enter the name Quick Look and press the Save button</p>
+</div>
+<p>At the bottom of your catalog and table list you will see a list of saved worksheets. In there should be the one you just saved called <code>Quick Look</code>.</p>
+<div class="admonition abstract">
+<p class="admonition-title">If you do not see your file, refresh your browser window</p>
+</div>
+<p><img alt="Browser" src="../wxd-images/wxd-intro-sql-saved-file.png" /></p>
+<div class="admonition abstract">
+<p class="admonition-title">Open a new SQL tab [+] and then click on the Quick Look worksheet you created</p>
+</div>
+<p>When you click on the name of a worksheet, the SQL will be placed into the current tab in the SQL window, with the tab containing the name of your saved worksheet. </p>
+<p><img alt="Browser" src="../wxd-images/wxd-intro-sql-retrieved.png" /></p>
+<p>You can now modify the SQL before running it to retrieve results.</p>
+<h2 id="summary">Summary</h2>
+<p>This chapter explored the use of the Query Workspace to run SQL commands, generate queries, and determine how the optimizer ran a query. In addition, the ability to store and retrieve SQL was used.</p>
+
+              
+            </article>
+            
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../wxd-intro-datamanager/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Data Manager" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Data Manager
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../wxd-milvus/" class="md-footer__link md-footer__link--next" aria-label="Next: Milvus" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Milvus
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 IBM
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.b97dbffb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.6c7ad80a.min.js"></script>
+      
+    
+  </body>
+</html>
