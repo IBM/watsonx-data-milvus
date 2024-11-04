@@ -1,0 +1,980 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.3.9">
+    
+    
+      
+        <title>Import Documents - Watsonx.data and Milvus RAG Demonstration</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.1d29e8d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#000000">
+        
+      
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="black">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#document-import-and-storage" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Watsonx.data and Milvus RAG Demonstration" class="md-header__button md-logo" aria-label="Watsonx.data and Milvus RAG Demonstration" data-md-component="logo">
+      
+  <img src="../wxd-images/IBM_logo®_rev_RGB.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Watsonx.data and Milvus RAG Demonstration
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Import Documents
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Watsonx.data and Milvus RAG Demonstration" class="md-nav__button md-logo" aria-label="Watsonx.data and Milvus RAG Demonstration" data-md-component="logo">
+      
+  <img src="../wxd-images/IBM_logo®_rev_RGB.png" alt="logo">
+
+    </a>
+    Watsonx.data and Milvus RAG Demonstration
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-introduction/" class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Getting Started
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Getting Started" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Getting Started
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-reference-techzone/" class="md-nav__link">
+        Requesting an image
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-reference-access/" class="md-nav__link">
+        Accessing the reservation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-reference-ports/" class="md-nav__link">
+        Available Ports
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-reference-passwords/" class="md-nav__link">
+        Userids and Passwords
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-reference-documentation/" class="md-nav__link">
+        Documentation
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Lab Instructions
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Lab Instructions" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Lab Instructions
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-demo-menu/" class="md-nav__link">
+        Main Menu
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-demo-intro/" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-demo-rag/" class="md-nav__link">
+        RAG
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Import Documents
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Import Documents
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#document-storage" class="md-nav__link">
+    Document Storage
+  </a>
+  
+    <nav class="md-nav" aria-label="Document Storage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#document-list" class="md-nav__link">
+    Document List
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#upload-document-or-url" class="md-nav__link">
+    Upload Document or URL
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#upload-wikipedia-documents" class="md-nav__link">
+    Upload Wikipedia Documents
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#document-storage_1" class="md-nav__link">
+    Document Storage
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#web-pages" class="md-nav__link">
+    Web Pages
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wiki-pages" class="md-nav__link">
+    Wiki Pages
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pre-loaded-documents" class="md-nav__link">
+    Pre-loaded Documents
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-demo-vectorize/" class="md-nav__link">
+        Vectorize Documents
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-demo-queryllm/" class="md-nav__link">
+        Query LLM
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-demo-managellm/" class="md-nav__link">
+        Manage LLM
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-demo-diagnostics/" class="md-nav__link">
+        Diagnostics
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-demo-log/" class="md-nav__link">
+        Log File
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-demo-support/" class="md-nav__link">
+        Support
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Appendix
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Appendix" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Appendix
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_1" type="checkbox" id="__nav_4_1" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_1">
+          Watsonx.data Overview
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Watsonx.data Overview" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          Watsonx.data Overview
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-intro-watsonui/" class="md-nav__link">
+        Watsonx UI Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-intro-infrastructure/" class="md-nav__link">
+        Infrastructure Manager
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-intro-datamanager/" class="md-nav__link">
+        Data Manager
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-intro-queryworkspace/" class="md-nav__link">
+        Query Workspace
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-milvus/" class="md-nav__link">
+        Milvus
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-disclaimer/" class="md-nav__link">
+        Disclaimer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-acknowledgements/" class="md-nav__link">
+        Acknowledgements
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#document-storage" class="md-nav__link">
+    Document Storage
+  </a>
+  
+    <nav class="md-nav" aria-label="Document Storage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#document-list" class="md-nav__link">
+    Document List
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#upload-document-or-url" class="md-nav__link">
+    Upload Document or URL
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#upload-wikipedia-documents" class="md-nav__link">
+    Upload Wikipedia Documents
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#document-storage_1" class="md-nav__link">
+    Document Storage
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#web-pages" class="md-nav__link">
+    Web Pages
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wiki-pages" class="md-nav__link">
+    Wiki Pages
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pre-loaded-documents" class="md-nav__link">
+    Pre-loaded Documents
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+<h1 id="document-import-and-storage">Document Import and Storage</h1>
+<p>This system requires that you upload documents or URLs to be used for RAG generation. There is one document (IBM 2023 earnings report summary) provided in the system that you can use for your queries. You have the option of uploading documents from your workstation (PDF, PPT, DOC, TXT) and having it cataloged in watsonx.data. You can also point to a website (URL) which will be analyzed, and the contents extracted and stored in watsonx.data. Note that the system does not do a web crawl through all links in the web page, but only captures the text on the web page itself.</p>
+<p>Finally, you can query Wikipedia and retrieve documents based on a topic.</p>
+<h2 id="document-storage">Document Storage</h2>
+<p>The Document storage panel contains three sections in it:</p>
+<ul>
+<li>Document list</li>
+<li>Upload Document or URL</li>
+<li>Upload Wikipedia Articles</li>
+</ul>
+<p><img alt="Browser" src="../wxd-images/demo-storage-main.png" /></p>
+<h3 id="document-list">Document List</h3>
+<p>The document list provides the list of documents that are already stored in the system. The IBM 2023 earnings documents are pre-populated in the system for you to use in the LLM queries.</p>
+<p><img alt="Browser" src="../wxd-images/demo-storage-existing.png" /></p>
+<p>The document display provides the name of the document or URL, and the document type. The document type is determined by the original document file type.</p>
+<h3 id="upload-document-or-url">Upload Document or URL</h3>
+<p>The Upload dialog provides a way of uploading a document from your workstation or by uploading the contents of a URL.</p>
+<p><img alt="Browser" src="../wxd-images/demo-storage-upload.png" /></p>
+<p>For local files, you can either drag and drop a file from your workstation into the dialog, or press the "Browse File" button to display your local file browser (Mac OSX shown).</p>
+<p><img alt="Browser" src="../wxd-images/demo-storage-upload-file.png" /></p>
+<p>Once the file has been selected, it will be display below the drag and drop line. You can only upload one document at a time.</p>
+<p><img alt="Browser" src="../wxd-images/demo-storage-upload-selected.png" /></p>
+<p>If you have a URL that you want to input into the system, type or paste the URL into the dialog. Once you have selected the file or URL that you want to upload, press the Upload button to start the upload process. A progress indicator will appear while the document is being uploaded.</p>
+<p><img alt="Browser" src="../wxd-images/demo-storage-upload-progress.png" /></p>
+<p>When the upload completes, a success (or failure!) message will be displayed.</p>
+<p><img alt="Browser" src="../wxd-images/demo-storage-upload-success.png" /></p>
+<p>The document list at the top of the screen will not be updated to reflect the new document until you press the Refresh List button.</p>
+<h3 id="upload-wikipedia-documents">Upload Wikipedia Documents</h3>
+<p>The bottom of the Document import panel contains an option to search Wikipedia articles for possible documents to use in a RAG prompt.</p>
+<p><img alt="Browser" src="../wxd-images/demo-storage-wiki-upload.png" /></p>
+<p>Enter a phrase to search for (watsonx is shown here) and press the Get Articles button. You will see a maximum of 10 documents that were found. In this example, 7 documents related to "watsonx" were found in Wikipedia articles. </p>
+<p><img alt="Browser" src="../wxd-images/demo-storage-wiki-search.png" /></p>
+<p>Select which articles you want to load into the system. You can select as many as you want, and they will be combined into a single document in the system.</p>
+<p><img alt="Browser" src="../wxd-images/demo-storage-wiki-selected.png" /></p>
+<p>Once you are done selecting the documents, press the Upload button and a progress indicator will display the progress of retrieving the articles.</p>
+<p><img alt="Browser" src="../wxd-images/demo-storage-wiki-progress.png" /></p>
+<p>Once the files have been uploaded, a message will be displayed.</p>
+<p><img alt="Browser" src="../wxd-images/demo-storage-wiki-success.png" /></p>
+<p>In the Document display, the wiki article names are concatenated together and the file type is shown as "wiki".</p>
+<p><img alt="Browser" src="../wxd-images/demo-storage-wiki-display.png" /></p>
+<h2 id="document-storage_1">Document Storage</h2>
+<p>Documents and the contents of web pages are stored in watsonx.data. There are two Iceberg tables within watsonx.data that store details of the documents. The first table contains document metadata:
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">iceberg_data</span><span class="p">.</span><span class="n">documents</span><span class="p">.</span><span class="n">metadata</span>
+<span class="w">    </span><span class="p">(</span>
+<span class="w">    </span><span class="ss">&quot;id&quot;</span><span class="w">          </span><span class="nb">int</span><span class="p">,</span>
+<span class="w">    </span><span class="ss">&quot;document&quot;</span><span class="w">    </span><span class="nb">varchar</span><span class="p">,</span>
+<span class="w">    </span><span class="ss">&quot;type&quot;</span><span class="w">        </span><span class="nb">varchar</span>
+<span class="w">    </span><span class="p">)</span>
+</code></pre></div>
+This simple table tracks the document name (or URL) along with the type of document. The type of document will determine what routine will be used to extract the text from the contents.</p>
+<p>The second table contains the data from the document.
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">iceberg_data</span><span class="p">.</span><span class="n">documents</span><span class="p">.</span><span class="n">rawdata</span>
+<span class="w">    </span><span class="p">(</span>
+<span class="w">    </span><span class="ss">&quot;id&quot;</span><span class="w">          </span><span class="nb">int</span><span class="p">,</span>
+<span class="w">    </span><span class="ss">&quot;chunk_id&quot;</span><span class="w">    </span><span class="nb">int</span><span class="p">,</span>
+<span class="w">    </span><span class="ss">&quot;chunk&quot;</span><span class="w">       </span><span class="nb">varchar</span>
+<span class="w">    </span><span class="p">)</span>
+</code></pre></div></p>
+<p>The data is split into approximately 1M base64 chunks. The reason for the chunking of the data is due to a Presto client limit of 1M messages. Once the data is stored in watsonx.data, access to the underlying object can be controlled through user and group authentication. </p>
+<p>An alternate strategy would be to upload the document and store it in an S3-like bucket. The downside is that the document is exposed in the bucket rather than obfuscated in Iceberg table format.</p>
+<h2 id="web-pages">Web Pages</h2>
+<p>Regular documents are stored "as-is" in watsonx.data, but URLs are handled differently. A web scraping routine extracts the text from the website and stores it in watsonx.data as a text document. What this means is that the data watsonx.data is valid as of the time the URL was uploaded. If the web page changes, it will not be reflected in the stored document. </p>
+<h2 id="wiki-pages">Wiki Pages</h2>
+<h2 id="pre-loaded-documents">Pre-loaded Documents</h2>
+<p>There is one document that has been pre-loaded into the system for your use (2023 IBM Annual Report). You can choose to upload your own documents to use with the LLMs. Some observations regarding documents.
+* PDFs, DOCs, and Text create good RAG prompts with a minimum of 3 sentences
+* PPTs require much more time to extract text and require more sentences (&gt;5) to generate useful RAG prompts
+* URLs generate RAG prompts that may contain images or gifs that are ignored</p>
+
+              
+            </article>
+            
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../wxd-demo-rag/" class="md-footer__link md-footer__link--prev" aria-label="Previous: RAG" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              RAG
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../wxd-demo-vectorize/" class="md-footer__link md-footer__link--next" aria-label="Next: Vectorize Documents" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Vectorize Documents
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 IBM
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.b97dbffb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.6c7ad80a.min.js"></script>
+      
+    
+  </body>
+</html>
