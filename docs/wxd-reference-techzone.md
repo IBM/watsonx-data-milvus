@@ -1,7 +1,5 @@
 # Requesting a TechZone image
 
-If you are part of a workshop, you do not have to request a reservation. Instead, go to the [Accessing a Workshop](wxd-reference-workshop.md) section.
-
 Log into TechZone (<a href="https://techzone.ibm.com" target="_blank">https://techzone.ibm.com</a>) and search for the watsonx.data
 Developer Base Image or use the following link.
 
@@ -14,11 +12,9 @@ you have logged in, you should see the following.
 
 ![Browser](wxd-images/techzone-main.png)
  
-Select the Environment tab on the far-left side. 
+Select the Environment tab on the far-left side and then choose the IBM watsonx.data and Milvus Demonstration.
 
-**Note**: There may be more than one environment available. Choose the one best suited for your requirements.
-
-![Browser](wxd-images/techzone-environment.png)
+![Browser](wxd-images/techzone-select-image.png)
  
 Press the Reserve button.
 
@@ -39,7 +35,7 @@ education). Next select preferred Geography for the image.
 
 Choose any of the regions that are closest to your location. 
 
-**Note**: The TechZone scheduler will pick a location in your region that has capacity to deploy your image. Previously you needed to pick a physical location (DAL10, WDC04, TOK02, etc...). The number of locations has expanded to 5 North American, 6 European and 4 AP locations which will hopefully provide more capacity to deploy the lab.
+**Note**: The TechZone scheduler will pick a location in your region that has capacity to deploy your image. The number of locations has expanded to 5 North American, 6 European and 4 AP locations which will hopefully provide capacity to deploy the lab.
 
 If you find that your reservation is not being provisioned, check the status of the TechZone environment by referring to the TechZone status page at <a href="https://techzone.status.io" target="_blank">https://techzone.status.io</a>.
 
@@ -61,8 +57,4 @@ Eventually you will receive an email confirming that the system is ready to be u
 
 ![Browser](wxd-images/techzone-ready.png)
 
-You may also get a message telling you that the system provisioning has Failed.
-
-![Browser](wxd-images/techzone-fail.png)
-
-Ignore the reason field since it is usually related to an environment failure caused by lack of resources. Check the status of TechZone first (<a href="https://techzone.status.io" target="_blank">https://techzone.status.io</a>). If the systems appear to be okay, try requesting another image or using a different server location if possible. Contact TechZone support if you are having difficulties provisioning a system.
+If your reservation failed because of capacity constraints, you may want to check the status of TechZone first (<a href="https://techzone.status.io" target="_blank">https://techzone.status.io</a>) before attending to reserve another instance. If the systems appear to be okay, try requesting another image or using a different server location if possible. Contact TechZone support if you are having difficulties provisioning a system.

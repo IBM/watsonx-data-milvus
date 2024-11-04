@@ -12,18 +12,19 @@ Click on the reservation that corresponds to the watsonx.data reservation. The m
 
 ![Browser](wxd-images/techzone-extend.png)
 
-When you click on reservation details option, or the reservation box, the browser will display the details of your image.
+When you click on reservation details option, or the Open this Environment box, the browser will display the details of your image.
 
 ![Browser](wxd-images/techzone-my-details.png)
 
-Scroll down to the bottom of the web page to access the VM Remote Console.
+The top of the reservation will display two URLs which will be used to access the demonstration system. The first link is used to access the demo program, while the second is used to access the watsonx.data console. Details on how to use these are found in the next section.
 
-![Browser](wxd-images/techzone-vpn.png)
+## Passwords
 
-You can access the logon screen of the virtual machine by pressing the VM Remote Console button. It is not necessary to use the VM console except unless you want to use the dBeaver program. 
+This table lists the passwords for the services in the system.
 
-![Browser](wxd-images/techzone-guacamole.png)
-
-Select the <code style="color:blue;font-size:medium;">watsonx</code> user and use <code style="color:blue;font-size:medium;">watsonx.data</code> as the password.
-
-Refer to the section on [VM Remote Console](wxd-reference-console.md) for more details.
+|Service|Userid|Password
+|-------|------|--------|
+|Virtual Machine|watsonx|watsonx.data
+|Virtual Machine|root|watsonx.data
+|watsonx.data UI|ibmlhadmin|password
+|Demonstration UI|watsonx|watsonx.data

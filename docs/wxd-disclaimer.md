@@ -1,6 +1,6 @@
 # Disclaimer
  
-## Watson.data
+## IBM watsonx.data
 
 Copyright © 2024 by International Business Machines Corporation (IBM). All
 rights reserved. Printed in Canada. Except as permitted under the Copyright Act

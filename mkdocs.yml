@@ -2,21 +2,31 @@ site_name: Watsonx.data and Milvus RAG Demonstration
 # theme:
 #   name: material
 nav:
-  - Introduction: "wxd-intro.md"
+  - Introduction: "wxd-introduction.md"
   - Getting Started:
     - Requesting an image: "wxd-reference-techzone.md"
     - Accessing the reservation: "wxd-reference-access.md"
     - Available Ports: "wxd-reference-ports.md"
     - Userids and Passwords: "wxd-reference-passwords.md"
     - Documentation: "wxd-reference-documentation.md"
-  - Lab Instructions: "wxd-lab-instructions.md" 
-  - Watsonx.data Overview:
-    - Watsonx UI Overview: "wxd-intro-watsonui.md"
-    - Infrastructure Manager: "wxd-intro-infrastructure.md"
-    - Data Manager: "wxd-intro-datamanager.md"
-    - Query Workspace: "wxd-intro-queryworkspace.md"
-    - Milvus: "wxd-milvus.md"
+  - Lab Instructions:
+    - Main Menu: "wxd-demo-menu.md" 
+    - Overview: "wxd-demo-intro.md"
+    - RAG: "wxd-demo-rag.md"
+    - Import Documents: "wxd-demo-import.md"
+    - Vectorize Documents: "wxd-demo-vectorize.md"
+    - Query LLM: "wxd-demo-queryllm.md"
+    - Manage LLM: "wxd-demo-managellm.md"
+    - Diagnostics: "wxd-demo-diagnostics.md"
+    - Log File: "wxd-demo-log.md"
+    - Support: "wxd-demo-support.md"
   - Appendix: 
+    - Watsonx.data Overview:
+      - Watsonx UI Overview: "wxd-intro-watsonui.md"
+      - Infrastructure Manager: "wxd-intro-infrastructure.md"
+      - Data Manager: "wxd-intro-datamanager.md"
+      - Query Workspace: "wxd-intro-queryworkspace.md"
+      - Milvus: "wxd-milvus.md"
     - Disclaimer: "wxd-disclaimer.md"
     - Acknowledgements: "wxd-acknowledgements.md"
 
