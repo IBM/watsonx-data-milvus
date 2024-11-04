@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#introducing-watsonxdata" class="md-skip">
+        <a href="#query-llm" class="md-skip">
           Skip to content
         </a>
       
@@ -407,9 +407,115 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Query LLM
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Query LLM
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#llm-options" class="md-nav__link">
+    LLM Options
+  </a>
+  
+    <nav class="md-nav" aria-label="LLM Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#current-llm-model" class="md-nav__link">
+    Current LLM Model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#current-document-collections" class="md-nav__link">
+    Current Document Collections
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prompt-settings" class="md-nav__link">
+    Prompt Settings
+  </a>
+  
+    <nav class="md-nav" aria-label="Prompt Settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#use-rag-prompt" class="md-nav__link">
+    Use RAG Prompt
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#display-rag-prompt" class="md-nav__link">
+    Display RAG Prompt
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concise-response" class="md-nav__link">
+    Concise Response
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#maximum-rag-sentences" class="md-nav__link">
+    Maximum RAG Sentences
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#questions" class="md-nav__link">
+    Questions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#technical-details" class="md-nav__link">
+    Technical Details
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -663,6 +769,96 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#llm-options" class="md-nav__link">
+    LLM Options
+  </a>
+  
+    <nav class="md-nav" aria-label="LLM Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#current-llm-model" class="md-nav__link">
+    Current LLM Model
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#current-document-collections" class="md-nav__link">
+    Current Document Collections
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prompt-settings" class="md-nav__link">
+    Prompt Settings
+  </a>
+  
+    <nav class="md-nav" aria-label="Prompt Settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#use-rag-prompt" class="md-nav__link">
+    Use RAG Prompt
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#display-rag-prompt" class="md-nav__link">
+    Display RAG Prompt
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concise-response" class="md-nav__link">
+    Concise Response
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#maximum-rag-sentences" class="md-nav__link">
+    Maximum RAG Sentences
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#questions" class="md-nav__link">
+    Questions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#technical-details" class="md-nav__link">
+    Technical Details
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -675,59 +871,66 @@
                 
 
 
-<h1 id="introducing-watsonxdata">Introducing watsonx.data</h1>
-<p><img alt="WatsonX" src="../wxd-images/watsonxlogoibm.png" /></p>
-<h1 id="introducing-watsonxdata_1">Introducing watsonx.data</h1>
-<p>Watsonx.data is a core component of watsonx, IBM’s enterprise-ready AI and data platform designed to multiply the impact of AI across an enterprise’s business.
-The watsonx platform comprises three powerful components: the watsonx.ai studio for new foundation models, generative AI, and machine learning; the watsonx.data fit-for-purpose data store that provides the flexibility of a data lake with the performance of a data warehouse; plus, the watsonx.governance toolkit, to enable AI workflows that are built with responsibility, transparency, and explainability.</p>
-<p><img alt="Browser" src="../wxd-images/watsonx-foundation.png" /></p>
-<p>The watsonx.data component (the focus of this lab) makes it possible for enterprises to scale analytics and AI with a data store built on an open lakehouse architecture, supported by querying, governance, and open data and table formats, to access and share data. With watsonx.data, enterprises can connect to data in minutes, quickly get trusted insights, and reduce their data warehouse costs.</p>
-<p><img alt="Browser" src="../wxd-images/watsonx-architecture.png" /></p>
-<p>The next-gen watsonx.data lakehouse is designed to overcome the costs and complexities enterprises face. This will be the world’s first and only open data store with multi-engine support that is built for hybrid deployment across your entire ecosystem.</p>
-<ul>
-<li>Watsonx.data is the only lakehouse with multiple query engines allowing you to optimize costs and performance by pairing the right workload with the right engine.</li>
-<li>Run all workloads from a single pane of glass, eliminating trade-offs with convenience while still improving cost and performance.</li>
-<li>Deploy anywhere with full support for hybrid-cloud and multi cloud environments.</li>
-<li>Shared metadata across multiple engines eliminates the need to re-catalog, accelerating time to value while ensuring governance and eliminating costly implementation efforts.</li>
-</ul>
-<h1 id="watsonxdata-lab">Watsonx.data Lab</h1>
-<p>The watsonx.data hands-on lab introduces you to several core components and capabilities of IBM watsonx.data. By completing this lab, you will gain and understanding of what the watsonx.data platform provides for users.</p>
-<p>Specifically, you will get hands-on experience in the following areas:</p>
-<ul>
-<li>The watsonx.data web-based user interface (UI), including infrastructure management, data management, running SQL statements, and managing user access</li>
-<li>An introduction to Presto SQL </li>
-<li>Running queries that combine data from multiple data sources (data federation)</li>
-<li>Offloading tables from Db2 into watsonx.data</li>
-<li>Rolling back a table to a previous point in time</li>
-</ul>
-<p>This lab requires that a workshop environment be provisioned for you using the IBM Technology Zone (TechZone). The image used comes pre-configured with watsonx.data Developer Edition, additional database systems including Db2 and PostgreSQL, and sample data sets. </p>
-<div class="admonition info">
-<p class="admonition-title">Watsonx.data Dialogs and Screens</p>
+<h1 id="query-llm">Query LLM</h1>
+<p>The Query LLM panel is used to ask questions of the LLM.</p>
+<p><img alt="Browser" src="../wxd-images/demo-queryllm-main.png" /></p>
+<p>The central part of the screen contains the chat window.</p>
+<p><img alt="Browser" src="../wxd-images/demo-queryllm-chat.png" /></p>
+<p>The question that you want to ask the LLM is placed into the text box at the bottom of the screen, and the response will be placed into the chat window underneath your question.</p>
+<p><img alt="Browser" src="../wxd-images/demo-queryllm-response.png" /></p>
+<p>The left side of the screen contains options that will change the behavior of the LLM.</p>
+<p><img alt="Browser" src="../wxd-images/demo-queryllm-options.png" /></p>
+<p>These options are discussed in the sections below.</p>
+<div class="admonition warning">
+<p class="admonition-title">This system does not have access to GPUs</p>
+<p>Note that this system does not have GPUs attached to it so the response may take a minute or so to return. Update these settings on the left side to adjust the text provided to the LLM.</p>
 </div>
-<p>Watsonx.data is being developed and released in an agile manner. In addition to new capabilities being added, the web interface is also likely to change over time. Therefore, the screenshots used in this lab may not always look exactly like what you see.</p>
-<p>This lab uses the watsonx.data developer package. The Developer package is meant to be used on single nodes. While it uses the same code base, there are some restrictions, especially on scale. In this lab, we will open some additional ports as well to understand how everything works. We will also use additional utilities to illustrate connectivity and what makes the watsonx.data system "open". </p>
-<p>We organized this lab into a number of sections that cover many of the highlights and key features of watsonx.data.</p>
+<h2 id="llm-options">LLM Options</h2>
+<h3 id="current-llm-model">Current LLM Model</h3>
+<p>The LLM table provides a list of LLMs that are currently loaded into the system. </p>
+<p><img alt="Browser" src="../wxd-images/demo-queryllm-model.png" /></p>
+<p>Choose which LLM you want to use to answer your query. The default LLM is the Instructlab/granite-7b-lab model. If you want to add more LLMs to the system, use the Add LLM model dialog.</p>
+<p>Use the Clear button to clear the history of questions and LLM responses. </p>
+<p><img alt="Browser" src="../wxd-images/demo-queryllm-clear.png" /></p>
+<p>If you find that the LLM is taking too long to respond (or saying too much), press the Stop LLM button.</p>
+<p><img alt="Browser" src="../wxd-images/demo-queryllm-stop.png" /></p>
+<p>Note that stopping the LLM will clear the last response on the screen.</p>
+<h3 id="current-document-collections">Current Document Collections</h3>
+<p>The list of collections that have been vectorized are found in this table. </p>
+<p><img alt="Browser" src="../wxd-images/demo-queryllm-collection.png" /></p>
+<p>Select which collection you want to use when generating the RAG prompt. Make sure that you are using a document collection that matches the question you are asking the LLM!</p>
+<h3 id="prompt-settings">Prompt Settings</h3>
+<p>The Prompt Settings determine how the RAG prompt gets generated when querying the LLM.</p>
+<p><img alt="Browser" src="../wxd-images/demo-queryllm-settings.png" /></p>
+<h4 id="use-rag-prompt">Use RAG Prompt</h4>
+<p>The Use RAG prompt option will tell the program to generate a RAG response. 
+If this is turned off, the question is sent "as is" to the LLM. This provides an opportunity to see what the LLM answer will be without a RAG prompt. Turning on the RAG prompt and then asking the same question will demonstrate how the RAG prompt can help the LLM generate a better answer. </p>
+<h4 id="display-rag-prompt">Display RAG Prompt</h4>
+<p>The Display RAG prompt option will include the complete RAG prompt on the screen. If you want to hide the RAG prompt, turn the Display RAG prompt off.</p>
+<h4 id="concise-response">Concise Response</h4>
+<p>The Concise response option will tell the LLM to limit the answer to your question. If you turn Concise output off, the LLM will be allowed to answer your question without length restrictions. The trade-off when turning off the concise option is the amount of time it takes to return the full output from the LLM. </p>
+<h4 id="maximum-rag-sentences">Maximum RAG Sentences</h4>
+<p>The Minimum RAG Sentences slider is used to limit the number of sentences that the RAG program will use in the question. The default number of sentences is 3. Using a larger number of sentences will slow down the LLM response, but it may result in a higher quality answer.</p>
+<h3 id="questions">Questions</h3>
+<p>The left sidebar includes a list of questions previously sent to the LLM.</p>
+<p><img alt="Browser" src="../wxd-images/demo-queryllm-questions.png" /></p>
+<p>To copy a question into the LLM prompt, use the following steps:</p>
+<ol>
+<li>Click on the question you want to copy from the list (it will be highlighted)</li>
+<li>Use the keyboard copy button (Windows/Linux &#8963;&#8211;c, Mac &#8984;&#8211;c) to place the value into the clipboard</li>
+<li>Click on the LLM question input line</li>
+<li>Use keyboard paste button (Windows/Linux &#8963;&#8211;v, Mac &#8984;&#8211;v) to place the copied value into the line</li>
+</ol>
+<h2 id="technical-details">Technical Details</h2>
+<p>The process which takes place when you enter a question is:</p>
 <ul>
-<li>Access a TechZone or VMWare image for testing</li>
-<li>Checking watsonx.data status</li>
-<li>Introduction to watsonx.data components</li>
-<li>Analytical SQL</li>
-<li>Advanced SQL functions</li>
-<li>Time Travel and Federation</li>
-<li>Working with Object Store Buckets</li>
+<li>The question is turned into a vector value</li>
+<li>The value is compared to the sentence vectors that were generated in the Vectorize Document step (Document collection)</li>
+<li>The 3 best sentences (or whatever you may have set the sentence limit to) will be used to generate a RAG prompt</li>
+<li>The RAG prompt is sent to the LLM</li>
+<li>The program displays the results as they are generated by the LLM</li>
 </ul>
-<p>In addition, there is an Appendix which includes common errors and potential fixes or workarounds. </p>
-<h2 id="watsonxdata-developer-image">Watsonx.data Developer Image</h2>
-<p>The watsonx.data system is running on a virtual machine with the following resources:</p>
-<ul>
-<li>4 vCPUs</li>
-<li>16Gb of memory</li>
-<li>400Gb of disk</li>
-</ul>
-<p>This is sufficient for running this exercises found in this lab but should not be used for performance testing or dealing with large data sets.</p>
-<h2 id="watsonxdata-level-34-technical-training">Watsonx.data Level 3/4 Technical Training</h2>
-<p>For the Level 3 and 4 technical training courses, you should choose the watsonx.data developer image which specifically mentions the courses. This system is used as a basis for the watsonx.data Level 3/4 Technical Training images, but will container newer code that may change the UI screens and scripts that are used in the training material. </p>
-<p>For the detailed lab material, please refer to the following PDF found in Seismic: <a href="https://ibm.seismic.com/Link/Content/DCG37pjmPj7VmGCHj2Df8fHVmDJj">https://ibm.seismic.com/Link/Content/DCG37pjmPj7VmGCHj2Df8fHVmDJj</a></p>
+<p>If you want to view the Milvus vector distance for the RAG prompts, view the LOG file output.</p>
 
               
             </article>
