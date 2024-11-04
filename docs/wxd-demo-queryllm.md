@@ -1,68 +1,98 @@
-# Introducing watsonx.data 
+# Query LLM
 
-![WatsonX](wxd-images/watsonxlogoibm.png)
+The Query LLM panel is used to ask questions of the LLM.
 
-# Introducing watsonx.data 
+![Browser](wxd-images/demo-queryllm-main.png)
 
-Watsonx.data is a core component of watsonx, IBM’s enterprise-ready AI and data platform designed to multiply the impact of AI across an enterprise’s business.
-The watsonx platform comprises three powerful components: the watsonx.ai studio for new foundation models, generative AI, and machine learning; the watsonx.data fit-for-purpose data store that provides the flexibility of a data lake with the performance of a data warehouse; plus, the watsonx.governance toolkit, to enable AI workflows that are built with responsibility, transparency, and explainability.
+The central part of the screen contains the chat window.
 
-![Browser](wxd-images/watsonx-foundation.png)
+![Browser](wxd-images/demo-queryllm-chat.png)
 
-The watsonx.data component (the focus of this lab) makes it possible for enterprises to scale analytics and AI with a data store built on an open lakehouse architecture, supported by querying, governance, and open data and table formats, to access and share data. With watsonx.data, enterprises can connect to data in minutes, quickly get trusted insights, and reduce their data warehouse costs.
+The question that you want to ask the LLM is placed into the text box at the bottom of the screen, and the response will be placed into the chat window underneath your question.
 
-![Browser](wxd-images/watsonx-architecture.png)
+![Browser](wxd-images/demo-queryllm-response.png)
 
-The next-gen watsonx.data lakehouse is designed to overcome the costs and complexities enterprises face. This will be the world’s first and only open data store with multi-engine support that is built for hybrid deployment across your entire ecosystem.
- 
-   * Watsonx.data is the only lakehouse with multiple query engines allowing you to optimize costs and performance by pairing the right workload with the right engine.
-   * Run all workloads from a single pane of glass, eliminating trade-offs with convenience while still improving cost and performance.
-   * Deploy anywhere with full support for hybrid-cloud and multi cloud environments.
-   * Shared metadata across multiple engines eliminates the need to re-catalog, accelerating time to value while ensuring governance and eliminating costly implementation efforts.
+The left side of the screen contains options that will change the behavior of the LLM.
 
-# Watsonx.data Lab 
-The watsonx.data hands-on lab introduces you to several core components and capabilities of IBM watsonx.data. By completing this lab, you will gain and understanding of what the watsonx.data platform provides for users.
+![Browser](wxd-images/demo-queryllm-options.png)
 
-Specifically, you will get hands-on experience in the following areas:
+These options are discussed in the sections below.
 
-* The watsonx.data web-based user interface (UI), including infrastructure management, data management, running SQL statements, and managing user access
-* An introduction to Presto SQL 
-* Running queries that combine data from multiple data sources (data federation)
-* Offloading tables from Db2 into watsonx.data
-* Rolling back a table to a previous point in time
+!!! warning "This system does not have access to GPUs"
 
-This lab requires that a workshop environment be provisioned for you using the IBM Technology Zone (TechZone). The image used comes pre-configured with watsonx.data Developer Edition, additional database systems including Db2 and PostgreSQL, and sample data sets. 
+    Note that this system does not have GPUs attached to it so the response may take a minute or so to return. Update these settings on the left side to adjust the text provided to the LLM.
 
-!!! info "Watsonx.data Dialogs and Screens"
+## LLM Options
 
-Watsonx.data is being developed and released in an agile manner. In addition to new capabilities being added, the web interface is also likely to change over time. Therefore, the screenshots used in this lab may not always look exactly like what you see.
+### Current LLM Model
 
-This lab uses the watsonx.data developer package. The Developer package is meant to be used on single nodes. While it uses the same code base, there are some restrictions, especially on scale. In this lab, we will open some additional ports as well to understand how everything works. We will also use additional utilities to illustrate connectivity and what makes the watsonx.data system "open". 
+The LLM table provides a list of LLMs that are currently loaded into the system. 
 
-We organized this lab into a number of sections that cover many of the highlights and key features of watsonx.data.
+![Browser](wxd-images/demo-queryllm-model.png)
 
-   * Access a TechZone or VMWare image for testing
-   * Checking watsonx.data status
-   * Introduction to watsonx.data components
-   * Analytical SQL
-   * Advanced SQL functions
-   * Time Travel and Federation
-   * Working with Object Store Buckets
+Choose which LLM you want to use to answer your query. The default LLM is the Instructlab/granite-7b-lab model. If you want to add more LLMs to the system, use the Add LLM model dialog.
 
-In addition, there is an Appendix which includes common errors and potential fixes or workarounds. 
+Use the Clear button to clear the history of questions and LLM responses. 
 
-## Watsonx.data Developer Image 
+![Browser](wxd-images/demo-queryllm-clear.png)
 
-The watsonx.data system is running on a virtual machine with the following resources:
+If you find that the LLM is taking too long to respond (or saying too much), press the Stop LLM button.
 
-   * 4 vCPUs
-   * 16Gb of memory
-   * 400Gb of disk
+![Browser](wxd-images/demo-queryllm-stop.png)
 
-This is sufficient for running this exercises found in this lab but should not be used for performance testing or dealing with large data sets.
+Note that stopping the LLM will clear the last response on the screen.
 
-## Watsonx.data Level 3/4 Technical Training
+### Current Document Collections
+The list of collections that have been vectorized are found in this table. 
 
-For the Level 3 and 4 technical training courses, you should choose the watsonx.data developer image which specifically mentions the courses. This system is used as a basis for the watsonx.data Level 3/4 Technical Training images, but will container newer code that may change the UI screens and scripts that are used in the training material. 
+![Browser](wxd-images/demo-queryllm-collection.png)
 
-For the detailed lab material, please refer to the following PDF found in Seismic: [https://ibm.seismic.com/Link/Content/DCG37pjmPj7VmGCHj2Df8fHVmDJj](https://ibm.seismic.com/Link/Content/DCG37pjmPj7VmGCHj2Df8fHVmDJj)
+Select which collection you want to use when generating the RAG prompt. Make sure that you are using a document collection that matches the question you are asking the LLM!
+
+### Prompt Settings
+
+The Prompt Settings determine how the RAG prompt gets generated when querying the LLM.
+
+![Browser](wxd-images/demo-queryllm-settings.png)
+
+#### Use RAG Prompt
+
+The Use RAG prompt option will tell the program to generate a RAG response. 
+If this is turned off, the question is sent "as is" to the LLM. This provides an opportunity to see what the LLM answer will be without a RAG prompt. Turning on the RAG prompt and then asking the same question will demonstrate how the RAG prompt can help the LLM generate a better answer. 
+
+#### Display RAG Prompt
+
+The Display RAG prompt option will include the complete RAG prompt on the screen. If you want to hide the RAG prompt, turn the Display RAG prompt off.
+
+#### Concise Response
+
+The Concise response option will tell the LLM to limit the answer to your question. If you turn Concise output off, the LLM will be allowed to answer your question without length restrictions. The trade-off when turning off the concise option is the amount of time it takes to return the full output from the LLM. 
+
+#### Maximum RAG Sentences
+
+The Minimum RAG Sentences slider is used to limit the number of sentences that the RAG program will use in the question. The default number of sentences is 3. Using a larger number of sentences will slow down the LLM response, but it may result in a higher quality answer.
+
+### Questions
+
+The left sidebar includes a list of questions previously sent to the LLM.
+
+![Browser](wxd-images/demo-queryllm-questions.png)
+
+To copy a question into the LLM prompt, use the following steps:
+
+1. Click on the question you want to copy from the list (it will be highlighted)
+2. Use the keyboard copy button (Windows/Linux &#8963;&#8211;c, Mac &#8984;&#8211;c) to place the value into the clipboard
+3. Click on the LLM question input line
+4. Use keyboard paste button (Windows/Linux &#8963;&#8211;v, Mac &#8984;&#8211;v) to place the copied value into the line
+
+## Technical Details
+
+The process which takes place when you enter a question is:
+
+* The question is turned into a vector value
+* The value is compared to the sentence vectors that were generated in the Vectorize Document step (Document collection)
+* The 3 best sentences (or whatever you may have set the sentence limit to) will be used to generate a RAG prompt
+* The RAG prompt is sent to the LLM
+* The program displays the results as they are generated by the LLM
+
+If you want to view the Milvus vector distance for the RAG prompts, view the LOG file output.

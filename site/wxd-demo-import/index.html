@@ -438,23 +438,29 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#document-storage_1" class="md-nav__link">
-    Document Storage
+  <a href="#technical-details" class="md-nav__link">
+    Technical Details
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
+    <nav class="md-nav" aria-label="Technical Details">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#web-pages" class="md-nav__link">
     Web Pages
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#wiki-pages" class="md-nav__link">
     Wiki Pages
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -790,23 +796,29 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#document-storage_1" class="md-nav__link">
-    Document Storage
+  <a href="#technical-details" class="md-nav__link">
+    Technical Details
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
+    <nav class="md-nav" aria-label="Technical Details">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#web-pages" class="md-nav__link">
     Web Pages
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#wiki-pages" class="md-nav__link">
     Wiki Pages
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -858,6 +870,10 @@
 <p>When the upload completes, a success (or failure!) message will be displayed.</p>
 <p><img alt="Browser" src="../wxd-images/demo-storage-upload-success.png" /></p>
 <p>The document list at the top of the screen will not be updated to reflect the new document until you press the Refresh List button.</p>
+<div class="admonition warning">
+<p class="admonition-title">URL Scraping</p>
+<p>Make sure that if you decide to use a web page as a source for your RAG examples, that it does not violate any copuright or privacy policies associated with the web page.</p>
+</div>
 <h3 id="upload-wikipedia-documents">Upload Wikipedia Documents</h3>
 <p>The bottom of the Document import panel contains an option to search Wikipedia articles for possible documents to use in a RAG prompt.</p>
 <p><img alt="Browser" src="../wxd-images/demo-storage-wiki-upload.png" /></p>
@@ -869,9 +885,9 @@
 <p><img alt="Browser" src="../wxd-images/demo-storage-wiki-progress.png" /></p>
 <p>Once the files have been uploaded, a message will be displayed.</p>
 <p><img alt="Browser" src="../wxd-images/demo-storage-wiki-success.png" /></p>
-<p>In the Document display, the wiki article names are concatenated together and the file type is shown as "wiki".</p>
+<p>In the Document display, the wiki article names are concatenated together, and the file type is shown as "wiki".</p>
 <p><img alt="Browser" src="../wxd-images/demo-storage-wiki-display.png" /></p>
-<h2 id="document-storage_1">Document Storage</h2>
+<h2 id="technical-details">Technical Details</h2>
 <p>Documents and the contents of web pages are stored in watsonx.data. There are two Iceberg tables within watsonx.data that store details of the documents. The first table contains document metadata:
 <div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">iceberg_data</span><span class="p">.</span><span class="n">documents</span><span class="p">.</span><span class="n">metadata</span>
 <span class="w">    </span><span class="p">(</span>
@@ -889,16 +905,20 @@ This simple table tracks the document name (or URL) along with the type of docum
 <span class="w">    </span><span class="ss">&quot;chunk&quot;</span><span class="w">       </span><span class="nb">varchar</span>
 <span class="w">    </span><span class="p">)</span>
 </code></pre></div></p>
-<p>The data is split into approximately 1M base64 chunks. The reason for the chunking of the data is due to a Presto client limit of 1M messages. Once the data is stored in watsonx.data, access to the underlying object can be controlled through user and group authentication. </p>
-<p>An alternate strategy would be to upload the document and store it in an S3-like bucket. The downside is that the document is exposed in the bucket rather than obfuscated in Iceberg table format.</p>
-<h2 id="web-pages">Web Pages</h2>
+<p>The data is split into approximately 1M base64 chunks. The reason for the chunking of the data is due to a Presto client limit of 1M messages. Once the data is stored in watsonx.data, access to the underlying object can be controlled through user and group authentication. The data is read and converted to BASE64 format and stored into a VARCHAR field. Upon retrieval, the document is rebuilt back into its' native format. Wiki files that were loaded into the system are always extracted as text files.</p>
+<p>An alternate strategy to storing documents would be to upload the document and store it in an S3-like bucket. The downside is that the document is exposed in the bucket rather than obfuscated in Iceberg table format.</p>
+<h3 id="web-pages">Web Pages</h3>
 <p>Regular documents are stored "as-is" in watsonx.data, but URLs are handled differently. A web scraping routine extracts the text from the website and stores it in watsonx.data as a text document. What this means is that the data watsonx.data is valid as of the time the URL was uploaded. If the web page changes, it will not be reflected in the stored document. </p>
-<h2 id="wiki-pages">Wiki Pages</h2>
+<p>The web scraping program only retrieves the contents of the URL that was provided and does not traverse down any other links that may be on the web page.</p>
+<h3 id="wiki-pages">Wiki Pages</h3>
+<p>The program uses a Wikipedia API to retrieve articles that match the supplied keywords. Once you select which documents you want included in the system, the program will request the full contents of the document(s) from Wikipedia. The documents are concatenated together to create one text document in the database.</p>
 <h2 id="pre-loaded-documents">Pre-loaded Documents</h2>
-<p>There is one document that has been pre-loaded into the system for your use (2023 IBM Annual Report). You can choose to upload your own documents to use with the LLMs. Some observations regarding documents.
-* PDFs, DOCs, and Text create good RAG prompts with a minimum of 3 sentences
-* PPTs require much more time to extract text and require more sentences (&gt;5) to generate useful RAG prompts
-* URLs generate RAG prompts that may contain images or gifs that are ignored</p>
+<p>There is one document that has been pre-loaded into the system for your use (2023 IBM Annual Report). You can choose to upload your own documents to use with the LLMs. Some observations regarding documents.</p>
+<ul>
+<li>PDFs, DOCs, and Text create good RAG prompts with a minimum of 3 sentences</li>
+<li>PPTs require much more time to extract text and require more sentences (&gt;5) to generate useful RAG prompts</li>
+<li>URLs generate RAG prompts that may contain images or gifs that are ignored</li>
+</ul>
 
               
             </article>

@@ -45,6 +45,10 @@ When the upload completes, a success (or failure!) message will be displayed.
 
 The document list at the top of the screen will not be updated to reflect the new document until you press the Refresh List button.
 
+!!! warning "URL Scraping"
+
+    Make sure that if you decide to use a web page as a source for your RAG examples, that it does not violate any copuright or privacy policies associated with the web page.
+
 ### Upload Wikipedia Documents
 
 The bottom of the Document import panel contains an option to search Wikipedia articles for possible documents to use in a RAG prompt.
@@ -67,11 +71,12 @@ Once the files have been uploaded, a message will be displayed.
 
 ![Browser](wxd-images/demo-storage-wiki-success.png)
 
-In the Document display, the wiki article names are concatenated together and the file type is shown as "wiki".
+In the Document display, the wiki article names are concatenated together, and the file type is shown as "wiki".
 
 ![Browser](wxd-images/demo-storage-wiki-display.png)
 
-## Document Storage
+## Technical Details
+
 Documents and the contents of web pages are stored in watsonx.data. There are two Iceberg tables within watsonx.data that store details of the documents. The first table contains document metadata:
 ```sql
 CREATE TABLE iceberg_data.documents.metadata
@@ -93,19 +98,22 @@ CREATE TABLE iceberg_data.documents.rawdata
     )
 ```
 
-The data is split into approximately 1M base64 chunks. The reason for the chunking of the data is due to a Presto client limit of 1M messages. Once the data is stored in watsonx.data, access to the underlying object can be controlled through user and group authentication. 
+The data is split into approximately 1M base64 chunks. The reason for the chunking of the data is due to a Presto client limit of 1M messages. Once the data is stored in watsonx.data, access to the underlying object can be controlled through user and group authentication. The data is read and converted to BASE64 format and stored into a VARCHAR field. Upon retrieval, the document is rebuilt back into its' native format. Wiki files that were loaded into the system are always extracted as text files.
 
-An alternate strategy would be to upload the document and store it in an S3-like bucket. The downside is that the document is exposed in the bucket rather than obfuscated in Iceberg table format.
+An alternate strategy to storing documents would be to upload the document and store it in an S3-like bucket. The downside is that the document is exposed in the bucket rather than obfuscated in Iceberg table format.
 
-## Web Pages
+### Web Pages
 Regular documents are stored "as-is" in watsonx.data, but URLs are handled differently. A web scraping routine extracts the text from the website and stores it in watsonx.data as a text document. What this means is that the data watsonx.data is valid as of the time the URL was uploaded. If the web page changes, it will not be reflected in the stored document. 
 
-## Wiki Pages
+The web scraping program only retrieves the contents of the URL that was provided and does not traverse down any other links that may be on the web page.
 
+### Wiki Pages
 
+The program uses a Wikipedia API to retrieve articles that match the supplied keywords. Once you select which documents you want included in the system, the program will request the full contents of the document(s) from Wikipedia. The documents are concatenated together to create one text document in the database.
 
 ## Pre-loaded Documents
 There is one document that has been pre-loaded into the system for your use (2023 IBM Annual Report). You can choose to upload your own documents to use with the LLMs. Some observations regarding documents.
+
 * PDFs, DOCs, and Text create good RAG prompts with a minimum of 3 sentences
 * PPTs require much more time to extract text and require more sentences (>5) to generate useful RAG prompts
 * URLs generate RAG prompts that may contain images or gifs that are ignored

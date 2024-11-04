@@ -1,68 +1,52 @@
-# Introducing watsonx.data 
+# Vectorize Documents
 
-![WatsonX](wxd-images/watsonxlogoibm.png)
+Milvus is a vector database that stores, indexes, and manages massive embedding vectors that are developed by deep neural networks and other machine learning (ML) models. It is developed to empower embedding similarity search and AI applications. Milvus makes unstructured data search more accessible and consistent across various environments.
 
-# Introducing watsonx.data 
+The watsonx.data system that you are running includes the Milvus server. The Milvus vector database is used to store sentences extracted from documents, and then convert them into vectors for searching. 
 
-Watsonx.data is a core component of watsonx, IBM’s enterprise-ready AI and data platform designed to multiply the impact of AI across an enterprise’s business.
-The watsonx platform comprises three powerful components: the watsonx.ai studio for new foundation models, generative AI, and machine learning; the watsonx.data fit-for-purpose data store that provides the flexibility of a data lake with the performance of a data warehouse; plus, the watsonx.governance toolkit, to enable AI workflows that are built with responsibility, transparency, and explainability.
+## Vectorize Documents
 
-![Browser](wxd-images/watsonx-foundation.png)
+The Vectorize panel displays the list of document collections, the documents stored in the watsonx.data system, and an option to vectorize one or more documents. 
 
-The watsonx.data component (the focus of this lab) makes it possible for enterprises to scale analytics and AI with a data store built on an open lakehouse architecture, supported by querying, governance, and open data and table formats, to access and share data. With watsonx.data, enterprises can connect to data in minutes, quickly get trusted insights, and reduce their data warehouse costs.
+![Browser](wxd-images/demo-vector-main.png)
 
-![Browser](wxd-images/watsonx-architecture.png)
+### Current Document Collections
 
-The next-gen watsonx.data lakehouse is designed to overcome the costs and complexities enterprises face. This will be the world’s first and only open data store with multi-engine support that is built for hybrid deployment across your entire ecosystem.
- 
-   * Watsonx.data is the only lakehouse with multiple query engines allowing you to optimize costs and performance by pairing the right workload with the right engine.
-   * Run all workloads from a single pane of glass, eliminating trade-offs with convenience while still improving cost and performance.
-   * Deploy anywhere with full support for hybrid-cloud and multi cloud environments.
-   * Shared metadata across multiple engines eliminates the need to re-catalog, accelerating time to value while ensuring governance and eliminating costly implementation efforts.
+A document collection is made up of a series of documents that have been vectorized. 
 
-# Watsonx.data Lab 
-The watsonx.data hands-on lab introduces you to several core components and capabilities of IBM watsonx.data. By completing this lab, you will gain and understanding of what the watsonx.data platform provides for users.
+![Browser](wxd-images/demo-vector-collections.png)
 
-Specifically, you will get hands-on experience in the following areas:
+In the screen above, only one collection (IBM_2023_Annual_Report) is currently loaded into the system. If you decide to generate a RAG prompt when querying an LLM, you must specify this document collection. 
 
-* The watsonx.data web-based user interface (UI), including infrastructure management, data management, running SQL statements, and managing user access
-* An introduction to Presto SQL 
-* Running queries that combine data from multiple data sources (data federation)
-* Offloading tables from Db2 into watsonx.data
-* Rolling back a table to a previous point in time
+A document collection is made up of a one or more documents (or URLs) that are transformed into vectors and stored in Milvus. When querying an LLM, the Milvus vector database will search the document collection for sentences to use as part of the RAG generation. 
 
-This lab requires that a workshop environment be provisioned for you using the IBM Technology Zone (TechZone). The image used comes pre-configured with watsonx.data Developer Edition, additional database systems including Db2 and PostgreSQL, and sample data sets. 
+!!! abstract "Document Collections"
 
-!!! info "Watsonx.data Dialogs and Screens"
+    You can include as many documents, URLs, or Wiki documents in your document collection. The documents will be combined and stored as vectors in the Milvus database. The only criteria for your documents is that the topics covered by your documents are the same. 
 
-Watsonx.data is being developed and released in an agile manner. In addition to new capabilities being added, the web interface is also likely to change over time. Therefore, the screenshots used in this lab may not always look exactly like what you see.
+### Document List
 
-This lab uses the watsonx.data developer package. The Developer package is meant to be used on single nodes. While it uses the same code base, there are some restrictions, especially on scale. In this lab, we will open some additional ports as well to understand how everything works. We will also use additional utilities to illustrate connectivity and what makes the watsonx.data system "open". 
+The document list contains all the documents and URLs that have been registered in the system.
 
-We organized this lab into a number of sections that cover many of the highlights and key features of watsonx.data.
+![Browser](wxd-images/demo-vector-documents.png)
 
-   * Access a TechZone or VMWare image for testing
-   * Checking watsonx.data status
-   * Introduction to watsonx.data components
-   * Analytical SQL
-   * Advanced SQL functions
-   * Time Travel and Federation
-   * Working with Object Store Buckets
+One or more documents make up a collection. Select the documents that you want to be included in a collection, and they will be vectorized as a group in Milvus. Provide a unique name for your collection and then press the Vectorize Collection button.
 
-In addition, there is an Appendix which includes common errors and potential fixes or workarounds. 
+If you use the name of an existing collection, the contents of that collection will be overwritten with the new documents.
 
-## Watsonx.data Developer Image 
+Once you press the Vectorize button, the documents will be converted into vectors and stored in Milvus. This process may take a few minutes to complete depending on the size of the documents.
 
-The watsonx.data system is running on a virtual machine with the following resources:
+![Browser](wxd-images/demo-vector-vectorizing.png)
 
-   * 4 vCPUs
-   * 16Gb of memory
-   * 400Gb of disk
+The collection will now be available for your RAG generation step.
 
-This is sufficient for running this exercises found in this lab but should not be used for performance testing or dealing with large data sets.
+## Technical Details
 
-## Watsonx.data Level 3/4 Technical Training
+In order to create a RAG (Retrieval Augmented Generation), one or more documents must be selected from the database, the text
+extracted, and then stored into Milvus and vectorized.
 
-For the Level 3 and 4 technical training courses, you should choose the watsonx.data developer image which specifically mentions the courses. This system is used as a basis for the watsonx.data Level 3/4 Technical Training images, but will container newer code that may change the UI screens and scripts that are used in the training material. 
+The process to vectorize a document involves converting the document (PPT, PDF, etc...) into RAW text. Once the text is available, the text is split into smaller chunks, with each chunk containing 512 or so tokens. A token is loosely compared to a word. These chunks are stored in the Milvus database and the text is vectorized using an algorithm (sentence-transformers/all-MiniLM-L6-v2).
 
-For the detailed lab material, please refer to the following PDF found in Seismic: [https://ibm.seismic.com/Link/Content/DCG37pjmPj7VmGCHj2Df8fHVmDJj](https://ibm.seismic.com/Link/Content/DCG37pjmPj7VmGCHj2Df8fHVmDJj)
+Once the vectorization is completed, we can search the data for similar sentences when generating a RAG prompt.
+
+The LLM can run without using a document collection, but it will not be able to generate a RAG prompt. 
