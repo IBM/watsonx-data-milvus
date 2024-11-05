@@ -1,24 +1,48 @@
-# Main Page
-We would like to thank all the development team for helping to deliver this
-release given the tremendous deadlines and constraints that they have been
-under. The initial lab was created by Deepak Rangarao with contributions from
-development. Additional material was supplied by Daniel Hancock and feedback
-from the members of the watsonx.data activation community. Formatting and
-script development was done by George Baklarz. 
+# Diagnostics
 
-The contents of this eBook are
-the result of a lot of research and testing based on the contents of 
-watsonx.data. Results are based on a specific version of watsonx.data, so you
-may have different results if using an older or newer version of the development
-kit.
+You usually end up in the Diagnostics section because something went wrong with your server. Hopefully one of the sections below will help solve the problem that you are having.
 
-# Support
-For any questions regarding the lab, including any suggestions, general comments, or bug reports, please contact:
+![Browser](wxd-images/demo-diagnostics-main.png)
 
-   - George Baklarz baklarz@ca.ibm.com
-   - Daniel Hancock daniel.hancock@us.ibm.com
+There are 8 sections in the diagnostics screen. These sections cover the following topics:
 
-We would also appreciate any feedback on the successful use of the lab.
-Thanks for using watsonx.data!
+* Check Presto Connection
+* Check watsonx.data System
+* Restart Presto
+* Restart watsonx.data
+* Restart LLM Service
+* Rebuild Database
+* Add Library
+* Update Software
 
-Dan, Deepak & George
+### Check Presto Connection
+
+![Browser](wxd-images/demo-diagnostics-connection.png)
+
+Press the ++"Check Connection"++ button to determine if a connection can be established with the watsonx.data system. The system will either tell you that the connection is okay, or that the connection timed out.
+
+![Browser](wxd-images/demo-diagnostics-connection-ok.png)
+
+If the connection timed out, you will need to move on to the next step and check if the watsonx.data system is running.
+
+### Check watsonx.data System
+
+![Browser](wxd-images/demo-diagnostics-watsonx.png)
+
+If your connection failed (hint, see button above) then something may be wrong with the Presto engine or watsonx.data. You can check to see what services are up and running in our server by pressing the ++"Check Services"++ button.
+
+![Browser](wxd-images/demo-diagnostics-watsonx-ok.png)
+
+ If you find that the Presto instance is missing, restart Presto. If more than one service is missing you will need to restart the watsonx.data services.
+
+### Restart Presto
+
+### Restart watsonx.data
+
+### Restart LLM Service
+
+### Rebuild Database
+
+### Add Library
+
+### Update Software

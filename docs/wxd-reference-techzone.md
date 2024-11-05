@@ -16,7 +16,7 @@ Select the Environment tab on the far-left side and then choose the IBM watsonx.
 
 ![Browser](wxd-images/techzone-select-image.png)
  
-Press the Reserve button.
+Press the ++"Reserve"++ button.
 
 ![Browser](wxd-images/techzone-reservenow.png)
  

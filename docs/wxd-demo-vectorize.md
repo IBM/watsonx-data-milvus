@@ -34,7 +34,7 @@ One or more documents make up a collection. Select the documents that you want t
 
 If you use the name of an existing collection, the contents of that collection will be overwritten with the new documents.
 
-Once you press the Vectorize button, the documents will be converted into vectors and stored in Milvus. This process may take a few minutes to complete depending on the size of the documents.
+Once you press the ++"Vectorize Collection"++ button, the documents will be converted into vectors and stored in Milvus. This process may take a few minutes to complete depending on the size of the documents.
 
 ![Browser](wxd-images/demo-vector-vectorizing.png)
 

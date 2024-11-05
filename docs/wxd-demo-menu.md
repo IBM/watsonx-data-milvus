@@ -59,11 +59,11 @@ The menus are divided into three sections:
     
     Details on what components make up the system and links to documentation.
 
-* Document Storage, Vectorization, and LLM Queries - 
+* Document Storage, Vectorization, and LLM Queries
   
     The main section of the application revolves around document (URL) storage, vectorizing these documents, and then using an LLM with RAG to answer questions. 
 
-* LLM Maintenance, Diagnostics and Support - 
+* LLM Maintenance, Diagnostics and Support
   
     If you need to diagnose problems in the system, this section provides several ways of correcting or restarting services. You can also manage which LLM models you use in the environment.
 
@@ -121,11 +121,9 @@ The *LLM Maintenance, Diagnostics and Support* section provides help for situati
 
 ### Home Button
 
-On several of the screens you will see a Home button at the bottom of the screen. Pressing the Home button will return you to the main menu.
+On several of the screens you will see a Home button at the bottom of the screen. Pressing the ++"Home"++ button will return you to the main menu.
 
 ![Browser](wxd-images/demo-storage-wiki-upload.png)
-
-
 
 
 

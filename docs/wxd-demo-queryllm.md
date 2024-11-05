@@ -8,19 +8,19 @@ The central part of the screen contains the chat window.
 
 ![Browser](wxd-images/demo-queryllm-chat.png)
 
-The question that you want to ask the LLM is placed into the text box at the bottom of the screen, and the response will be placed into the chat window underneath your question.
+The question that you want to ask the LLM is placed into the text box at the bottom of the screen, press ++enter++, and the response will be placed into the chat window underneath your question.
 
 ![Browser](wxd-images/demo-queryllm-response.png)
+
+!!! warning "This system does not have access to GPUs"
+
+    Note that this system does not have GPUs attached to it so the response may take a minute or so to return. 
 
 The left side of the screen contains options that will change the behavior of the LLM.
 
 ![Browser](wxd-images/demo-queryllm-options.png)
 
 These options are discussed in the sections below.
-
-!!! warning "This system does not have access to GPUs"
-
-    Note that this system does not have GPUs attached to it so the response may take a minute or so to return. Update these settings on the left side to adjust the text provided to the LLM.
 
 ## LLM Options
 
@@ -32,11 +32,11 @@ The LLM table provides a list of LLMs that are currently loaded into the system.
 
 Choose which LLM you want to use to answer your query. The default LLM is the Instructlab/granite-7b-lab model. If you want to add more LLMs to the system, use the Add LLM model dialog.
 
-Use the Clear button to clear the history of questions and LLM responses. 
+Use the ++"Clear conversation"++ button to clear the history of questions and LLM responses. 
 
 ![Browser](wxd-images/demo-queryllm-clear.png)
 
-If you find that the LLM is taking too long to respond (or saying too much), press the Stop LLM button.
+If you find that the LLM is taking too long to respond (or saying too much), press the ++"Stop LLM Response"++ button.
 
 ![Browser](wxd-images/demo-queryllm-stop.png)
 
@@ -81,9 +81,9 @@ The left sidebar includes a list of questions previously sent to the LLM.
 To copy a question into the LLM prompt, use the following steps:
 
 1. Click on the question you want to copy from the list (it will be highlighted)
-2. Use the keyboard copy button (Windows/Linux &#8963;&#8211;c, Mac &#8984;&#8211;c) to place the value into the clipboard
+2. Use the keyboard copy button (Windows/Linux ++ctrl+"c"++, Mac ++command+"c"++) to place the value onto the clipboard
 3. Click on the LLM question input line
-4. Use keyboard paste button (Windows/Linux &#8963;&#8211;v, Mac &#8984;&#8211;v) to place the copied value into the line
+4. Use keyboard paste button (Windows/Linux ++ctrl+"v"++, Mac ++command+"v"++) to place the copied value into the line
 
 ## Technical Details
 

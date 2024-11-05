@@ -27,7 +27,7 @@ The Upload dialog provides a way of uploading a document from your workstation o
 
 ![Browser](wxd-images/demo-storage-upload.png)
 
-For local files, you can either drag and drop a file from your workstation into the dialog, or press the "Browse File" button to display your local file browser (Mac OSX shown).
+For local files, you can either drag and drop a file from your workstation into the dialog, or press the ++"Browse Files"++ button to display your local file browser (Mac OSX shown).
 
 ![Browser](wxd-images/demo-storage-upload-file.png)
 
@@ -35,7 +35,7 @@ Once the file has been selected, it will be display below the drag and drop line
 
 ![Browser](wxd-images/demo-storage-upload-selected.png)
 
-If you have a URL that you want to input into the system, type or paste the URL into the dialog. Once you have selected the file or URL that you want to upload, press the Upload button to start the upload process. A progress indicator will appear while the document is being uploaded.
+If you have a URL that you want to input into the system, type or paste the URL into the dialog. Once you have selected the file or URL that you want to upload, press the ++"Upload Doc/URL"++ button to start the upload process. A progress indicator will appear while the document is being uploaded.
 
 ![Browser](wxd-images/demo-storage-upload-progress.png)
 
@@ -43,7 +43,7 @@ When the upload completes, a success (or failure!) message will be displayed.
 
 ![Browser](wxd-images/demo-storage-upload-success.png)
 
-The document list at the top of the screen will not be updated to reflect the new document until you press the Refresh List button.
+The document list at the top of the screen will not be updated to reflect the new document until you press the ++"Refresh List"++ button.
 
 !!! warning "URL Scraping"
 
@@ -55,7 +55,7 @@ The bottom of the Document import panel contains an option to search Wikipedia a
 
 ![Browser](wxd-images/demo-storage-wiki-upload.png)
 
-Enter a phrase to search for (watsonx is shown here) and press the Get Articles button. You will see a maximum of 10 documents that were found. In this example, 7 documents related to "watsonx" were found in Wikipedia articles. 
+Enter a phrase to search for (watsonx is shown here) and press the ++"Get Articles"++ button. You will see a maximum of 10 documents that were found. In this example, 7 documents related to "watsonx" were found in Wikipedia articles. 
 
 ![Browser](wxd-images/demo-storage-wiki-search.png)
 
@@ -63,7 +63,7 @@ Select which articles you want to load into the system. You can select as many a
 
 ![Browser](wxd-images/demo-storage-wiki-selected.png)
 
-Once you are done selecting the documents, press the Upload button and a progress indicator will display the progress of retrieving the articles.
+Once you are done selecting the documents, press the ++"Upload"++ button and a progress indicator will display the progress of retrieving the articles.
 
 ![Browser](wxd-images/demo-storage-wiki-progress.png)
 
