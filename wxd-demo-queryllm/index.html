@@ -893,8 +893,9 @@
 <p>The question that you want to ask the LLM is placed into the text box at the bottom of the screen, press <span class="keys"><kbd class="key-enter">Enter</kbd></span>, and the response will be placed into the chat window underneath your question.</p>
 <p><img alt="Browser" src="../wxd-images/demo-queryllm-response.png" /></p>
 <div class="admonition warning">
-<p class="admonition-title">This system does not have access to GPUs</p>
-<p>Note that this system does not have GPUs attached to it so the response may take a minute or so to return. </p>
+<p class="admonition-title">System performance is limited by the lack of GPUs</p>
+<p>Note that this system does not have GPUs attached to it so the response may take a minute or so to return. The initial question will load the LLM into memory which will result in a delay in answering the question. Subsequent questions will usually be answered faster.</p>
+<p>When you switch LLMs, the new LLM will need to be loaded into memory. Take this into account when you are demoing different LLMs.</p>
 </div>
 <p>The left side of the screen contains options that will change the behavior of the LLM.</p>
 <p><img alt="Browser" src="../wxd-images/demo-queryllm-options.png" /></p>
