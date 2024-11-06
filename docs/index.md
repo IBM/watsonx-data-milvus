@@ -16,7 +16,7 @@ IBM Instructlab Granite model to answer questions regarding a variety of topics.
 
 The system is designed around five steps:
 	 
-- The watsonx.data product is used to store control information and the raw documents (PDF, Powerpoint, Word, URLs).
+- The watsonx.data product is used to store control information and the raw documents (PDF, Powerpoint, URLs).
 - The Milvus vector database contains vectors that are built from the raw documents stored in the watsonx.data database.
 - A prompt is generated from the question that is supplied by querying the Milvus database for the document segments that best match the request.
 - The prompt is sent to an AI engine to process. This process is done locally in this system using Ollama. Since there are no GPUs in this system, performance will be slow.
