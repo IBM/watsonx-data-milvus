@@ -19,6 +19,7 @@ nav:
     - Manage LLM: "wxd-demo-managellm.md"
     - Diagnostics: "wxd-demo-diagnostics.md"
     - Log File: "wxd-demo-log.md"
+    - Sample LLM Queries: "wxd-demo-examples.md"
     - Support: "wxd-demo-support.md"
   - Appendix: 
     - Watsonx.data Overview:
@@ -50,3 +51,5 @@ markdown_extensions:
   - pymdownx.details
   - pymdownx.superfences    
   - pymdownx.keys
+  - pymdownx.tasklist:
+      custom_checkbox: true 

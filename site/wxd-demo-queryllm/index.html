@@ -570,6 +570,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../wxd-demo-examples/" class="md-nav__link">
+        Sample LLM Queries
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../wxd-demo-support/" class="md-nav__link">
         Support
       </a>
@@ -876,23 +890,23 @@
 <p><img alt="Browser" src="../wxd-images/demo-queryllm-main.png" /></p>
 <p>The central part of the screen contains the chat window.</p>
 <p><img alt="Browser" src="../wxd-images/demo-queryllm-chat.png" /></p>
-<p>The question that you want to ask the LLM is placed into the text box at the bottom of the screen, and the response will be placed into the chat window underneath your question.</p>
+<p>The question that you want to ask the LLM is placed into the text box at the bottom of the screen, press <span class="keys"><kbd class="key-enter">Enter</kbd></span>, and the response will be placed into the chat window underneath your question.</p>
 <p><img alt="Browser" src="../wxd-images/demo-queryllm-response.png" /></p>
+<div class="admonition warning">
+<p class="admonition-title">This system does not have access to GPUs</p>
+<p>Note that this system does not have GPUs attached to it so the response may take a minute or so to return. </p>
+</div>
 <p>The left side of the screen contains options that will change the behavior of the LLM.</p>
 <p><img alt="Browser" src="../wxd-images/demo-queryllm-options.png" /></p>
 <p>These options are discussed in the sections below.</p>
-<div class="admonition warning">
-<p class="admonition-title">This system does not have access to GPUs</p>
-<p>Note that this system does not have GPUs attached to it so the response may take a minute or so to return. Update these settings on the left side to adjust the text provided to the LLM.</p>
-</div>
 <h2 id="llm-options">LLM Options</h2>
 <h3 id="current-llm-model">Current LLM Model</h3>
 <p>The LLM table provides a list of LLMs that are currently loaded into the system. </p>
 <p><img alt="Browser" src="../wxd-images/demo-queryllm-model.png" /></p>
 <p>Choose which LLM you want to use to answer your query. The default LLM is the Instructlab/granite-7b-lab model. If you want to add more LLMs to the system, use the Add LLM model dialog.</p>
-<p>Use the Clear button to clear the history of questions and LLM responses. </p>
+<p>Use the <span class="keys"><kbd>Clear conversation</kbd></span> button to clear the history of questions and LLM responses. </p>
 <p><img alt="Browser" src="../wxd-images/demo-queryllm-clear.png" /></p>
-<p>If you find that the LLM is taking too long to respond (or saying too much), press the Stop LLM button.</p>
+<p>If you find that the LLM is taking too long to respond (or saying too much), press the <span class="keys"><kbd>Stop LLM Response</kbd></span> button.</p>
 <p><img alt="Browser" src="../wxd-images/demo-queryllm-stop.png" /></p>
 <p>Note that stopping the LLM will clear the last response on the screen.</p>
 <h3 id="current-document-collections">Current Document Collections</h3>
@@ -917,9 +931,9 @@ If this is turned off, the question is sent "as is" to the LLM. This provides an
 <p>To copy a question into the LLM prompt, use the following steps:</p>
 <ol>
 <li>Click on the question you want to copy from the list (it will be highlighted)</li>
-<li>Use the keyboard copy button (Windows/Linux &#8963;&#8211;c, Mac &#8984;&#8211;c) to place the value into the clipboard</li>
+<li>Use the keyboard copy button (Windows/Linux <span class="keys"><kbd class="key-control">Ctrl</kbd><span>+</span><kbd>c</kbd></span>, Mac <span class="keys"><kbd class="key-command">Cmd</kbd><span>+</span><kbd>c</kbd></span>) to place the value onto the clipboard</li>
 <li>Click on the LLM question input line</li>
-<li>Use keyboard paste button (Windows/Linux &#8963;&#8211;v, Mac &#8984;&#8211;v) to place the copied value into the line</li>
+<li>Use keyboard paste button (Windows/Linux <span class="keys"><kbd class="key-control">Ctrl</kbd><span>+</span><kbd>v</kbd></span>, Mac <span class="keys"><kbd class="key-command">Cmd</kbd><span>+</span><kbd>v</kbd></span>) to place the copied value into the line</li>
 </ol>
 <h2 id="technical-details">Technical Details</h2>
 <p>The process which takes place when you enter a question is:</p>

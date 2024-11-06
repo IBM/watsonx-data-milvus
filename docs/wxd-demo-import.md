@@ -1,6 +1,6 @@
 # Document Import and Storage
 
-This system requires that you upload documents or URLs to be used for RAG generation. There is one document (IBM 2023 earnings report summary) provided in the system that you can use for your queries. You have the option of uploading documents from your workstation (PDF, PPT, DOC, TXT) and having it cataloged in watsonx.data. You can also point to a website (URL) which will be analyzed, and the contents extracted and stored in watsonx.data. Note that the system does not do a web crawl through all links in the web page, but only captures the text on the web page itself.
+This system requires that you upload documents or URLs to be used for RAG generation. There is one document (IBM 2023 earnings report summary) provided in the system that you can use for your queries. You have the option of uploading documents from your workstation (PDF, PPT, TXT) and having it cataloged in watsonx.data. You can also point to a website (URL) which will be analyzed, and the contents extracted and stored in watsonx.data. Note that the system does not do a web crawl through all links in the web page, but only captures the text on the web page itself.
 
 Finally, you can query Wikipedia and retrieve documents based on a topic.
 

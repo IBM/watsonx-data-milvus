@@ -522,6 +522,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../wxd-demo-examples/" class="md-nav__link">
+        Sample LLM Queries
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../wxd-demo-support/" class="md-nav__link">
         Support
       </a>
@@ -795,9 +809,13 @@
 <p><img alt="Browser" src="../wxd-images/demo-vector-documents.png" /></p>
 <p>One or more documents make up a collection. Select the documents that you want to be included in a collection, and they will be vectorized as a group in Milvus. Provide a unique name for your collection and then press the Vectorize Collection button.</p>
 <p>If you use the name of an existing collection, the contents of that collection will be overwritten with the new documents.</p>
-<p>Once you press the Vectorize button, the documents will be converted into vectors and stored in Milvus. This process may take a few minutes to complete depending on the size of the documents.</p>
+<p>Once you press the <span class="keys"><kbd>Vectorize Collection</kbd></span> button, the documents will be converted into vectors and stored in Milvus. This process may take a few minutes to complete depending on the size of the documents.</p>
 <p><img alt="Browser" src="../wxd-images/demo-vector-vectorizing.png" /></p>
 <p>The collection will now be available for your RAG generation step.</p>
+<p>If you receive an error message during the vectorize step, you may need to load a conversion library in order for the text to be extracted from the document. </p>
+<p>In this example, we tried to vectorize a Microsoft Word file with an extension of <code>.DOCX</code>. </p>
+<p><img alt="Browser" src="../wxd-images/demo-diagnostics-addlibrary-error.png" /></p>
+<p>Details on how to fix this error can be found in the <a href="../wxd-demo-diagnostics/#add-library">Diagnostics</a> section.</p>
 <h2 id="technical-details">Technical Details</h2>
 <p>In order to create a RAG (Retrieval Augmented Generation), one or more documents must be selected from the database, the text
 extracted, and then stored into Milvus and vectorized.</p>

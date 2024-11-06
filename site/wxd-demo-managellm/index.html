@@ -421,9 +421,47 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Manage LLM
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Manage LLM
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#loading-an-llm" class="md-nav__link">
+    Loading an LLM
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#removing-an-llm" class="md-nav__link">
+    Removing an LLM
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -452,6 +490,20 @@
     <li class="md-nav__item">
       <a href="../wxd-demo-log/" class="md-nav__link">
         Log File
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-demo-examples/" class="md-nav__link">
+        Sample LLM Queries
       </a>
     </li>
   
@@ -663,6 +715,28 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#loading-an-llm" class="md-nav__link">
+    Loading an LLM
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#removing-an-llm" class="md-nav__link">
+    Removing an LLM
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -676,9 +750,83 @@
 
 
 <h1 id="manage-llm">Manage LLM</h1>
-<p><img alt="WatsonX" src="../wxd-images/watsonxlogoibm.png" /></p>
-<h1 id="introducing-watsonxdata">Introducing watsonx.data</h1>
-<p><img alt="Browser" src="../wxd-images/watsonx-foundation.png" /></p>
+<p>This system has been built using the IBM instructlab/granite-7b-lab model. You can load additional models into the system by using the Add LLM Dialog.</p>
+<p><img alt="Browser" src="../wxd-images/demo-addllm-main.png" /></p>
+<p>The LLMs that are currently in the system are:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Author</th>
+<th>Link</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>gemma:2b</td>
+<td>Google</td>
+<td><a href="">https://ollama.com/library/gemma2</a></td>
+</tr>
+<tr>
+<td>instructlab/granite-7b-lab</td>
+<td>IBM</td>
+<td><a href="">https://ollama.com/instructlab/granite-7b-lab</a></td>
+</tr>
+<tr>
+<td>instructlab/merlinite-7b-lab</td>
+<td>IBM</td>
+<td><a href="">https://ollama.com/instructlab/merlinite-7b-lab</a></td>
+</tr>
+<tr>
+<td>Ilama3</td>
+<td>Meta</td>
+<td><a href="">https://ollama.com/library/llama3</a></td>
+</tr>
+<tr>
+<td>llama3.2:lb-instruct-q8_0</td>
+<td>Meta</td>
+<td><a href="">https://ollama.com/library/llama3.2</a></td>
+</tr>
+<tr>
+<td>tinyllama:l.lb-chat-vl-q8_0</td>
+<td>StatNLP Research Group</td>
+<td><a href="">https://ollama.com/library/tinyllama</a></td>
+</tr>
+<tr>
+<td>mistral-small</td>
+<td>Mistral AI</td>
+<td><a href="">https://ollama.com/library/mistral-small</a></td>
+</tr>
+<tr>
+<td>phi3:3.8b-mini-128k-instruct-q8_0</td>
+<td>Microsoft</td>
+<td><a href="">https://ollama.com/library/phi3</a></td>
+</tr>
+</tbody>
+</table>
+<p>Below the list of LLMs are options to add a new LLM or remove one from the system.</p>
+<p><img alt="Browser" src="../wxd-images/demo-addllm-options.png" /></p>
+<h3 id="loading-an-llm">Loading an LLM</h3>
+<p>LLMs can be found at <a href="https://ollama.com/library">Ollama</a> and <a href="https://huggingface.co/models">Hugging Face</a>. In order to load the LLM into the system, the LLM must be cataloged in the Ollama library. Doublecheck the licensing requirements of any LLM you choose to download. While most of the LLMs provide an open source license for testing and demonstrations, several of them do not allow for commercial use. </p>
+<p>The following screen shows the results of searching for IBM in the Ollama library.</p>
+<p><img alt="Browser" src="../wxd-images/demo-addllm-search.png" /></p>
+<p>If we select the granite3-dense model, we are provided with more details on the model.</p>
+<p><img alt="Browser" src="../wxd-images/demo-addllm-granite3.png" /></p>
+<p>You must decide which version of the LLM you want to use. The pulldown list on the far left side will provide various versions of the LLM to download.</p>
+<p><img alt="Browser" src="../wxd-images/demo-addllm-version.png" /></p>
+<p>In this example, we will select the smaller 2Gb version.</p>
+<p><img alt="Browser" src="../wxd-images/demo-addllm-version2b.png" /></p>
+<p>The full name of the LLM will be populated in box to the right of the model you selected. There is a copy button beside the name that you can use to copy the LLM name.</p>
+<p><img alt="Browser" src="../wxd-images/demo-addllm-select.png" /></p>
+<p>Place your cursor into the LLM name field and use the paste key (Windows/Linux <span class="keys"><kbd class="key-control">Ctrl</kbd><span>+</span><kbd>v</kbd></span>, Mac <span class="keys"><kbd class="key-command">Cmd</kbd><span>+</span><kbd>v</kbd></span>) to place the value into the field.</p>
+<p><img alt="Browser" src="../wxd-images/demo-addllm-loadllm.png" /></p>
+<p>The format of the LLM name is not correct as pasted. The front of the LLM name is prefixed with <code>ollama run</code> which needs to be removed. The field should only contain the name of the LLM model or <code>granite3-dense:2b</code>. Once you have updated the name, press the <span class="keys"><kbd>Load LLM</kbd></span> button to begin the load process. There will not be any progress indicator as the load process runs. Usually this takes a minute or so to complete. When the load is complete, a success or failure message will be displayed.</p>
+<p><img alt="Browser" src="../wxd-images/demo-addllm-success.png" /></p>
+<p>You can check that the LLM has loaded by pressing the <span class="keys"><kbd>Refresh List</kbd></span> button at the top of the screen.</p>
+<h3 id="removing-an-llm">Removing an LLM</h3>
+<p>If you find that an LLM is not suitable for your demonstrations, you can remove it from the system by selecting the name of the LLM from the pull-down list.</p>
+<p><img alt="Browser" src="../wxd-images/demo-addllm-delete.png" /></p>
+<p>If this is the LLM you want to remove, press the <span class="keys"><kbd>Delete LLM</kbd></span> button to remove it from the system. The system will provide a success message once the deletion is completed.</p>
 
               
             </article>

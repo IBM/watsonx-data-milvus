@@ -556,6 +556,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../wxd-demo-examples/" class="md-nav__link">
+        Sample LLM Queries
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../wxd-demo-support/" class="md-nav__link">
         Support
       </a>
@@ -844,7 +858,7 @@
 
 
 <h1 id="document-import-and-storage">Document Import and Storage</h1>
-<p>This system requires that you upload documents or URLs to be used for RAG generation. There is one document (IBM 2023 earnings report summary) provided in the system that you can use for your queries. You have the option of uploading documents from your workstation (PDF, PPT, DOC, TXT) and having it cataloged in watsonx.data. You can also point to a website (URL) which will be analyzed, and the contents extracted and stored in watsonx.data. Note that the system does not do a web crawl through all links in the web page, but only captures the text on the web page itself.</p>
+<p>This system requires that you upload documents or URLs to be used for RAG generation. There is one document (IBM 2023 earnings report summary) provided in the system that you can use for your queries. You have the option of uploading documents from your workstation (PDF, PPT, TXT) and having it cataloged in watsonx.data. You can also point to a website (URL) which will be analyzed, and the contents extracted and stored in watsonx.data. Note that the system does not do a web crawl through all links in the web page, but only captures the text on the web page itself.</p>
 <p>Finally, you can query Wikipedia and retrieve documents based on a topic.</p>
 <h2 id="document-storage">Document Storage</h2>
 <p>The Document storage panel contains three sections in it:</p>
@@ -861,15 +875,15 @@
 <h3 id="upload-document-or-url">Upload Document or URL</h3>
 <p>The Upload dialog provides a way of uploading a document from your workstation or by uploading the contents of a URL.</p>
 <p><img alt="Browser" src="../wxd-images/demo-storage-upload.png" /></p>
-<p>For local files, you can either drag and drop a file from your workstation into the dialog, or press the "Browse File" button to display your local file browser (Mac OSX shown).</p>
+<p>For local files, you can either drag and drop a file from your workstation into the dialog, or press the <span class="keys"><kbd>Browse Files</kbd></span> button to display your local file browser (Mac OSX shown).</p>
 <p><img alt="Browser" src="../wxd-images/demo-storage-upload-file.png" /></p>
 <p>Once the file has been selected, it will be display below the drag and drop line. You can only upload one document at a time.</p>
 <p><img alt="Browser" src="../wxd-images/demo-storage-upload-selected.png" /></p>
-<p>If you have a URL that you want to input into the system, type or paste the URL into the dialog. Once you have selected the file or URL that you want to upload, press the Upload button to start the upload process. A progress indicator will appear while the document is being uploaded.</p>
+<p>If you have a URL that you want to input into the system, type or paste the URL into the dialog. Once you have selected the file or URL that you want to upload, press the <span class="keys"><kbd>Upload Doc/URL</kbd></span> button to start the upload process. A progress indicator will appear while the document is being uploaded.</p>
 <p><img alt="Browser" src="../wxd-images/demo-storage-upload-progress.png" /></p>
 <p>When the upload completes, a success (or failure!) message will be displayed.</p>
 <p><img alt="Browser" src="../wxd-images/demo-storage-upload-success.png" /></p>
-<p>The document list at the top of the screen will not be updated to reflect the new document until you press the Refresh List button.</p>
+<p>The document list at the top of the screen will not be updated to reflect the new document until you press the <span class="keys"><kbd>Refresh List</kbd></span> button.</p>
 <div class="admonition warning">
 <p class="admonition-title">URL Scraping</p>
 <p>Make sure that if you decide to use a web page as a source for your RAG examples, that it does not violate any copuright or privacy policies associated with the web page.</p>
@@ -877,11 +891,11 @@
 <h3 id="upload-wikipedia-documents">Upload Wikipedia Documents</h3>
 <p>The bottom of the Document import panel contains an option to search Wikipedia articles for possible documents to use in a RAG prompt.</p>
 <p><img alt="Browser" src="../wxd-images/demo-storage-wiki-upload.png" /></p>
-<p>Enter a phrase to search for (watsonx is shown here) and press the Get Articles button. You will see a maximum of 10 documents that were found. In this example, 7 documents related to "watsonx" were found in Wikipedia articles. </p>
+<p>Enter a phrase to search for (watsonx is shown here) and press the <span class="keys"><kbd>Get Articles</kbd></span> button. You will see a maximum of 10 documents that were found. In this example, 7 documents related to "watsonx" were found in Wikipedia articles. </p>
 <p><img alt="Browser" src="../wxd-images/demo-storage-wiki-search.png" /></p>
 <p>Select which articles you want to load into the system. You can select as many as you want, and they will be combined into a single document in the system.</p>
 <p><img alt="Browser" src="../wxd-images/demo-storage-wiki-selected.png" /></p>
-<p>Once you are done selecting the documents, press the Upload button and a progress indicator will display the progress of retrieving the articles.</p>
+<p>Once you are done selecting the documents, press the <span class="keys"><kbd>Upload</kbd></span> button and a progress indicator will display the progress of retrieving the articles.</p>
 <p><img alt="Browser" src="../wxd-images/demo-storage-wiki-progress.png" /></p>
 <p>Once the files have been uploaded, a message will be displayed.</p>
 <p><img alt="Browser" src="../wxd-images/demo-storage-wiki-success.png" /></p>

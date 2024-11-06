@@ -40,6 +40,14 @@ Once you press the ++"Vectorize Collection"++ button, the documents will be conv
 
 The collection will now be available for your RAG generation step.
 
+If you receive an error message during the vectorize step, you may need to load a conversion library in order for the text to be extracted from the document. 
+
+In this example, we tried to vectorize a Microsoft Word file with an extension of `.DOCX`. 
+
+![Browser](wxd-images/demo-diagnostics-addlibrary-error.png)
+
+Details on how to fix this error can be found in the [Diagnostics](./wxd-demo-diagnostics.md#add-library) section.
+
 ## Technical Details
 
 In order to create a RAG (Retrieval Augmented Generation), one or more documents must be selected from the database, the text

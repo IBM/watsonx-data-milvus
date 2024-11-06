@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#main-page" class="md-skip">
+        <a href="#diagnostics" class="md-skip">
           Skip to content
         </a>
       
@@ -435,9 +435,89 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Diagnostics
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Diagnostics
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#check-presto-connection" class="md-nav__link">
+    Check Presto Connection
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#check-watsonxdata-system" class="md-nav__link">
+    Check watsonx.data System
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#restart-presto" class="md-nav__link">
+    Restart Presto
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#restart-watsonxdata" class="md-nav__link">
+    Restart watsonx.data
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#restart-llm-service" class="md-nav__link">
+    Restart LLM Service
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rebuild-database" class="md-nav__link">
+    Rebuild Database
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#add-library" class="md-nav__link">
+    Add Library
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#update-software" class="md-nav__link">
+    Update Software
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -452,6 +532,20 @@
     <li class="md-nav__item">
       <a href="../wxd-demo-log/" class="md-nav__link">
         Log File
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-demo-examples/" class="md-nav__link">
+        Sample LLM Queries
       </a>
     </li>
   
@@ -663,6 +757,70 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#check-presto-connection" class="md-nav__link">
+    Check Presto Connection
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#check-watsonxdata-system" class="md-nav__link">
+    Check watsonx.data System
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#restart-presto" class="md-nav__link">
+    Restart Presto
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#restart-watsonxdata" class="md-nav__link">
+    Restart watsonx.data
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#restart-llm-service" class="md-nav__link">
+    Restart LLM Service
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rebuild-database" class="md-nav__link">
+    Rebuild Database
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#add-library" class="md-nav__link">
+    Add Library
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#update-software" class="md-nav__link">
+    Update Software
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -675,27 +833,82 @@
                 
 
 
-<h1 id="main-page">Main Page</h1>
-<p>We would like to thank all the development team for helping to deliver this
-release given the tremendous deadlines and constraints that they have been
-under. The initial lab was created by Deepak Rangarao with contributions from
-development. Additional material was supplied by Daniel Hancock and feedback
-from the members of the watsonx.data activation community. Formatting and
-script development was done by George Baklarz. </p>
-<p>The contents of this eBook are
-the result of a lot of research and testing based on the contents of 
-watsonx.data. Results are based on a specific version of watsonx.data, so you
-may have different results if using an older or newer version of the development
-kit.</p>
-<h1 id="support">Support</h1>
-<p>For any questions regarding the lab, including any suggestions, general comments, or bug reports, please contact:</p>
+<h1 id="diagnostics">Diagnostics</h1>
+<p>You usually end up in the Diagnostics section because something went wrong with your server. Hopefully one of the sections below will help solve the problem that you are having.</p>
+<p><img alt="Browser" src="../wxd-images/demo-diagnostics-main.png" /></p>
+<p>There are 8 sections in the diagnostics screen. These sections cover the following topics:</p>
 <ul>
-<li>George Baklarz baklarz@ca.ibm.com</li>
-<li>Daniel Hancock daniel.hancock@us.ibm.com</li>
+<li>Check Presto Connection</li>
+<li>Check watsonx.data System</li>
+<li>Restart Presto</li>
+<li>Restart watsonx.data</li>
+<li>Restart LLM Service</li>
+<li>Rebuild Database</li>
+<li>Add Library</li>
+<li>Update Software</li>
 </ul>
-<p>We would also appreciate any feedback on the successful use of the lab.
-Thanks for using watsonx.data!</p>
-<p>Dan, Deepak &amp; George</p>
+<h3 id="check-presto-connection">Check Presto Connection</h3>
+<p><img alt="Browser" src="../wxd-images/demo-diagnostics-connection.png" /></p>
+<p>Press the <span class="keys"><kbd>Check Connection</kbd></span> button to determine if a connection can be established with the watsonx.data system. The system will either tell you that the connection is okay, or that the connection timed out.</p>
+<p><img alt="Browser" src="../wxd-images/demo-diagnostics-connection-ok.png" /></p>
+<p>If the connection timed out, you will need to move on to the next step and check if the watsonx.data system is running.</p>
+<h3 id="check-watsonxdata-system">Check watsonx.data System</h3>
+<p><img alt="Browser" src="../wxd-images/demo-diagnostics-watsonx.png" /></p>
+<p>If your connection failed (hint, see button above) then something may be wrong with the Presto engine or watsonx.data. You can check to see what services are up and running in our server by pressing the <span class="keys"><kbd>Check Services</kbd></span> button.</p>
+<p><img alt="Browser" src="../wxd-images/demo-diagnostics-watsonx-ok.png" /></p>
+<p>If you find that the Presto instance is missing, restart Presto. If more than one service is missing you will need to restart the watsonx.data services.</p>
+<h3 id="restart-presto">Restart Presto</h3>
+<p><img alt="Browser" src="../wxd-images/demo-diagnostics-restartpresto.png" /></p>
+<p>If you've determined that the Presto service is down, you can use this section to shut down and restart Presto. Press the <span class="keys"><kbd>Restart Presto</kbd></span> button to begin the process.</p>
+<p><img alt="Browser" src="../wxd-images/demo-diagnostics-restartpresto2.png" /></p>
+<p>The display will show a progress indicator that tracks the Presto startup process. Note that this can take a few minutes to complete. The system will display a success message when the startup has completed.</p>
+<p><img alt="Browser" src="../wxd-images/demo-diagnostics-prestook.png" /></p>
+<h3 id="restart-watsonxdata">Restart watsonx.data</h3>
+<p><img alt="Browser" src="../wxd-images/demo-diagnostics-restartwatsonx.png" /></p>
+<p>If nothing seems to work (or mote than one service is stopped), you can try stop and restarting all services in the system. This process will take several minutes to complete, but hopefully this will resolve any of the issues you may be having.</p>
+<p>Start the process by clicking the <span class="keys"><kbd>Restart watsonx.data</kbd></span> button. This process will display multiple messages as it stops and starts services.</p>
+<p><img alt="Browser" src="../wxd-images/demo-diagnostics-restartwatsonx-status.png" /></p>
+<p>Restarting the watsonx.data services will take several minutes, as will the startup for Presto. Once the process is complete, you should see a successful completion message.</p>
+<p><img alt="Browser" src="../wxd-images/demo-diagnostics-restartwatsonx-success.png" /></p>
+<h3 id="restart-llm-service">Restart LLM Service</h3>
+<p><img alt="Browser" src="../wxd-images/demo-diagnostics-restartllm.png" /></p>
+<p>If the LLM is not being responsive, you may have to restart the service. Clicking the <span class="keys"><kbd>Restart LLM Service</kbd></span> button will stop the LLM service, refresh the image, and then restart it.</p>
+<p>You may want to restart the service if you come across an error loading an LLM which indicates that the LLM manager is out of date. The can occur when an LLM has features which are not currently supported in the LLM manager. Restarting the LLM manager will automatically refresh the image to the latest version available.</p>
+<h3 id="rebuild-database">Rebuild Database</h3>
+<p><img alt="Browser" src="../wxd-images/demo-diagnostics-database.png" /></p>
+<p>If your database is messed up, or corrupted, then you will need to rebuild the database. This will completely remove all the hard work you put into uploading documents so be prepared to do all of that work over again! Press the <span class="keys"><kbd>Rebuild Database</kbd></span> button to destroy the existing database and create a new one.</p>
+<p>The rebuild process will go through several steps to reset the database. The entire process usually takes less than a minute to complete.</p>
+<h3 id="add-library">Add Library</h3>
+<p><img alt="Browser" src="../wxd-images/demo-diagnostics-addlibrary.png" /></p>
+<p>This program contains most (not all!) of the conversion libraries required for importing documents into the system. If you encounter an error while importing a document, it may be due to one the conversion library was missing. The first step is to check the Log file and determine what library the system is complaining about. </p>
+<p>In this example, we tried to vectorize a Microsoft Word file with an extension of <code>.DOCX</code>. </p>
+<p><img alt="Browser" src="../wxd-images/demo-diagnostics-addlibrary-error.png" /></p>
+<p>Switching to the Log viewer, scrolling to the end we see that the library <code>docx2txt</code> is required for the document to be vectorized.</p>
+<p><img alt="Browser" src="../wxd-images/demo-diagnostics-addlibrary-logfile.png" /></p>
+<p>Enter the name of the required library into the library name field and press <span class="keys"><kbd>install Libraries</kbd></span>.</p>
+<p><img alt="Browser" src="../wxd-images/demo-diagnostics-addlibrary-update.png" /></p>
+<p>The system will display a success message when the command completes.</p>
+<p><img alt="Browser" src="../wxd-images/demo-diagnostics-addlibrary-success.png" /></p>
+<p>You should review the log file to make sure that the installation was successful. Some libraries have multiple requirements and there may be more than one file that gets installed. Always best to check to see the messages in the log file.</p>
+<p><img alt="Browser" src="../wxd-images/demo-diagnostics-addlibrary-addlogs.png" /></p>
+<p>Now that the library has been loaded, we can attempt to vectorize the document again.</p>
+<p><img alt="Browser" src="../wxd-images/demo-diagnostics-addlibrary-vectorok.png" /></p>
+<h3 id="update-software">Update Software</h3>
+<p><img alt="Browser" src="../wxd-images/demo-diagnostics-update.png" /></p>
+<p>When you deploy an image from TechZone, the latest software for this demonstration program is loaded into the system. If there has been an update (or a fix released for an issue you came across), you can update the software by clicking the <span class="keys"><kbd>Update software</kbd></span> button. The current release of the software is shown in the panel.</p>
+<p>The update process will take several minutes. The first step will download the software and then switch to the Main screen. The system will then update several services in the system and provide a progress indicator:</p>
+<ul>
+<li>Checking Milvus
+<img alt="Browser" src="../wxd-images/demo-startup-milvus.png" /></li>
+<li>Checking Presto
+<img alt="Browser" src="../wxd-images/demo-startup-presto.png" /></li>
+<li>Removing old collections
+<img alt="Browser" src="../wxd-images/demo-startup-collections.png" /></li>
+<li>Insert default documents
+<img alt="Browser" src="../wxd-images/demo-startup-insert.png" /></li>
+<li>Updating LLM Engine (not shown)</li>
+</ul>
+<p>Once the update is complete, the main menu will be displayed. You can check the software level again by checking the Diagnostic panel again.</p>
 
               
             </article>
