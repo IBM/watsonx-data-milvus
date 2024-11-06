@@ -4,8 +4,9 @@
 
 * George Baklarz, Americas Data and AI Technical Sales
 * email: baklarz@ca.ibm.com
+* Slack Channel: #watsonx-data-rag-demo
 
-**Testing**
+**Testing and Design Feedback**
 
 * Dale McInnis, Americas Data and AI Technical Sales
 

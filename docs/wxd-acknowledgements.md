@@ -2,7 +2,7 @@
 #### Development
 * George Baklarz, Americas Data and AI Technical Sales
 
-#### Testing
+#### Testing and Design Feedback
 * Dale McInnis, Americas Data and AI Technical Sales
 
 #### Concept
@@ -18,6 +18,7 @@
 For any questions regarding the lab, including any suggestions, general comments, or bug reports, please contact:
 
    - George Baklarz baklarz@ca.ibm.com
+   - Slack Channel: #watsonx-data-rag-demo
 
 We would also appreciate any feedback on the successful use of the lab.
 Thanks for using watsonx.data and Milvus!
