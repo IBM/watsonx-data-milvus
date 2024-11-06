@@ -13,7 +13,7 @@
     
     
       
-        <title>Example LLM Queries - Watsonx.data and Milvus RAG Demonstration</title>
+        <title>Sample LLM Queries - Watsonx.data and Milvus RAG Demonstration</title>
       
     
     
@@ -96,7 +96,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Example LLM Queries
+              Sample LLM Queries
             
           </span>
         </div>
@@ -298,12 +298,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
       
       
       
@@ -450,11 +452,181 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="." class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Sample LLM Queries
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Sample LLM Queries
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#question-with-no-rag-support" class="md-nav__link">
+    Question with no RAG Support
+  </a>
+  
+    <nav class="md-nav" aria-label="Question with no RAG Support">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#question" class="md-nav__link">
+    Question
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#answer" class="md-nav__link">
+    Answer
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analysis" class="md-nav__link">
+    Analysis
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-with-no-rag-support-but-concise-response" class="md-nav__link">
+    Question with no RAG Support but Concise Response
+  </a>
+  
+    <nav class="md-nav" aria-label="Question with no RAG Support but Concise Response">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#question_1" class="md-nav__link">
+    Question
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#answer_1" class="md-nav__link">
+    Answer
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analysis_1" class="md-nav__link">
+    Analysis
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-with-rag-on-concise-on-rag-display-and-3-sentences" class="md-nav__link">
+    Question with RAG On, Concise On, RAG Display, and 3 Sentences
+  </a>
+  
+    <nav class="md-nav" aria-label="Question with RAG On, Concise On, RAG Display, and 3 Sentences">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#question_2" class="md-nav__link">
+    Question
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#answer_2" class="md-nav__link">
+    Answer
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analysis_2" class="md-nav__link">
+    Analysis
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#question-with-rag-on-concise-on-rag-display-and-1-sentence" class="md-nav__link">
+    Question with RAG On, Concise On, RAG Display, and 1 Sentence
+  </a>
+  
+    <nav class="md-nav" aria-label="Question with RAG On, Concise On, RAG Display, and 1 Sentence">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#question_3" class="md-nav__link">
+    Question
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#answer_3" class="md-nav__link">
+    Answer
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analysis_3" class="md-nav__link">
+    Analysis
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1006,6 +1178,42 @@ Question: How many companies did IBM acquire in 2023?</p>
       </main>
       
         <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../wxd-demo-log/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Log File" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Log File
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../wxd-demo-support/" class="md-footer__link md-footer__link--next" aria-label="Next: Support" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Support
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
