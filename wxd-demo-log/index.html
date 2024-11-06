@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#introducing-watsonxdata" class="md-skip">
+        <a href="#log-file" class="md-skip">
           Skip to content
         </a>
       
@@ -464,6 +464,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../wxd-demo-examples" class="md-nav__link">
+        Sample LLM Queries
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../wxd-demo-support/" class="md-nav__link">
         Support
       </a>
@@ -675,59 +689,11 @@
                 
 
 
-<h1 id="introducing-watsonxdata">Introducing watsonx.data</h1>
-<p><img alt="WatsonX" src="../wxd-images/watsonxlogoibm.png" /></p>
-<h1 id="introducing-watsonxdata_1">Introducing watsonx.data</h1>
-<p>Watsonx.data is a core component of watsonx, IBM’s enterprise-ready AI and data platform designed to multiply the impact of AI across an enterprise’s business.
-The watsonx platform comprises three powerful components: the watsonx.ai studio for new foundation models, generative AI, and machine learning; the watsonx.data fit-for-purpose data store that provides the flexibility of a data lake with the performance of a data warehouse; plus, the watsonx.governance toolkit, to enable AI workflows that are built with responsibility, transparency, and explainability.</p>
-<p><img alt="Browser" src="../wxd-images/watsonx-foundation.png" /></p>
-<p>The watsonx.data component (the focus of this lab) makes it possible for enterprises to scale analytics and AI with a data store built on an open lakehouse architecture, supported by querying, governance, and open data and table formats, to access and share data. With watsonx.data, enterprises can connect to data in minutes, quickly get trusted insights, and reduce their data warehouse costs.</p>
-<p><img alt="Browser" src="../wxd-images/watsonx-architecture.png" /></p>
-<p>The next-gen watsonx.data lakehouse is designed to overcome the costs and complexities enterprises face. This will be the world’s first and only open data store with multi-engine support that is built for hybrid deployment across your entire ecosystem.</p>
-<ul>
-<li>Watsonx.data is the only lakehouse with multiple query engines allowing you to optimize costs and performance by pairing the right workload with the right engine.</li>
-<li>Run all workloads from a single pane of glass, eliminating trade-offs with convenience while still improving cost and performance.</li>
-<li>Deploy anywhere with full support for hybrid-cloud and multi cloud environments.</li>
-<li>Shared metadata across multiple engines eliminates the need to re-catalog, accelerating time to value while ensuring governance and eliminating costly implementation efforts.</li>
-</ul>
-<h1 id="watsonxdata-lab">Watsonx.data Lab</h1>
-<p>The watsonx.data hands-on lab introduces you to several core components and capabilities of IBM watsonx.data. By completing this lab, you will gain and understanding of what the watsonx.data platform provides for users.</p>
-<p>Specifically, you will get hands-on experience in the following areas:</p>
-<ul>
-<li>The watsonx.data web-based user interface (UI), including infrastructure management, data management, running SQL statements, and managing user access</li>
-<li>An introduction to Presto SQL </li>
-<li>Running queries that combine data from multiple data sources (data federation)</li>
-<li>Offloading tables from Db2 into watsonx.data</li>
-<li>Rolling back a table to a previous point in time</li>
-</ul>
-<p>This lab requires that a workshop environment be provisioned for you using the IBM Technology Zone (TechZone). The image used comes pre-configured with watsonx.data Developer Edition, additional database systems including Db2 and PostgreSQL, and sample data sets. </p>
-<div class="admonition info">
-<p class="admonition-title">Watsonx.data Dialogs and Screens</p>
-</div>
-<p>Watsonx.data is being developed and released in an agile manner. In addition to new capabilities being added, the web interface is also likely to change over time. Therefore, the screenshots used in this lab may not always look exactly like what you see.</p>
-<p>This lab uses the watsonx.data developer package. The Developer package is meant to be used on single nodes. While it uses the same code base, there are some restrictions, especially on scale. In this lab, we will open some additional ports as well to understand how everything works. We will also use additional utilities to illustrate connectivity and what makes the watsonx.data system "open". </p>
-<p>We organized this lab into a number of sections that cover many of the highlights and key features of watsonx.data.</p>
-<ul>
-<li>Access a TechZone or VMWare image for testing</li>
-<li>Checking watsonx.data status</li>
-<li>Introduction to watsonx.data components</li>
-<li>Analytical SQL</li>
-<li>Advanced SQL functions</li>
-<li>Time Travel and Federation</li>
-<li>Working with Object Store Buckets</li>
-</ul>
-<p>In addition, there is an Appendix which includes common errors and potential fixes or workarounds. </p>
-<h2 id="watsonxdata-developer-image">Watsonx.data Developer Image</h2>
-<p>The watsonx.data system is running on a virtual machine with the following resources:</p>
-<ul>
-<li>4 vCPUs</li>
-<li>16Gb of memory</li>
-<li>400Gb of disk</li>
-</ul>
-<p>This is sufficient for running this exercises found in this lab but should not be used for performance testing or dealing with large data sets.</p>
-<h2 id="watsonxdata-level-34-technical-training">Watsonx.data Level 3/4 Technical Training</h2>
-<p>For the Level 3 and 4 technical training courses, you should choose the watsonx.data developer image which specifically mentions the courses. This system is used as a basis for the watsonx.data Level 3/4 Technical Training images, but will container newer code that may change the UI screens and scripts that are used in the training material. </p>
-<p>For the detailed lab material, please refer to the following PDF found in Seismic: <a href="https://ibm.seismic.com/Link/Content/DCG37pjmPj7VmGCHj2Df8fHVmDJj">https://ibm.seismic.com/Link/Content/DCG37pjmPj7VmGCHj2Df8fHVmDJj</a></p>
+<h1 id="log-file">Log File</h1>
+<p>The log file (/tmp/watsonx.log) contains information on what code was run during your session and any error messages that may have been generated.</p>
+<p><img alt="Browser" src="../wxd-images/demo-diagnostics-logfile.png" /></p>
+<p>The log file contains details on what code was run within the demonstration system, and it will also contain more detailed error messages that you can use to diagnose any problems in the system. There is a copy to clipboard icon on the top right side of the text display that you can use to download the log file to your system.</p>
+<p>Use the <span class="keys"><kbd>Clear Log</kbd></span> button to clear the contents of the log. The log display will not be refreshed until the next time you access this dialog.</p>
 
               
             </article>
