@@ -1,68 +1,37 @@
-# IBM watsonx.data and Milvus
+# RAG Generation with watsonx.data and Milvus
 
 ![WatsonX](wxd-images/watsonxlogoibm.png)
 
-# Introducing watsonx.data 
-
-Watsonx.data is a core component of watsonx, IBM’s enterprise-ready AI and data platform designed to multiply the impact of AI across an enterprise’s business.
-The watsonx platform comprises three powerful components: the watsonx.ai studio for new foundation models, generative AI, and machine learning; the watsonx.data fit-for-purpose data store that provides the flexibility of a data lake with the performance of a data warehouse; plus, the watsonx.governance toolkit, to enable AI workflows that are built with responsibility, transparency, and explainability.
-
-![Browser](wxd-images/watsonx-foundation.png)
-
-The watsonx.data component (part of this lab) makes it possible for enterprises to scale analytics and AI with a data store built on an open lakehouse architecture, supported by querying, governance, and open data and table formats, to access and share data. With watsonx.data, enterprises can connect to data in minutes, quickly get trusted insights, and reduce their data warehouse costs.
-
-![Browser](wxd-images/watsonx-architecture.png)
-
 The next-gen watsonx.data lakehouse is designed to overcome the costs and complexities enterprises face. This will be the world’s first and only open data store with multi-engine support that is built for hybrid deployment across your entire ecosystem.
  
-   * Watsonx.data is the only lakehouse with multiple query engines allowing you to optimize costs and performance by pairing the right workload with the right engine.
+   * IBM watsonx.data is the only lakehouse with multiple query engines allowing you to optimize costs and performance by pairing the right workload with the right engine.
    * Run all workloads from a single pane of glass, eliminating trade-offs with convenience while still improving cost and performance.
    * Deploy anywhere with full support for hybrid-cloud and multi cloud environments.
    * Shared metadata across multiple engines eliminates the need to re-catalog, accelerating time to value while ensuring governance and eliminating costly implementation efforts.
 
-## Watsonx.data and Milvus RAG Demonstration
-The watsonx.data hands-on lab introduces you to several core components and capabilities of IBM watsonx.data. By completing this lab, you will gain and understanding of what the watsonx.data platform provides for users.
+## Overview   
 
-Specifically, you will get hands-on experience in the following areas:
+This system demonstrates the use of watsonx.data, Milvus, and the use of the
+IBM Instructlab Granite model to answer questions regarding a variety of topics. The system has a built-in example of creating a RAG prompt from the IBM web site. You can add additional content to the system to try other scenarios with the system.
 
-* The watsonx.data web-based user interface (UI), including infrastructure management, data management, running SQL statements, and managing user access
-* An introduction to Presto SQL 
-* Running queries that combine data from multiple data sources (data federation)
-* Offloading tables from Db2 into watsonx.data
-* Rolling back a table to a previous point in time
+The system is designed around five steps:
+	 
+- The watsonx.data product is used to store control information and the raw documents (PDF, Powerpoint, Word, URLs).
+- The Milvus vector database contains vectors that are built from the raw documents stored in the watsonx.data database.
+- A prompt is generated from the question that is supplied by querying the Milvus database for the document segments that best match the request.
+- The prompt is sent to an AI engine to process. This process is done locally in this system using Ollama. Since there are no GPUs in this system, performance will be slow.
+- The answer is returned to the user 
 
-This lab requires that a workshop environment be provisioned for you using the IBM Technology Zone (TechZone). The image used comes pre-configured with watsonx.data Developer Edition, additional database systems including Db2 and PostgreSQL, and sample data sets. 
+Start by importing documents, web sites, or articles from Wikipedia into the system. As a starter document, the IBM 2023 annual report summary has been preloaded. You can ask questions about the earnings to see how the LLM answers your question. An example would be to ask the LLM "What were IBMs earning in 2023" *without using RAG* and then ask the question again *using RAG*. This provides a comparison of the types of responses you may get from an LLM.
 
-!!! info "Watsonx.data Dialogs and Screens"
+Once you have imported one or more documents, you must select which ones to vectorize. The documents will be split into chunks which are then stored and vectorized into the Milvus database. These chunks will be used to generate the RAG prompt when you query the LLM.
 
-Watsonx.data is being developed and released in an agile manner. In addition to new capabilities being added, the web interface is also likely to change over time. Therefore, the screenshots used in this lab may not always look exactly like what you see.
+The Query LLM page will provide an interface for asking questions to the LLM. There are additional settings here which lets you change the LLM that is being used (the IBM instructlab/granite-7b-lab model is the default). Each LLM will behave differently so it is often an interesting exercise to try the same questions with different models. You can set whether or not a RAG prompt is generated as part of your query, as well as adjust how many sentence chunks from the vector database will be used to construct the prompt.
 
-This lab uses the watsonx.data developer package. The Developer package is meant to be used on single nodes. While it uses the same code base, there are some restrictions, especially on scale. In this lab, we will open some additional ports as well to understand how everything works. We will also use additional utilities to illustrate connectivity and what makes the watsonx.data system "open". 
+If you want to try a different LLM, you can use the Add LLM panel to load an LLM found in the Ollama or Hugging Face library. The load step will download the model to the local server and then make it available as an LLM that you can ask questions of. 
 
-We organized this lab into a number of sections that cover many of the highlights and key features of watsonx.data.
+If you find that the system is not being responsive, you may want to check the Diagnostics page to see if the watsonx.data services are running. You can restart many of the services from this dialog. In addition, the Log file may provide more details on what went wrong.
 
-   * Access a TechZone or VMWare image for testing
-   * Checking watsonx.data status
-   * Introduction to watsonx.data components
-   * Analytical SQL
-   * Advanced SQL functions
-   * Time Travel and Federation
-   * Working with Object Store Buckets
+Finally, details about this system and the programs that were used to create this are listed in the Support section.
 
-In addition, there is an Appendix which includes common errors and potential fixes or workarounds. 
-
-## Watsonx.data Developer Image 
-
-The watsonx.data system is running on a virtual machine with the following resources:
-
-   * 4 vCPUs
-   * 16Gb of memory
-   * 400Gb of disk
-
-This is sufficient for running this exercises found in this lab but should not be used for performance testing or dealing with large data sets.
-
-## Watsonx.data Level 3/4 Technical Training
-
-For the Level 3 and 4 technical training courses, you should choose the watsonx.data developer image which specifically mentions the courses. This system is used as a basis for the watsonx.data Level 3/4 Technical Training images, but will container newer code that may change the UI screens and scripts that are used in the training material. 
-
-For the detailed lab material, please refer to the following PDF found in Seismic: [https://ibm.seismic.com/Link/Content/DCG37pjmPj7VmGCHj2Df8fHVmDJj](https://ibm.seismic.com/Link/Content/DCG37pjmPj7VmGCHj2Df8fHVmDJj)
+Remember that this system does not contain GPUs which limits the performance of the LLM. However, it does provide an environment to try out RAG prompts and observe how different LLMs behave with and without RAG prompts.

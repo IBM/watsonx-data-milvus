@@ -12,9 +12,11 @@ The question that you want to ask the LLM is placed into the text box at the bot
 
 ![Browser](wxd-images/demo-queryllm-response.png)
 
-!!! warning "This system does not have access to GPUs"
+!!! warning "System performance is limited by the lack of GPUs"
 
-    Note that this system does not have GPUs attached to it so the response may take a minute or so to return. 
+    Note that this system does not have GPUs attached to it so the response may take a minute or so to return. The initial question will load the LLM into memory which will result in a delay in answering the question. Subsequent questions will usually be answered faster.
+
+    When you switch LLMs, the new LLM will need to be loaded into memory. Take this into account when you are demoing different LLMs.
 
 The left side of the screen contains options that will change the behavior of the LLM.
 

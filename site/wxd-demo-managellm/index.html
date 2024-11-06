@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#manage-llm" class="md-skip">
+        <a href="#managing-llms" class="md-skip">
           Skip to content
         </a>
       
@@ -749,7 +749,7 @@
                 
 
 
-<h1 id="manage-llm">Manage LLM</h1>
+<h1 id="managing-llms">Managing LLMs</h1>
 <p>This system has been built using the IBM instructlab/granite-7b-lab model. You can load additional models into the system by using the Add LLM Dialog.</p>
 <p><img alt="Browser" src="../wxd-images/demo-addllm-main.png" /></p>
 <p>The LLMs that are currently in the system are:</p>
@@ -806,7 +806,7 @@
 </table>
 <p>Below the list of LLMs are options to add a new LLM or remove one from the system.</p>
 <p><img alt="Browser" src="../wxd-images/demo-addllm-options.png" /></p>
-<h3 id="loading-an-llm">Loading an LLM</h3>
+<h2 id="loading-an-llm">Loading an LLM</h2>
 <p>LLMs can be found at <a href="https://ollama.com/library">Ollama</a> and <a href="https://huggingface.co/models">Hugging Face</a>. In order to load the LLM into the system, the LLM must be cataloged in the Ollama library. Doublecheck the licensing requirements of any LLM you choose to download. While most of the LLMs provide an open source license for testing and demonstrations, several of them do not allow for commercial use. </p>
 <p>The following screen shows the results of searching for IBM in the Ollama library.</p>
 <p><img alt="Browser" src="../wxd-images/demo-addllm-search.png" /></p>
@@ -820,13 +820,15 @@
 <p><img alt="Browser" src="../wxd-images/demo-addllm-select.png" /></p>
 <p>Place your cursor into the LLM name field and use the paste key (Windows/Linux <span class="keys"><kbd class="key-control">Ctrl</kbd><span>+</span><kbd>v</kbd></span>, Mac <span class="keys"><kbd class="key-command">Cmd</kbd><span>+</span><kbd>v</kbd></span>) to place the value into the field.</p>
 <p><img alt="Browser" src="../wxd-images/demo-addllm-loadllm.png" /></p>
-<p>The format of the LLM name is not correct as pasted. The front of the LLM name is prefixed with <code>ollama run</code> which needs to be removed. The field should only contain the name of the LLM model or <code>granite3-dense:2b</code>. Once you have updated the name, press the <span class="keys"><kbd>Load LLM</kbd></span> button to begin the load process. There will not be any progress indicator as the load process runs. Usually this takes a minute or so to complete. When the load is complete, a success or failure message will be displayed.</p>
+<p>The format of the LLM name is not correct as pasted. The front of the LLM name is prefixed with <code>ollama run</code> which needs to be removed. The field should only contain the name of the LLM model or <code>granite3-dense:2b</code>. Once you have updated the name, press the <span class="keys"><kbd>Load LLM</kbd></span> button to begin the load process. </p>
+<p><img alt="Browser" src="../wxd-images/demo-addllm-progress.png" /></p>
+<p>Usually the load process takes a minute or so to complete since it is downloading gigabytes of data. When the load is done, a success or failure message will be displayed.</p>
 <p><img alt="Browser" src="../wxd-images/demo-addllm-success.png" /></p>
 <p>You can check that the LLM has loaded by pressing the <span class="keys"><kbd>Refresh List</kbd></span> button at the top of the screen.</p>
-<h3 id="removing-an-llm">Removing an LLM</h3>
+<h2 id="removing-an-llm">Removing an LLM</h2>
 <p>If you find that an LLM is not suitable for your demonstrations, you can remove it from the system by selecting the name of the LLM from the pull-down list.</p>
 <p><img alt="Browser" src="../wxd-images/demo-addllm-delete.png" /></p>
-<p>If this is the LLM you want to remove, press the <span class="keys"><kbd>Delete LLM</kbd></span> button to remove it from the system. The system will provide a success message once the deletion is completed.</p>
+<p>If this is the LLM you want to remove, press the <span class="keys"><kbd>Delete LLM</kbd></span> button to remove it from the system. The system will provide a success message once the deletion is complete.</p>
 
               
             </article>

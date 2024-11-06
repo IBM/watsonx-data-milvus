@@ -6,16 +6,16 @@ You usually end up in the Diagnostics section because something went wrong with 
 
 There are 8 sections in the diagnostics screen. These sections cover the following topics:
 
-* Check Presto Connection
-* Check watsonx.data System
-* Restart Presto
-* Restart watsonx.data
-* Restart LLM Service
-* Rebuild Database
-* Add Library
-* Update Software
+* [Check Presto Connection](#check-presto-connection)
+* [Check watsonx.data System](#check-watsonxdata-system)
+* [Restart Presto](#restart-presto)
+* [Restart watsonx.data](#restart-watsonxdata)
+* [Restart LLM Service](#restart-llm-service)
+* [Rebuild Database](#rebuild-database)
+* [Add Library](#add-library)
+* [Update Software](#update-software)
 
-### Check Presto Connection
+## Check Presto Connection
 
 ![Browser](wxd-images/demo-diagnostics-connection.png)
 
@@ -25,7 +25,7 @@ Press the ++"Check Connection"++ button to determine if a connection can be esta
 
 If the connection timed out, you will need to move on to the next step and check if the watsonx.data system is running.
 
-### Check watsonx.data System
+## Check watsonx.data System
 
 ![Browser](wxd-images/demo-diagnostics-watsonx.png)
 
@@ -35,7 +35,7 @@ If your connection failed (hint, see button above) then something may be wrong w
 
  If you find that the Presto instance is missing, restart Presto. If more than one service is missing you will need to restart the watsonx.data services.
 
-### Restart Presto
+## Restart Presto
 
 ![Browser](wxd-images/demo-diagnostics-restartpresto.png)
 
@@ -47,7 +47,7 @@ The display will show a progress indicator that tracks the Presto startup proces
 
 ![Browser](wxd-images/demo-diagnostics-prestook.png)
 
-### Restart watsonx.data
+## Restart watsonx.data
 
 ![Browser](wxd-images/demo-diagnostics-restartwatsonx.png)
 
@@ -61,7 +61,7 @@ Restarting the watsonx.data services will take several minutes, as will the star
 
 ![Browser](wxd-images/demo-diagnostics-restartwatsonx-success.png)
 
-### Restart LLM Service
+## Restart LLM Service
 
 ![Browser](wxd-images/demo-diagnostics-restartllm.png)
 
@@ -69,7 +69,7 @@ If the LLM is not being responsive, you may have to restart the service. Clickin
 
 You may want to restart the service if you come across an error loading an LLM which indicates that the LLM manager is out of date. The can occur when an LLM has features which are not currently supported in the LLM manager. Restarting the LLM manager will automatically refresh the image to the latest version available.
 
-### Rebuild Database
+## Rebuild Database
 
 ![Browser](wxd-images/demo-diagnostics-database.png)
 
@@ -77,7 +77,7 @@ If your database is messed up, or corrupted, then you will need to rebuild the d
 
 The rebuild process will go through several steps to reset the database. The entire process usually takes less than a minute to complete.
 
-### Add Library
+## Add Library
 
 ![Browser](wxd-images/demo-diagnostics-addlibrary.png)
 
@@ -107,7 +107,7 @@ Now that the library has been loaded, we can attempt to vectorize the document a
 
 ![Browser](wxd-images/demo-diagnostics-addlibrary-vectorok.png)
 
-### Update Software
+## Update Software
 
 ![Browser](wxd-images/demo-diagnostics-update.png)
 
@@ -125,6 +125,6 @@ The update process will take several minutes. The first step will download the s
 ![Browser](wxd-images/demo-startup-insert.png)
 * Updating LLM Engine (not shown)
 
-Once the update is complete, the main menu will be displayed. You can check the software level again by checking the Diagnostic panel again.
+Once the update is complete, the main menu will be displayed. You can check the software level by viewing the Update Software section of the Diagnostic panel.
 
 

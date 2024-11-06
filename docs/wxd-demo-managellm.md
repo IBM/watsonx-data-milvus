@@ -1,4 +1,4 @@
-# Manage LLM
+# Managing LLMs
 
 This system has been built using the IBM instructlab/granite-7b-lab model. You can load additional models into the system by using the Add LLM Dialog.
 
@@ -21,7 +21,7 @@ Below the list of LLMs are options to add a new LLM or remove one from the syste
 
 ![Browser](wxd-images/demo-addllm-options.png)
 
-### Loading an LLM
+## Loading an LLM
 
 LLMs can be found at [Ollama](https://ollama.com/library) and [Hugging Face](https://huggingface.co/models). In order to load the LLM into the system, the LLM must be cataloged in the Ollama library. Doublecheck the licensing requirements of any LLM you choose to download. While most of the LLMs provide an open source license for testing and demonstrations, several of them do not allow for commercial use. 
 
@@ -49,16 +49,20 @@ Place your cursor into the LLM name field and use the paste key (Windows/Linux +
 
 ![Browser](wxd-images/demo-addllm-loadllm.png)
 
-The format of the LLM name is not correct as pasted. The front of the LLM name is prefixed with `ollama run` which needs to be removed. The field should only contain the name of the LLM model or `granite3-dense:2b`. Once you have updated the name, press the ++"Load LLM"++ button to begin the load process. There will not be any progress indicator as the load process runs. Usually this takes a minute or so to complete. When the load is complete, a success or failure message will be displayed.
+The format of the LLM name is not correct as pasted. The front of the LLM name is prefixed with `ollama run` which needs to be removed. The field should only contain the name of the LLM model or `granite3-dense:2b`. Once you have updated the name, press the ++"Load LLM"++ button to begin the load process. 
+
+![Browser](wxd-images/demo-addllm-progress.png)
+
+Usually the load process takes a minute or so to complete since it is downloading gigabytes of data. When the load is done, a success or failure message will be displayed.
 
 ![Browser](wxd-images/demo-addllm-success.png)
 
 You can check that the LLM has loaded by pressing the ++"Refresh List"++ button at the top of the screen.
 
-### Removing an LLM
+## Removing an LLM
 
 If you find that an LLM is not suitable for your demonstrations, you can remove it from the system by selecting the name of the LLM from the pull-down list.
 
 ![Browser](wxd-images/demo-addllm-delete.png)
 
-If this is the LLM you want to remove, press the ++"Delete LLM"++ button to remove it from the system. The system will provide a success message once the deletion is completed.
+If this is the LLM you want to remove, press the ++"Delete LLM"++ button to remove it from the system. The system will provide a success message once the deletion is complete.

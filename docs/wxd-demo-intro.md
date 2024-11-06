@@ -22,7 +22,7 @@ Once you have imported one or more documents, you must select which ones to vect
 
 The Query LLM page will provide an interface for asking questions to the LLM. There are additional settings here which lets you change the LLM that is being used (the IBM instructlab/granite-7b-lab model is the default). Each LLM will behave differently so it is often an interesting exercise to try the same questions with different models. You can set whether or not a RAG prompt is generated as part of your query, as well as adjust how many sentence chunks from the vector database will be used to construct the prompt.
 
-If you want to try a different LLM, you can use the Add LLM panel to load an LLM found in the Ollama or Hugging Face library. The load step will download the model to the local server and then make it available as an LLM that you can ask questions of. Note the process to download the model may take several minutes.
+If you want to try a different LLM, you can use the Add LLM panel to load an LLM found in the Ollama or Hugging Face library. The load step will download the model to the local server and then make it available as an LLM that you can ask questions of. 
 
 If you find that the system is not being responsive, you may want to check the Diagnostics page to see if the watsonx.data services are running. You can restart many of the services from this dialog. In addition, the Log file may provide more details on what went wrong.
 

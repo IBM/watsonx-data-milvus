@@ -67,7 +67,7 @@ The menus are divided into three sections:
   
     If you need to diagnose problems in the system, this section provides several ways of correcting or restarting services. You can also manage which LLM models you use in the environment.
 
-### System Overview
+## System Overview
 
 The *System Overview* provides links to documentation and details on how the system has been created.
 
@@ -83,7 +83,7 @@ The *System Overview* provides links to documentation and details on how the sys
 
     This link will display the documentation which you are currently reading.
 
-### Document Storage, Vectorization, and LLM Queries
+## Document Storage, Vectorization, and LLM Queries
 
 The *Document Storage, Vectorization, and LLM Queries* section is the one where you will spend most of your time in the demonstration. 
 
@@ -99,7 +99,7 @@ The *Document Storage, Vectorization, and LLM Queries* section is the one where 
 
     Once at least one document collection has been created, you can ask an LLM a question and use RAG generation to provide more details to the LLM. You can select which document collection to use, the setting to use for generating the RAG prompt, and which LLM to use to answer the question.
 
-### LLM Maintenance, Diagnostics and Support
+## LLM Maintenance, Diagnostics and Support
 
 The *LLM Maintenance, Diagnostics and Support* section provides help for situations where the system is not working. 
 
@@ -119,7 +119,7 @@ The *LLM Maintenance, Diagnostics and Support* section provides help for situati
 
     Links to the various components used in the system are provided in this panel.
 
-### Home Button
+## Home Button
 
 On several of the screens you will see a Home button at the bottom of the screen. Pressing the ++"Home"++ button will return you to the main menu.
 

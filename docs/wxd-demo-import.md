@@ -53,7 +53,7 @@ The document list at the top of the screen will not be updated to reflect the ne
 
 The bottom of the Document import panel contains an option to search Wikipedia articles for possible documents to use in a RAG prompt.
 
-![Browser](wxd-images/demo-storage-wiki-upload.png)
+![Browser](wxd-images/demo-storage-upload-wikipedia.png)
 
 Enter a phrase to search for (watsonx is shown here) and press the ++"Get Articles"++ button. You will see a maximum of 10 documents that were found. In this example, 7 documents related to "watsonx" were found in Wikipedia articles. 
 
