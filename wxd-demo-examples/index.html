@@ -720,6 +720,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#additional-questions" class="md-nav__link">
+    Additional Questions
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1173,6 +1180,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#additional-questions" class="md-nav__link">
+    Additional Questions
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1189,6 +1203,12 @@
 
 <h1 id="sample-llm-queries">Sample LLM Queries</h1>
 <p>This section includes some sample LLM queries and the results. One thing to note is that if you attempt these examples, the output can be different than what is shown here. The reason for this is that LLMs are not deterministic which means the same question can result in different answers. Hopefully in our case, the answers are similar!</p>
+<p>If you want to get repeatable results for the questions, make sure to set the Random Seed setting to OFF:</p>
+<p><img alt="Browser" src="../wxd-images/demo-queryllm-random-off.png" /></p>
+<p>To display the settings used for each query, turn the Display Settings on.</p>
+<p><img alt="Browser" src="../wxd-images/demo-queryllm-display-on.png" /></p>
+<p>This will place a line below each question with the settings used to generate the prompt to the LLM.</p>
+<p><img alt="Browser" src="../wxd-images/demo-queryllm-viewsettings.png" /></p>
 <p>For each example, note the settings that are used. These settings will displayed in each section. </p>
 <table>
 <thead>
@@ -1504,6 +1524,29 @@ Please note that these figures are subject to change and might not reflect any s
 </blockquote>
 <h4 id="analysis_6">Analysis</h4>
 <p>The LLM was able to use the RAG details to provide an accurate answer to the question.</p>
+<h2 id="additional-questions">Additional Questions</h2>
+<p>Here are some sample questions you may want to try with different LLMs to see how they answer them.</p>
+<ul>
+<li>
+<p>What are the top areas of revenue growth in 2023 for IBM?</p>
+</li>
+<li>
+<p>Who is the CEO of IBM?</p>
+</li>
+<li>
+<p>What is IBMs focus in the area of AI?</p>
+</li>
+<li>
+<p>Does the z processor still have relevance in IBM?</p>
+</li>
+<li>
+<p>What investment does IBM have in quantum computing?ß</p>
+</li>
+</ul>
+<p>If you find that an LLM is unable to provide an answer “based on the context provided”, you may need to increase the number of sentences used to generate the RAG response. Try the following question using 3 and then 9 sentences. Turn off Display RAG Prompt to minimize the amount of output on the screen.</p>
+<ul>
+<li>Which area in IBM saw decreased revenues in 2023?</li>
+</ul>
 
               
             </article>
