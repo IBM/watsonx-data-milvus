@@ -4,7 +4,7 @@ You usually end up in the Diagnostics section because something went wrong with 
 
 ![Browser](wxd-images/demo-diagnostics-main.png)
 
-There are 8 sections in the diagnostics screen. These sections cover the following topics:
+There are 9 sections in the diagnostics screen. These sections cover the following topics:
 
 * [Check Presto Connection](#check-presto-connection)
 * [Check watsonx.data System](#check-watsonxdata-system)
@@ -14,6 +14,7 @@ There are 8 sections in the diagnostics screen. These sections cover the followi
 * [Rebuild Database](#rebuild-database)
 * [Add Library](#add-library)
 * [Update Software](#update-software)
+* [Restart Application](#restart-application)
 
 ## Check Presto Connection
 
@@ -126,5 +127,15 @@ The update process will take several minutes. The first step will download the s
 * Updating LLM Engine (not shown)
 
 Once the update is complete, the main menu will be displayed. You can check the software level by viewing the Update Software section of the Diagnostic panel.
+
+## Restart Application
+
+Normally, you do not need to restart the application after a software update. However, if you find that you are unable to upload documents (403 code), you may need to restart the application. This will stop the program and restart it. The application will stop responding for a few minutes while the service restarts. When you log back into the application, it will return to the diagnostics screen.
+
+If you receive an error code on the screen, continue to refresh the browser until the log in window displays.
+
+
+
+
 
 

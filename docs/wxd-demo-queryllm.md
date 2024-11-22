@@ -70,9 +70,23 @@ The Display RAG prompt option will include the complete RAG prompt on the screen
 
 The Concise response option will tell the LLM to limit the answer to your question. If you turn Concise output off, the LLM will be allowed to answer your question without length restrictions. The trade-off when turning off the concise option is the amount of time it takes to return the full output from the LLM. 
 
+#### Random Seed
+
+The Random Seed option will use a random number to "seed" the LLM. When a random number is used, the answer to a question will vary. When using a fixed seed, the answer to a question should remain the same.
+
+#### Display Settings
+
+The Display Settings option will provide a summary of the settings used underneath the question. This provides a history of what parameters were used when asking a question to the LLM.
+
+![Browser](wxd-images/demo-queryllm-viewsettings.png)
+
 #### Maximum RAG Sentences
 
 The Minimum RAG Sentences slider is used to limit the number of sentences that the RAG program will use in the question. The default number of sentences is 3. Using a larger number of sentences will slow down the LLM response, but it may result in a higher quality answer.
+
+#### Temperature
+
+The Temperature slider generates a value between 0 and 2 with 0.7 being the default. Use a lower temperature value when you want more dependable output. Use a higher temperature value when you want to increase the randomness and variability or the output, such as when you want creative output. Remember, randomness can also lead to inaccurate or nonsensical output.
 
 ### Questions
 

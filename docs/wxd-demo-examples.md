@@ -2,6 +2,18 @@
 
 This section includes some sample LLM queries and the results. One thing to note is that if you attempt these examples, the output can be different than what is shown here. The reason for this is that LLMs are not deterministic which means the same question can result in different answers. Hopefully in our case, the answers are similar!
 
+If you want to get repeatable results for the questions, make sure to set the Random Seed setting to OFF:
+
+![Browser](wxd-images/demo-queryllm-random-off.png)
+
+To display the settings used for each query, turn the Display Settings on.
+
+![Browser](wxd-images/demo-queryllm-display-on.png)
+
+This will place a line below each question with the settings used to generate the prompt to the LLM.
+
+![Browser](wxd-images/demo-queryllm-viewsettings.png)
+
 For each example, note the settings that are used. These settings will displayed in each section. 
 
 |LLM|Use RAG Prompt|Display RAG Prompt|Concise Response|Sentences
@@ -201,3 +213,21 @@ The LLM did not answer the question directly. Instead, it provided information f
 #### Analysis
 
 The LLM was able to use the RAG details to provide an accurate answer to the question.
+
+## Additional Questions
+
+Here are some sample questions you may want to try with different LLMs to see how they answer them.
+
+* What are the top areas of revenue growth in 2023 for IBM?
+
+* Who is the CEO of IBM?
+
+* What is IBMs focus in the area of AI?
+
+* Does the z processor still have relevance in IBM?
+
+* What investment does IBM have in quantum computing?ß
+
+If you find that an LLM is unable to provide an answer “based on the context provided”, you may need to increase the number of sentences used to generate the RAG response. Try the following question using 3 and then 9 sentences. Turn off Display RAG Prompt to minimize the amount of output on the screen.
+
+* Which area in IBM saw decreased revenues in 2023?
