@@ -2,31 +2,20 @@
 
 This section includes some sample LLM queries and the results. One thing to note is that if you attempt these examples, the output can be different than what is shown here. The reason for this is that LLMs are not deterministic which means the same question can result in different answers. Hopefully in our case, the answers are similar!
 
-If you want to get repeatable results for the questions, make sure to set the Random Seed setting to OFF:
+If you want to get repeatable results for the questions, make sure to set the Repeatable setting ON:
 
 ![Browser](wxd-images/demo-queryllm-random-off.png)
 
-To display the settings used for each query, turn the Display Settings on.
+For each example, note the settings that are used. These settings will displayed in each section. The temperature used will be Medium for all examples.
 
-![Browser](wxd-images/demo-queryllm-display-on.png)
+!!! warning "Results may differ"
+    Note that the answer to your questionmay differ from those shown in the examples below.
 
-This will place a line below each question with the settings used to generate the prompt to the LLM.
-
-![Browser](wxd-images/demo-queryllm-viewsettings.png)
-
-For each example, note the settings that are used. These settings will displayed in each section. 
-
-|LLM|Use RAG Prompt|Display RAG Prompt|Concise Response|Sentences
-|-----|:------------:|:----------------:|:--------------:|:-------:
-|granite-7b-lab |&#9989;|&#9989;|&#10060;|3
-   
 ## Question with no RAG Support
 
 The first example will ask the LLM the question with all settings turned off. 
 
-|LLM|Use RAG Prompt|Display RAG Prompt|Concise Response|Sentences
-|-----|:------------:|:----------------:|:--------------:|:-------:
-|granite-7b-lab |&#10060;|&#10060;|&#10060;|-
+![Browser](wxd-images/demo-queryllm-example-1.png)
 
 #### Question
 
@@ -46,11 +35,9 @@ The LLM does not have the information for 2023 results and provided us with an a
 
 ## Question with no RAG Support but Concise Response
 
-The first example let the LLM display as much output as it wanted. In this example, the Concise Response is turned on, as well as the Display RAG prompt,so you can see how the program modified the question.
+The first example let the LLM display as much output as it wanted. In this example, the Verbose option is turned off, so you can see how the program modified the question. Although you can ask an LLM to provide a concise response, the Creativity setting may result in more output.
 
-|LLM|Use RAG Prompt|Display RAG Prompt|Concise Response|Sentences
-|-----|:------------:|:----------------:|:--------------:|:-------:
-|granite-7b-lab |&#9989;|&#10060;|&#9989;|-
+![Browser](wxd-images/demo-queryllm-example-2.png)
 
 #### Question
 
@@ -64,13 +51,11 @@ The first example let the LLM display as much output as it wanted. In this examp
 
 You can limit the amount of output from the LLM by turning on the concise flag. While this will speed up the processing of the question by the LLM, it may reduce the amount of useful information that you get back.
 
-## Question with RAG On, Concise On, RAG Display, and 3 Sentences
+## Question with RAG On, Concise On, RAG Display, and 4 Sentences
 
 The question that we ask the LLM will now use RAG to generate it. The document collection that is being used is called IBM_2023_Annual_Report and contains the summary of the IBM 2023 earning report.
 
-|LLM|Use RAG Prompt|Display RAG Prompt|Concise Response|Sentences
-|-----|:------------:|:----------------:|:--------------:|:-------:
-|granite-7b-lab |&#9989;|&#9989;|&#9989;|3
+![Browser](wxd-images/demo-queryllm-example-3.png)
 
 #### Question
 
@@ -102,9 +87,7 @@ If you use an incorrect document collection, or ask a question which is not cove
 
 For this example we turn off the RAG display and allow for unrestricted output.
 
-|LLM|Use RAG Prompt|Display RAG Prompt|Concise Response|Sentences
-|-----|:------------:|:----------------:|:--------------:|:-------:
-|granite-7b-lab |&#9989;|&#10060;|&#10060;|3
+![Browser](wxd-images/demo-queryllm-example-4.png)
 
 #### Question
 
@@ -116,11 +99,9 @@ For this example we turn off the RAG display and allow for unrestricted output.
 
 #### Analysis
 
-As expected, the LLM was unable to answer the question based on the information provided to it. If we turn off RAG generation, the LLM will answer the question properly.
+As expected, the LLM was unable to answer the question based on the information provided to it. If we turn off RAG generation by setting the number of sentences to zero, the LLM will answer the question properly.
 
-|LLM|Use RAG Prompt|Display RAG Prompt|Concise Response|Sentences
-|-----|:------------:|:----------------:|:--------------:|:-------:
-|granite-7b-lab |&#10060|&#10060;|&#10060;|-
+![Browser](wxd-images/demo-queryllm-example-5.png)
 
 #### Question
 
@@ -132,11 +113,9 @@ As expected, the LLM was unable to answer the question based on the information 
 
 #### Question using phi3 LLM
 
-If you are curious what another LLM would say about the logo, you can switch the LLM setting found on the left toolbar and repeat the question.
+If you are curious what another LLM would say about the logo, you can switch the LLM setting found on the left toolbar and repeat the question. The next example will use the phi3:3.8b-mini-128K model.
 
-|LLM|Use RAG Prompt|Display RAG Prompt|Concise Response|Sentences
-|-----|:------------:|:----------------:|:--------------:|:-------:
-|phi3:3.8b-mini-128k |&#10060|&#10060;|&#10060;|-
+![Browser](wxd-images/demo-queryllm-example-phi.png)
 
 #### Question
 
@@ -154,9 +133,9 @@ Paul Rand did introduce the 8-bar IBM logo in 1972 and has created many other lo
 
 You can switch between different LLMs to determine how these models deal with the same questions. This first example will use the llama3 LLM and ask what IBM's 2023 revenue was (no RAG).
 
-|LLM|Use RAG Prompt|Display RAG Prompt|Concise Response|Sentences
-|-----|:------------:|:----------------:|:--------------:|:-------:
-|llama3  |&#10060;|&#10060;|&#10060;|-
+![Browser](wxd-images/demo-queryllm-example-llama.png)
+
+![Browser](wxd-images/demo-queryllm-example-6.png)
 
 #### Question
 
@@ -198,9 +177,7 @@ Please note that these figures are subject to change and might not reflect any s
 
 The LLM did not answer the question directly. Instead, it provided information for previous years. The next answer is based on using a RAG prompt.
 
-|LLM|Use RAG Prompt|Display RAG Prompt|Concise Response|Sentences
-|-----|:------------:|:----------------:|:--------------:|:-------:
-|llama3  |&#9989;|&#10060;|&#9989;|3
+![Browser](wxd-images/demo-queryllm-example-7.png)
 
 #### Question
 
@@ -228,6 +205,6 @@ Here are some sample questions you may want to try with different LLMs to see ho
 
 * What investment does IBM have in quantum computing?ß
 
-If you find that an LLM is unable to provide an answer “based on the context provided”, you may need to increase the number of sentences used to generate the RAG response. Try the following question using 3 and then 9 sentences. Turn off Display RAG Prompt to minimize the amount of output on the screen.
+If you find that an LLM is unable to provide an answer “based on the context provided”, you may need to increase the number of sentences used to generate the RAG response. Try the following question using 4 and then 8 sentences. Turn off Display RAG Prompt to minimize the amount of output on the screen.
 
 * Which area in IBM saw decreased revenues in 2023?
