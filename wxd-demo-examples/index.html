@@ -556,11 +556,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#question-with-rag-on-concise-on-rag-display-and-3-sentences" class="md-nav__link">
-    Question with RAG On, Concise On, RAG Display, and 3 Sentences
+  <a href="#question-with-rag-on-concise-on-rag-display-and-4-sentences" class="md-nav__link">
+    Question with RAG On, Concise On, RAG Display, and 4 Sentences
   </a>
   
-    <nav class="md-nav" aria-label="Question with RAG On, Concise On, RAG Display, and 3 Sentences">
+    <nav class="md-nav" aria-label="Question with RAG On, Concise On, RAG Display, and 4 Sentences">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1016,11 +1016,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#question-with-rag-on-concise-on-rag-display-and-3-sentences" class="md-nav__link">
-    Question with RAG On, Concise On, RAG Display, and 3 Sentences
+  <a href="#question-with-rag-on-concise-on-rag-display-and-4-sentences" class="md-nav__link">
+    Question with RAG On, Concise On, RAG Display, and 4 Sentences
   </a>
   
-    <nav class="md-nav" aria-label="Question with RAG On, Concise On, RAG Display, and 3 Sentences">
+    <nav class="md-nav" aria-label="Question with RAG On, Concise On, RAG Display, and 4 Sentences">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1203,55 +1203,16 @@
 
 <h1 id="sample-llm-queries">Sample LLM Queries</h1>
 <p>This section includes some sample LLM queries and the results. One thing to note is that if you attempt these examples, the output can be different than what is shown here. The reason for this is that LLMs are not deterministic which means the same question can result in different answers. Hopefully in our case, the answers are similar!</p>
-<p>If you want to get repeatable results for the questions, make sure to set the Random Seed setting to OFF:</p>
+<p>If you want to get repeatable results for the questions, make sure to set the Repeatable setting ON:</p>
 <p><img alt="Browser" src="../wxd-images/demo-queryllm-random-off.png" /></p>
-<p>To display the settings used for each query, turn the Display Settings on.</p>
-<p><img alt="Browser" src="../wxd-images/demo-queryllm-display-on.png" /></p>
-<p>This will place a line below each question with the settings used to generate the prompt to the LLM.</p>
-<p><img alt="Browser" src="../wxd-images/demo-queryllm-viewsettings.png" /></p>
-<p>For each example, note the settings that are used. These settings will displayed in each section. </p>
-<table>
-<thead>
-<tr>
-<th>LLM</th>
-<th style="text-align: center;">Use RAG Prompt</th>
-<th style="text-align: center;">Display RAG Prompt</th>
-<th style="text-align: center;">Concise Response</th>
-<th style="text-align: center;">Sentences</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>granite-7b-lab</td>
-<td style="text-align: center;">&#9989;</td>
-<td style="text-align: center;">&#9989;</td>
-<td style="text-align: center;">&#10060;</td>
-<td style="text-align: center;">3</td>
-</tr>
-</tbody>
-</table>
+<p>For each example, note the settings that are used. These settings will displayed in each section. The temperature used will be Medium for all examples.</p>
+<div class="admonition warning">
+<p class="admonition-title">Results may differ</p>
+<p>Note that the answer to your questionmay differ from those shown in the examples below.</p>
+</div>
 <h2 id="question-with-no-rag-support">Question with no RAG Support</h2>
 <p>The first example will ask the LLM the question with all settings turned off. </p>
-<table>
-<thead>
-<tr>
-<th>LLM</th>
-<th style="text-align: center;">Use RAG Prompt</th>
-<th style="text-align: center;">Display RAG Prompt</th>
-<th style="text-align: center;">Concise Response</th>
-<th style="text-align: center;">Sentences</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>granite-7b-lab</td>
-<td style="text-align: center;">&#10060;</td>
-<td style="text-align: center;">&#10060;</td>
-<td style="text-align: center;">&#10060;</td>
-<td style="text-align: center;">-</td>
-</tr>
-</tbody>
-</table>
+<p><img alt="Browser" src="../wxd-images/demo-queryllm-example-1.png" /></p>
 <h4 id="question">Question</h4>
 <blockquote>
 <p>What is IBMs 2023 revenue.</p>
@@ -1267,27 +1228,8 @@ These resources will provide you with the most accurate and up-to-date financial
 <h4 id="analysis">Analysis</h4>
 <p>The LLM does not have the information for 2023 results and provided us with an answer on how to get the results we want.</p>
 <h2 id="question-with-no-rag-support-but-concise-response">Question with no RAG Support but Concise Response</h2>
-<p>The first example let the LLM display as much output as it wanted. In this example, the Concise Response is turned on, as well as the Display RAG prompt,so you can see how the program modified the question.</p>
-<table>
-<thead>
-<tr>
-<th>LLM</th>
-<th style="text-align: center;">Use RAG Prompt</th>
-<th style="text-align: center;">Display RAG Prompt</th>
-<th style="text-align: center;">Concise Response</th>
-<th style="text-align: center;">Sentences</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>granite-7b-lab</td>
-<td style="text-align: center;">&#9989;</td>
-<td style="text-align: center;">&#10060;</td>
-<td style="text-align: center;">&#9989;</td>
-<td style="text-align: center;">-</td>
-</tr>
-</tbody>
-</table>
+<p>The first example let the LLM display as much output as it wanted. In this example, the Verbose option is turned off, so you can see how the program modified the question. Although you can ask an LLM to provide a concise response, the Creativity setting may result in more output.</p>
+<p><img alt="Browser" src="../wxd-images/demo-queryllm-example-2.png" /></p>
 <h4 id="question_1">Question</h4>
 <blockquote>
 <p>Provide a concise response to this prompt: What is IBMs 2023 revenue?</p>
@@ -1298,28 +1240,9 @@ These resources will provide you with the most accurate and up-to-date financial
 </blockquote>
 <h3 id="analysis_1">Analysis</h3>
 <p>You can limit the amount of output from the LLM by turning on the concise flag. While this will speed up the processing of the question by the LLM, it may reduce the amount of useful information that you get back.</p>
-<h2 id="question-with-rag-on-concise-on-rag-display-and-3-sentences">Question with RAG On, Concise On, RAG Display, and 3 Sentences</h2>
+<h2 id="question-with-rag-on-concise-on-rag-display-and-4-sentences">Question with RAG On, Concise On, RAG Display, and 4 Sentences</h2>
 <p>The question that we ask the LLM will now use RAG to generate it. The document collection that is being used is called IBM_2023_Annual_Report and contains the summary of the IBM 2023 earning report.</p>
-<table>
-<thead>
-<tr>
-<th>LLM</th>
-<th style="text-align: center;">Use RAG Prompt</th>
-<th style="text-align: center;">Display RAG Prompt</th>
-<th style="text-align: center;">Concise Response</th>
-<th style="text-align: center;">Sentences</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>granite-7b-lab</td>
-<td style="text-align: center;">&#9989;</td>
-<td style="text-align: center;">&#9989;</td>
-<td style="text-align: center;">&#9989;</td>
-<td style="text-align: center;">3</td>
-</tr>
-</tbody>
-</table>
+<p><img alt="Browser" src="../wxd-images/demo-queryllm-example-3.png" /></p>
 <h4 id="question_2">Question</h4>
 <blockquote>
 <p>Answer the question based on the context below. If the question cannot be answered using the information provided answer with "I don't know".
@@ -1344,26 +1267,7 @@ Question: Provide a concise response to What is IBMs 2023 revenue?</p>
 <h2 id="question-with-incorrect-context">Question with Incorrect Context</h2>
 <p>If you use an incorrect document collection, or ask a question which is not covered by the RAG that is generated, you will either get an answer of "I don't know" or something unexpected.</p>
 <p>For this example we turn off the RAG display and allow for unrestricted output.</p>
-<table>
-<thead>
-<tr>
-<th>LLM</th>
-<th style="text-align: center;">Use RAG Prompt</th>
-<th style="text-align: center;">Display RAG Prompt</th>
-<th style="text-align: center;">Concise Response</th>
-<th style="text-align: center;">Sentences</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>granite-7b-lab</td>
-<td style="text-align: center;">&#9989;</td>
-<td style="text-align: center;">&#10060;</td>
-<td style="text-align: center;">&#10060;</td>
-<td style="text-align: center;">3</td>
-</tr>
-</tbody>
-</table>
+<p><img alt="Browser" src="../wxd-images/demo-queryllm-example-4.png" /></p>
 <h4 id="question_3">Question</h4>
 <blockquote>
 <p>What is the color of the IBM logo?</p>
@@ -1373,27 +1277,8 @@ Question: Provide a concise response to What is IBMs 2023 revenue?</p>
 <p>I'm sorry for any confusion, but the information provided in the context does not include details about the color of the IBM logo. I cannot accurately answer this question with the given context.</p>
 </blockquote>
 <h4 id="analysis_3">Analysis</h4>
-<p>As expected, the LLM was unable to answer the question based on the information provided to it. If we turn off RAG generation, the LLM will answer the question properly.</p>
-<table>
-<thead>
-<tr>
-<th>LLM</th>
-<th style="text-align: center;">Use RAG Prompt</th>
-<th style="text-align: center;">Display RAG Prompt</th>
-<th style="text-align: center;">Concise Response</th>
-<th style="text-align: center;">Sentences</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>granite-7b-lab</td>
-<td style="text-align: center;">&#10060;</td>
-<td style="text-align: center;">&#10060;</td>
-<td style="text-align: center;">&#10060;</td>
-<td style="text-align: center;">-</td>
-</tr>
-</tbody>
-</table>
+<p>As expected, the LLM was unable to answer the question based on the information provided to it. If we turn off RAG generation by setting the number of sentences to zero, the LLM will answer the question properly.</p>
+<p><img alt="Browser" src="../wxd-images/demo-queryllm-example-5.png" /></p>
 <h4 id="question_4">Question</h4>
 <blockquote>
 <p>What is the color of the IBM logo?</p>
@@ -1403,27 +1288,8 @@ Question: Provide a concise response to What is IBMs 2023 revenue?</p>
 <p>The IBM logo is primarily a blue color, specifically a shade of Navy Blue (Pantone 285C). This blue hue is often associated with trust, stability, and confidence. However, it's important to note that the IBM logo also incorporates white and black elements, which contribute to its overall simplicity and clarity. The white space in the logo helps to balance the blue and black, making it easily recognizable and distinguishable on various backgrounds. Overall, the IBM logo is a well-designed and versatile emblem that effectively represents the company's identity and values.</p>
 </blockquote>
 <h4 id="question-using-phi3-llm">Question using phi3 LLM</h4>
-<p>If you are curious what another LLM would say about the logo, you can switch the LLM setting found on the left toolbar and repeat the question.</p>
-<table>
-<thead>
-<tr>
-<th>LLM</th>
-<th style="text-align: center;">Use RAG Prompt</th>
-<th style="text-align: center;">Display RAG Prompt</th>
-<th style="text-align: center;">Concise Response</th>
-<th style="text-align: center;">Sentences</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>phi3:3.8b-mini-128k</td>
-<td style="text-align: center;">&#10060;</td>
-<td style="text-align: center;">&#10060;</td>
-<td style="text-align: center;">&#10060;</td>
-<td style="text-align: center;">-</td>
-</tr>
-</tbody>
-</table>
+<p>If you are curious what another LLM would say about the logo, you can switch the LLM setting found on the left toolbar and repeat the question. The next example will use the phi3:3.8b-mini-128K model.</p>
+<p><img alt="Browser" src="../wxd-images/demo-queryllm-example-phi.png" /></p>
 <h4 id="question_5">Question</h4>
 <blockquote>
 <p>What is the color of the IBM logo?</p>
@@ -1436,26 +1302,8 @@ Question: Provide a concise response to What is IBMs 2023 revenue?</p>
 <p>Paul Rand did introduce the 8-bar IBM logo in 1972 and has created many other logos during his career. To view more logos see <a href="https://www.paulrand.design/work/IBM.html">Paul Rand Design</a>.</p>
 <h2 id="question-using-other-llms">Question using other LLMs</h2>
 <p>You can switch between different LLMs to determine how these models deal with the same questions. This first example will use the llama3 LLM and ask what IBM's 2023 revenue was (no RAG).</p>
-<table>
-<thead>
-<tr>
-<th>LLM</th>
-<th style="text-align: center;">Use RAG Prompt</th>
-<th style="text-align: center;">Display RAG Prompt</th>
-<th style="text-align: center;">Concise Response</th>
-<th style="text-align: center;">Sentences</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>llama3</td>
-<td style="text-align: center;">&#10060;</td>
-<td style="text-align: center;">&#10060;</td>
-<td style="text-align: center;">&#10060;</td>
-<td style="text-align: center;">-</td>
-</tr>
-</tbody>
-</table>
+<p><img alt="Browser" src="../wxd-images/demo-queryllm-example-llama.png" /></p>
+<p><img alt="Browser" src="../wxd-images/demo-queryllm-example-6.png" /></p>
 <h4 id="question_6">Question</h4>
 <blockquote>
 <p>What is IBMs 2023 revenue?</p>
@@ -1494,26 +1342,7 @@ Please note that these figures are subject to change and might not reflect any s
 </blockquote>
 <h4 id="analysis_5">Analysis</h4>
 <p>The LLM did not answer the question directly. Instead, it provided information for previous years. The next answer is based on using a RAG prompt.</p>
-<table>
-<thead>
-<tr>
-<th>LLM</th>
-<th style="text-align: center;">Use RAG Prompt</th>
-<th style="text-align: center;">Display RAG Prompt</th>
-<th style="text-align: center;">Concise Response</th>
-<th style="text-align: center;">Sentences</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>llama3</td>
-<td style="text-align: center;">&#9989;</td>
-<td style="text-align: center;">&#10060;</td>
-<td style="text-align: center;">&#9989;</td>
-<td style="text-align: center;">3</td>
-</tr>
-</tbody>
-</table>
+<p><img alt="Browser" src="../wxd-images/demo-queryllm-example-7.png" /></p>
 <h4 id="question_7">Question</h4>
 <blockquote>
 <p>What is IBMs 2023 revenue?</p>
@@ -1543,7 +1372,7 @@ Please note that these figures are subject to change and might not reflect any s
 <p>What investment does IBM have in quantum computing?ß</p>
 </li>
 </ul>
-<p>If you find that an LLM is unable to provide an answer “based on the context provided”, you may need to increase the number of sentences used to generate the RAG response. Try the following question using 3 and then 9 sentences. Turn off Display RAG Prompt to minimize the amount of output on the screen.</p>
+<p>If you find that an LLM is unable to provide an answer “based on the context provided”, you may need to increase the number of sentences used to generate the RAG response. Try the following question using 4 and then 8 sentences. Turn off Display RAG Prompt to minimize the amount of output on the screen.</p>
 <ul>
 <li>Which area in IBM saw decreased revenues in 2023?</li>
 </ul>
