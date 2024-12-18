@@ -9,7 +9,7 @@ If you want to get repeatable results for the questions, make sure to set the Re
 For each example, note the settings that are used. These settings will displayed in each section. The temperature used will be Medium for all examples.
 
 !!! warning "Results may differ"
-    Note that the answer to your questionmay differ from those shown in the examples below.
+    Note that the answer to your question may differ from those shown in the examples below.
 
 ## Question with no RAG Support
 
