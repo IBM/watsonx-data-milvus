@@ -1,0 +1,405 @@
+#---------------------------------------------------------------------------------------------
+# Licensed Materials - Property of IBM 
+# (C) Copyright IBM Corp. 2024 All Rights Reserved.
+# US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP 
+# Schedule Contract with IBM Corp.
+#
+# Developed by George Baklarz
+#---------------------------------------------------------------------------------------------
+#
+# Import Documents Panel
+#
+
+import streamlit as st
+from streamlit import session_state as sts
+import wxd_data as db
+import pandas as pd 
+import wikipedia
+from wxd_utilities import setCredentials, log, check_password, getLanguageCode
+from llama_index.readers.web import SimpleWebPageReader
+from wxd_wiki import getArticles
+from time import sleep
+
+def wiki_selection():
+    """
+    Wiki_selection is called by the edit Dataframe control to save the users selection. If you 
+    don't save the selection, the values are lost when the screen refreshes itself.
+    """
+    
+    if ("_wikidocs" not in sts):
+        if ("wikiSelection" in sts):
+            del sts.wikiSelection
+    else:
+        sts["wikiSelection"] = sts._wikidocs
+
+def getScan():
+    """
+    Is this a scanned document? True for TIFF, JPG and PNG, and possibly for PDFs.
+    """
+    sts["scan"] = sts._scan
+
+def getLanguage():
+    """
+    What language is found in the PDF or image (only scanned documents).
+    """
+    sts["language"] = sts._language
+
+def getTopic():
+    """
+    What topic did the user request when searching Wikipedia?
+    """
+    sts["topic"] = sts._topic
+
+def getFilename():
+    """
+    If the file is a scanned PDF, or an image (TIFF, PNG, JPG), we need to know that it was 
+    scanned and what language was used in the image.
+    """
+    import os 
+
+    sts["language"] = "English"
+    if (sts._filedescriptor in [None,""]):
+        sts["filename"] = None
+        sts["filehandle"] = None
+        sts["filetype"] = None
+        sts["scan"] = False
+    else:
+        file = sts._filedescriptor.name
+        filename = os.path.basename(file)
+        name, type = os.path.splitext(filename)
+        filetype = type.replace(".","").lower()
+        sts["filehandle"] = sts._filedescriptor
+        sts["filename"] = name
+        sts["filetype"] = filetype
+        if (filetype in ["jpg","tiff","png","jpeg"]):
+            sts["scan"] = True
+        else:
+            sts["scan"] = False
+
+@st.fragment
+def list_documents():
+    """
+    Dialog to display the current documents in the system.
+    """
+                    
+    st.subheader("Document list",divider=True)
+    description = '''
+    The current documents that are stored in watsonx.data are listed below. Press the Refresh button to update
+    the list.
+    '''    
+
+    st.write(description)
+
+    with st.form("Refresh", clear_on_submit=False):
+        metadata = None
+        metadata = db.runSQL(connection,"select * from iceberg_data.documents.metadata order by id desc")
+        st.dataframe(metadata.sort_values(by=['id']),use_container_width=True,hide_index=True)
+            
+        button = st.form_submit_button("Refresh List")    
+
+@st.fragment
+def upload_document():
+    """
+    Dialog for uploading a file into the system.
+    """    
+
+    if ("scan" not in sts):
+        sts.scan = False
+    
+    if ("language" not in sts):
+        sts.language = "English"
+
+    st.subheader("Upload Document",divider=True)
+    description = '''
+    To upload a new document into the database, either drag or drop the document onto the control below or press the Browse Files button. Documents that already exist in the database will be replaced.
+
+    ##### PDF Scans
+    If you are uploading a PDF, you must specify if it is a regular document or a scanned image. If the PDF was generated from an application like Word, it can be vectorized without any modification (Document). PDFs that are scanned images (e.g., fax or photocopy), will require additional information on the language that was used in the text (Scan). 
+
+    ##### Document Language
+    For scanned images (PDF scans, JPG, PNG, TIFF), you must specify the primary language that it was written in. The default is English (and is always used in addition to the language you select). This will ensure that the application will be able to properly parse the text found in the image.
+    ''' 
+    st.write(description)
+
+    with st.container(border=True):
+        submitted = False
+        st.file_uploader("Select a file to upload",label_visibility="visible",on_change=getFilename,key="_filedescriptor")  
+        col1, col2 = st.columns([0.50,0.50])
+        with col1:
+            fileSettings = f"Scanned image: :green[{sts.scan}] Language: :green[{sts.language}]"
+            with st.expander(fileSettings):
+
+                st.write(
+                    """
+                    All images (JPG, PNG, TIFF) should be marked as a scanned document. If the PDF being upload was generated by scanning software (e.g., fax, scanner), then you must mark it as as a scanned document. 
+                    """)
+                st.checkbox("Scanned document",value=sts.scan,key="_scan",on_change=getScan)
+                
+                st.write(
+                    """
+                    For all scanned images, the primary language of the document must be provided in order to properly parse the contents of the image. Select which language the image or PDF was written in.
+                    """)
+                st.selectbox("PDF/Image Language",sts.languages,key="_language",index=getLanguageCode(sts.language),on_change=getLanguage,label_visibility="collapsed")
+
+        submitted = st.button("Upload File",) # st.form_submit_button("Upload Doc/URL")        
+
+        if submitted:
+            if sts.filename not in [None,""]:
+                with st.spinner(f"Loading document {sts.filename}"):
+                    sleep(0.5)
+                    data = sts.filehandle.getvalue()
+                    languageCode = getLanguageCode(sts.language,indexValue=False)
+                    chunks = db.storeDocument(connection,
+                                            filename=sts.filename,
+                                            filetype=sts.filetype,
+                                            data=data,
+                                            scan=sts.scan,
+                                            language=languageCode
+                    )
+                    if (chunks is not None):
+                        st.success("Document uploaded")
+                        db.log(program,f"File {sts.filename} uploaded.")  
+                    else:
+                        st.error("Document upload failed. See log file for details.")
+            else:
+                st.error("No file supplied for uploading.")
+
+@st.fragment
+def upload_url():
+    """
+    Dialog to ask if the user wants to upload a URL into the system
+    """
+    st.subheader("Upload URL",divider=True)
+    description = '''
+    To upload then contents of a URL, enter the URL in the text field below. Note that only the main page of the URL will be retrieved.
+    ''' 
+    st.write(description)
+
+    with st.container(border=True):
+        submitted = False
+        url = st.text_input("Enter a URL")
+        submitted = st.button("Upload URL",)
+
+        if submitted: 
+            if url not in [None,""]:                
+                if ('HTTP' not in url.upper()):
+                    url = f"https://{url}"
+                with st.spinner(f"Loading URL {url}"):
+                    rawdata = ""
+                    try:
+                        documents = SimpleWebPageReader(html_to_text=True).load_data([url])                  
+                        for doc in documents: # iterate the document pages
+                            if (rawdata == None):
+                                rawdata = doc.text
+                            else:
+                                rawdata += doc.text
+
+                        if (rawdata == ""):
+                            st.error(f"The URL {url} was invalid or could not be reached.")
+                        else:
+                            rawdata = rawdata.encode(encoding='utf-8') 
+                            chunks = db.storeDocument(connection,
+                                                    filename=url,
+                                                    filetype="html",
+                                                    data=rawdata,
+                                                    scan=False,
+                                                    language="en")         
+
+                            if (chunks in [None,""]):
+                                st.error(f"The URL {url} contains no valid data. See the log for more details.")
+                            else:
+                                st.success("URL Loaded")
+                                db.log(program,f"URL {url} uploaded.")
+
+                    except Exception as e:
+                        st.error(f"Error parsing the URL {url}. {repr(e)}")
+
+            else: 
+                st.error("You need to supply a URL to upload!")
+
+
+@st.fragment
+def upload_wiki():
+    """
+    Dialog for user to enter a wikipedia article search and then select which documents to upload into the system.
+    """
+
+    st.subheader("Upload Wikipedia Articles",divider=True)
+    description = '''
+    When you provide a Topic below, the program will query Wikipedia to find articles that best match your topic. You can then select which articles to upload into the system.
+    ''' 
+    st.write(description)
+
+    with st.container(border=True):
+
+        topic = st.text_input("Enter a topic",label_visibility="collapsed",placeholder="Enter a topic",key="_topic",on_change=getTopic)
+        submitted_search = st.button("Get Articles",on_click=wiki_selection)    
+
+    df = pd.DataFrame()
+
+    if submitted_search:
+        display_articles = []
+        topic = sts.topic
+        if topic.strip() not in ["",None]:
+            topic = topic.strip()
+            with st.spinner("Searching for documents"):
+                sts['topic'] = topic
+                search_results = wikipedia.search(topic)
+                display_articles = []
+                for i in range (0,len(search_results)):
+                    try:
+                        summary = wikipedia.summary(search_results[i])
+                        display_articles.append([False,search_results[i],summary])
+                    except Exception as err:
+                        continue
+
+                sts['articles'] = display_articles
+                if (len(display_articles) == 0):
+                    st.error("No articles were found.")
+                else:
+                    df = pd.DataFrame(display_articles,columns=['Selected','Title','Summary'])
+                    showWikiArticles(df)
+
+@st.fragment
+def showWikiArticles(df):
+    """
+    This portion of code displays a dataframe that a user will select Wiki articles from. The reason that this has
+    the special fragment directive is to allow this code to be independent from the other controls on the screen. If 
+    we don't separate this code from the rest of the screen, selecting on articles will fire off the wiki_selection 
+    code above with just one item! You want the user to select multiple documents to upload and this syntax will allow
+    the code to wait until all of the articles have been selected. 
+    """
+
+    wikilist = st.data_editor(df,
+        column_config={
+        "selected" : st.column_config.Column(st.column_config.CheckboxColumn("Selected"),width="small"),
+        "topic"    : st.column_config.Column("Topic",width="small",disabled=True),
+        "summary " : st.column_config.Column("Summary",width="large",disabled=True),
+        },
+        on_change=wiki_selection,
+        key="_wikidocs",
+        hide_index=True,
+        use_container_width=True
+    )    
+
+    submitted_load = st.button("Upload")
+
+    if submitted_load: 
+        with st.spinner("Retrieving articles"):
+            msg = None
+            edited_rows = sts.wikiSelection['edited_rows']
+            wiki_titles, wiki_text = getArticles(sts.articles,edited_rows)
+            if (wiki_text is None):
+                st.error("No articles found.")
+            else:
+                tempfile = "/tmp/wiki.txt"
+                open(tempfile,"w").write(wiki_text)
+                connection = db.connectPresto()
+                if (connection == None):
+                    db.badConnection()
+                    st.stop()
+
+                data = db.getRAWFile(tempfile)
+                chunks = db.storeDocument(connection,
+                                        filename=wiki_titles,
+                                        filetype="wiki",
+                                        data=data,
+                                        scan=False,
+                                        language="en")
+
+                if (chunks is not None):
+                    st.success("Upload completed")
+                    db.log(program,f"Wikipedia text updated. Topic: {sts.topic}")                    
+                else:
+                    st.error("Wiki upload failed. See log file for details.")                    
+
+st.set_page_config(
+    page_title="Documents",
+    page_icon=":infinity:",
+    layout="wide"    
+)
+
+if not check_password():
+    st.stop()
+
+program = "Documents"
+
+if ('initialized' not in sts):
+    if (setCredentials() == False):
+        st.error("Unable to get credentials required to connect to watsonx.data.")
+        log("Startup","[1] Unable to get credentials required to connect to watsonx.data.")
+        st.stop()
+    
+connection = db.connectPresto()
+if (connection == None):
+    db.badConnection()
+    st.stop()
+
+st.header("Watsonx.data - Document Storage",divider=True)
+
+introduction = \
+'''
+This system requires that you upload documents or URLs to be used for RAG generation. There is one documents provided in the system that you can use for your queries. You have the option of uploading documents from your workstation (PDF, PPT, DOC, TXT, TIFF, JPG, PNG) and having it catalogued in watsonx.data. You can also point to a website (URL) which will be analyzed and the contents extracted and stored in watsonx.data. Finally, you can query Wikipedia and retrieve documents based on a topic.
+'''
+st.write(introduction)
+
+with st.container(border=False,height=40):
+    with st.popover("Technical Details"):
+        details = \
+"""
+##### Document Storage
+This screen is used to stored documents into watsonx.data. There are two Iceberg tables within watsonx.data that store
+details of the documents. The first table contains document metadata:
+```sql
+CREATE TABLE iceberg_data.documents.metadata
+    (
+    "id"          int,
+    "document"    varchar,
+    "type"        varchar,
+    "scan"        boolean,
+    "language"    varchar
+    )
+```
+The METADATA table tracks the document name (or URL) along with the type of document. The type of document will determine
+what routine will be used to extract the text from the contents. The scan field is required to differentiate scanned PDF documents (e.g., using a scanner, or print to PDF of an image) and images. The language field must also be set when using scanned images. A pre-processing step is required to extract the text from these documents before vectorizing them and the language field makes the text extraction more accurate.
+
+The RAWDATA table contains the data from the document.
+```sql
+CREATE TABLE iceberg_data.documents.rawdata
+    (
+    "id"          int,
+    "chunk_id"    int,
+    "chunk"       varchar
+    )
+```
+
+The data is split into approximately 1M base64 chunks. The reason for the chunking of the data is due to a Presto client limit
+of 1M messages. Once the data is stored in watsonx.data, access to the underlying object can be controlled through
+user and group authentication. 
+
+An alternate strategy would be to upload the document and store it in an S3-like bucket. The downside is that the document is exposed in the bucket rather than obfuscated in Iceberg table format.
+
+##### Web Pages
+Regular documents are stored "as-is" in watsonx.data, but URLs are handled differently. A web scraping routine extracts the text from the website and stores it in watsonx.data as a text document. What this means is that the data watsonx.data is valid as of the time the URL was uploaded. If the web page changes, it will not be reflected in the stored document. 
+
+##### Pre-loaded Documents
+There is one document that has been pre-loaded into the system for your use (2023 IBM Annual Report). You can choose to upload your own documents to use with the LLMs. Some observations regarding documents.
+* PDFs, DOCs, and Text create good RAG prompts with a minimum of 3 sentences
+* PPTs require much more time to extract text and require more sentences (>5) to generate useful RAG prompts
+* URLs generate RAG prompts that may contain images that are ignored
+"""
+        st.markdown(details)
+
+# Display current Documents
+list_documents()
+
+# Upload new document List
+upload_document()
+
+# Upload URL Dialog
+upload_url()
+
+# Upload Wikipedia Dialog
+upload_wiki()
+
+st.page_link("Watsonx_Milvus_Demo.py",label=":blue-background[Home]",icon=":material/arrow_forward:")
