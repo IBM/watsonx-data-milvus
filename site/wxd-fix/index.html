@@ -13,7 +13,7 @@
     
     
       
-        <title>Userids and Passwords - Watsonx.data and Milvus RAG Demonstration</title>
+        <title>UI Failure Notice - Watsonx.data and Milvus RAG Demonstration</title>
       
     
     
@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#passwords" class="md-skip">
+        <a href="#library-issue" class="md-skip">
           Skip to content
         </a>
       
@@ -96,7 +96,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Userids and Passwords
+              UI Failure Notice
             
           </span>
         </div>
@@ -194,11 +194,21 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../wxd-fix/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         UI Failure Notice
       </a>
+      
     </li>
   
 
@@ -209,14 +219,12 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
       
       
       
@@ -279,21 +287,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../wxd-reference-passwords/" class="md-nav__link">
         Userids and Passwords
       </a>
-      
     </li>
   
 
@@ -704,39 +702,35 @@
                 
 
 
-<h1 id="passwords">Passwords</h1>
-<p>This table lists the passwords for the services in the system.</p>
-<table>
-<thead>
-<tr>
-<th>Service</th>
-<th>Userid</th>
-<th>Password</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Virtual Machine</td>
-<td>watsonx</td>
-<td>watsonx.data</td>
-</tr>
-<tr>
-<td>Virtual Machine</td>
-<td>root</td>
-<td>watsonx.data</td>
-</tr>
-<tr>
-<td>watsonx.data UI</td>
-<td>ibmlhadmin</td>
-<td>password</td>
-</tr>
-<tr>
-<td>Demonstration UI</td>
-<td>watsonx</td>
-<td>watsonx.data</td>
-</tr>
-</tbody>
-</table>
+<h1 id="library-issue">Library Issue</h1>
+<p>The current system has an issue with a library that is automatically updated during TechZone deployment. This error will result in the UI failing. The UI will look similar to the following in your browser:</p>
+<p><img alt="Browser" src="../wxd-images/techzone-error.png" /></p>
+<p>Click on the <strong>View My Reservations</strong> to access your reservations.</p>
+<p><img alt="Browser" src="../wxd-images/techzone-reservations.png" /></p>
+<p>Click on the reservation that corresponds to the watsonx.data reservation. The menu button that is beside the arrow provides options to extend or delete the reservation.</p>
+<p><img alt="Browser" src="../wxd-images/techzone-extend.png" /></p>
+<p>When you click on reservation details option, or the Open this Environment box, the browser will display the details of your image.</p>
+<p><img alt="Browser" src="../wxd-images/techzone-my-details.png" /></p>
+<p>Scroll down the page until you see the VM Console button.</p>
+<p><img alt="Browser" src="../wxd-images/techzone-console-button.png" /></p>
+<p>Click on the blue Console button to see the login screen of the server open in a separate browser tab. Select the watsonx user.</p>
+<p><img alt="Browser" src="../wxd-images/techzone-console-login.png" /></p>
+<p>The password for the <code>watsonx</code> user is <code>watsonx.data</code>.</p>
+<p>When you login you will see a screen similar to the following.</p>
+<p><img alt="Browser" src="../wxd-images/techzone-console-main.png" /></p>
+<p>Select the terminal window icon highlight in red above. A terminal window will be displayed.</p>
+<p><img alt="Browser" src="../wxd-images/techzone-console-terminal.png" /></p>
+<p>Type following command into the terminal window (you cannot easily cut and paste into this window) and hit Return/Enter to execute it. If you are prompted for a password, use <code>watsonx.data</code>.</p>
+<div class="highlight"><pre><span></span><code>sudo systemctl stop streamlit
+</code></pre></div>
+<p>Once the command completes, issue the following command.</p>
+<div class="highlight"><pre><span></span><code>sudo systemctl start streamlit
+</code></pre></div>
+<p>To check that everything is running, issue the following command.</p>
+<div class="highlight"><pre><span></span><code>sudo systemctl status streamlit
+</code></pre></div>
+<p><img alt="Browser" src="../wxd-images/techzone-console-status.png" /></p>
+<p>Your system should now work properly after these commands. </p>
 
               
             </article>
@@ -752,7 +746,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
-        <a href="../wxd-reference-ports/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Available Ports" rel="prev">
+        <a href="../wxd-introduction/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Introduction" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -761,20 +755,20 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Available Ports
+              Introduction
             </div>
           </div>
         </a>
       
       
         
-        <a href="../wxd-reference-documentation/" class="md-footer__link md-footer__link--next" aria-label="Next: Documentation" rel="next">
+        <a href="../wxd-reference-techzone/" class="md-footer__link md-footer__link--next" aria-label="Next: Requesting an image" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Documentation
+              Requesting an image
             </div>
           </div>
           <div class="md-footer__button md-icon">

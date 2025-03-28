@@ -3,6 +3,7 @@ site_name: Watsonx.data and Milvus RAG Demonstration
 #   name: material
 nav:
   - Introduction: "wxd-introduction.md"
+  - UI Failure Notice: "wxd-fix.md"
   - Getting Started:
     - Requesting an image: "wxd-reference-techzone.md"
     - Accessing the reservation: "wxd-reference-access.md"
