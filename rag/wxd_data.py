@@ -281,14 +281,14 @@ Check the following:
 	schema = sts["minio_bucket"]
 	
 	sql = f"DROP TABLE IF EXISTS iceberg_data.{schema}.metadata"
-	if (runDML(_connection, sql) == False):
-		return False
+	_  = runDML(_connection, sql)
 	sql = f"DROP TABLE IF EXISTS iceberg_data.{schema}.rawdata"
-	if (runDML(_connection, sql) == False):
-		return False
+	_ = runDML(_connection, sql)
 	sql = f"DROP TABLE IF EXISTS iceberg_data.{schema}.questions"
-	if (runDML(_connection, sql) == False):
-		return False
+	_ = runDML(_connection, sql)
+	sql = f"DROP TABLE IF EXISTS iceberg_data.{schema}.complaints"
+	_ = runDML(_connection,sql)
+
 	sql = f"DROP SCHEMA IF EXISTS iceberg_data.{schema}"
 	if (runDML(_connection, sql) == False):
 		return False
