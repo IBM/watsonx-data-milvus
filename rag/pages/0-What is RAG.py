@@ -1,6 +1,6 @@
 #---------------------------------------------------------------------------------------------
 # Licensed Materials - Property of IBM 
-# (C) Copyright IBM Corp. 2024 All Rights Reserved.
+# (C) Copyright IBM Corp. 2025 All Rights Reserved.
 # US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP 
 # Schedule Contract with IBM Corp.
 #
@@ -17,9 +17,7 @@ from wxd_utilities import check_password, version_reset
 if not check_password():
     st.stop()
 
-# version_reset()
-
-st.header("What is Retrieval-augmented Generation?",divider=True)
+st.header("An Introduction to RAG",divider=True)   
 
 topic = \
 """
@@ -40,5 +38,5 @@ topic = \
 
 This system is designed to use information found in documents and URLs to generate a RAG prompt to an LLM. You can experiment with using different documents, RAG settings, and LLMs to discover how the answers to your questions can change. 
 """
+
 st.markdown(topic)
-st.page_link("Watsonx_Milvus_Demo.py",label=":blue-background[Home]",icon=":material/arrow_forward:")

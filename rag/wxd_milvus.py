@@ -1,6 +1,6 @@
 #---------------------------------------------------------------------------------------------
 # Licensed Materials - Property of IBM 
-# (C) Copyright IBM Corp. 2024 All Rights Reserved.
+# (C) Copyright IBM Corp. 2025 All Rights Reserved.
 # US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP 
 # Schedule Contract with IBM Corp.
 #
@@ -90,11 +90,13 @@ def dropCollections(deleteOnly=None):
             
     return True
 
-def listCollections():
+@st.fragment
+def listCollections(_checkbox=False):
     """
-    This function will return a list of document collections that have been stored in Milvus.
+    This function will return a list of document collections that have been stored in Milvus. If the _checkbox value is set to true, the value returned includes a selection box (for editting) in a Pandas dataframe.
     """
 
+    import pandas as pd
     from pymilvus import utility
     from wxd_data import connectPresto, badConnection, storeDocument
     from wxd_utilities import log
@@ -105,12 +107,11 @@ def listCollections():
         log(program,"[1] Unable to list collections")
         return None
     
-    connection = connectPresto()
-    if (connection == None):
-        badConnection()
-        st.stop()
-    
     collection_list = utility.list_collections()
+
+    if _checkbox:
+        false_list = [False] * len(collection_list)
+        collection_list = pd.DataFrame(zip(false_list,collection_list),columns=['Selected','Collection']).sort_values("Collection")    
 
     return collection_list
 
@@ -283,7 +284,7 @@ def query_milvus(query, collection_name, max_results):
     
     return df
 
-def createPrompt(prompt, terse, results):
+def createPrompt(prompt, results):
     """
     Given a question (prompt), generate the sentence that will be provided to the LLM.
     """
@@ -313,9 +314,6 @@ def createPrompt(prompt, terse, results):
 
     header = """Answer the question based on the context below. If the question cannot be answered using the information provided answer with "I don't know"."""
 
-    if terse:
-        question = f"{header}\n\nContext:\n\n{data}.\n\nQuestion: Provide a concise response to {prompt}"
-    else:
-        question = f"{header}\n\nContext:\n\n{data}.\n\nQuestion: {prompt}"
+    question = f"{header}\n\nContext:\n\n{data}.\n\nQuestion: {prompt}"
 
-    return question
+    return question, min_distance

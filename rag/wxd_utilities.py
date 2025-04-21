@@ -1,6 +1,6 @@
 #---------------------------------------------------------------------------------------------
 # Licensed Materials - Property of IBM 
-# (C) Copyright IBM Corp. 2024 All Rights Reserved.
+# (C) Copyright IBM Corp. 2025 All Rights Reserved.
 # US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP 
 # Schedule Contract with IBM Corp.
 #
@@ -14,7 +14,9 @@
 
 import streamlit as st
 import hmac
+import pandas as pd
 from streamlit import session_state as sts
+
 
 def runOS(command,logit=True):
 	"""
@@ -75,7 +77,8 @@ def checkStatus():
 	watsonx = {
 		"ibm-lh-cpg"               : "Unknown",
 		"ibm-lh-etcd"              : "Unknown",
-		"ibm-lh-hive-metastore"    : "Unknown",
+		"ibm-lh-mds-rest"		   : "Unknown",
+		"ibm-lh-mds-thrift"		   : "Unknown",
 		"ibm-lh-milvus"            : "Unknown",
 		"ibm-lh-minio"             : "Unknown",
 		"ibm-lh-postgres"          : "Unknown",
@@ -84,6 +87,7 @@ def checkStatus():
 		"lhconsole-api"            : "Unknown",
 		"lhconsole-nodeclient-svc" : "Unknown",
 		"lhconsole-ui"             : "Unknown",
+		"lhingestion-api"		   : "Unknown"
 	}
 
 	status_list = runOS('sudo /root/ibm-lh-dev/bin/status --all')
@@ -108,21 +112,35 @@ def log(program,text):
 	session only. The log file can be found at /tmp/watsonx.log.
 	"""
 
-	import datetime
+	import datetime, textwrap
 
-	if (text not in [None,""] and program not in [None,""]):
-		with open("/tmp/watsonx.log","a") as fd:
-			today = datetime.datetime.now().strftime("%y-%m-%d %H:%M:%S")
-			lines = text.split('\n')
-			initial = True
-			for line in lines:
-				out = line.replace('\t',' ')
-				if (out.strip() != ""):
+	if (text in [None,""] or program in [None,""]):
+		return
+
+	if "lastprogram" not in sts:
+		sts.lastprogram = "notvalid"
+	
+	with open("/tmp/watsonx.log","a") as fd:
+		if program != sts.lastprogram:
+			sts.lastprogram = program
+			print_program = program
+		else:
+			print_program = ""
+
+		today = datetime.datetime.now().strftime("%H:%M:%S")
+		
+		lines = text.split('\n')
+		initial = True
+		for line in lines:
+			out = line.replace('\t',' ')
+			if (out.strip() != ""):
+				chunks = textwrap.wrap(out,width=80)
+				for chunk in chunks:
 					if initial:
-						fd.write(f"{today},{program[:17]},{out[:255]}\n")
+						fd.write(f"{today},{sts.lastprogram[:17]},{chunk}\n")
 						initial = False
 					else:
-						fd.write(f" , ,{out[:255]}\n")
+						fd.write(f" , ,{chunk}\n")
 
 	return
 
@@ -169,6 +187,13 @@ def setCredentials():
 	sts['temperature']     = .70
 	sts['displaysettings'] = True
 	sts["random"]          = True
+	sts["catalog"]		   = None
+	sts["schema"]          = None
+	sts["table"]           = None
+	sts["catalogs"]        = pd.DataFrame()
+	sts["schemas"]         = pd.DataFrame()
+	sts["tables"]          = pd.DataFrame()
+	sts["predicates"]      = None
 	sts["language"]		   = "English"
 	sts["languages"]	   = [
 			"Abaza",

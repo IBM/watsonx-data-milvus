@@ -1,6 +1,6 @@
 #---------------------------------------------------------------------------------------------
 # Licensed Materials - Property of IBM 
-# (C) Copyright IBM Corp. 2024 All Rights Reserved.
+# (C) Copyright IBM Corp. 2025 All Rights Reserved.
 # US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP 
 # Schedule Contract with IBM Corp.
 #
@@ -56,7 +56,7 @@ description = '''
 - 16 VPC, 64 Gb Server  
 
 **System Software**
-* [Watsonx.data 2.0.2](https://www.ibm.com/docs/en/watsonx/watsonxdata/2.0.x) - IBM Data Lakehouse environment
+* [Watsonx.data 2.1.0](https://www.ibm.com/docs/en/watsonx/watsonxdata/2.1.x) - IBM Data Lakehouse environment
 * [Presto 0.286](https://prestodb.io/docs/0.286/) - Database engine used to query data in the lakehouse
 * [Milvus](https://milvus.io/docs) - Vector database included in watsonx.data
 * [Ollama](https://ollama.com/) - Platform for running LLMs locally
@@ -83,5 +83,3 @@ The documentation for this system can be found at the [watsonx.data and Milvus d
 '''
 
 st.write(description)
-
-st.page_link("Watsonx_Milvus_Demo.py",label=":blue-background[Home]",icon=":material/arrow_forward:")

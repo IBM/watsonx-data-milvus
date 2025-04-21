@@ -1,6 +1,6 @@
 #---------------------------------------------------------------------------------------------
 # Licensed Materials - Property of IBM 
-# (C) Copyright IBM Corp. 2024 All Rights Reserved.
+# (C) Copyright IBM Corp. 2025 All Rights Reserved.
 # US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP 
 # Schedule Contract with IBM Corp.
 #
@@ -53,4 +53,3 @@ Finally, details about this system and the programs that were used to create thi
 Remember that this system does not contain GPUs which limits the performance of the LLM. However, it does provide an environment to try out RAG prompts and observe how different LLMs behave with and without RAG prompts.
 '''
 st.markdown(topic)
-st.page_link("Watsonx_Milvus_Demo.py",label=":blue-background[Home]",icon=":material/arrow_forward:")

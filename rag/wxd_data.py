@@ -1,6 +1,6 @@
 #---------------------------------------------------------------------------------------------
 # Licensed Materials - Property of IBM 
-# (C) Copyright IBM Corp. 2024 All Rights Reserved.
+# (C) Copyright IBM Corp. 2025 All Rights Reserved.
 # US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP 
 # Schedule Contract with IBM Corp.
 #
@@ -18,8 +18,7 @@ from wxd_utilities import log
 
 def connectPresto():
 	"""
-	connectPresto is used to connect to Presto engine that is running in the watsonx.data system. The
-	credentials are hardcoded for the watsonx.data developer edition system.
+	connectPresto is used to connect to Presto engine that is running in the watsonx.data system. The credentials are hardcoded for the watsonx.data developer edition system.
 	"""
 
 	import prestodb
@@ -93,8 +92,7 @@ def runSQL(_connection, sql):
 	
 def runDML(_connection, sql):
 	"""
-	runDML is used for executing SQL statements such as table creation, insert statements, etc... that 
-	do not return a value. 
+	runDML is used for executing SQL statements such as table creation, insert statements, etc... that do not return a value. 
 	"""
 	program = "runDML"
 	log(program,sql)
@@ -485,3 +483,19 @@ def getDocument(_connection,id):
 			returnText = None	
 
 	return returnText
+
+def getDocuments(_connection):
+	"""
+	Get the list of documents and that are currently in the database. The list that is returned
+	is the document number and the document name.
+	"""
+	documents = None
+	
+	if (_connection in [None,""]):
+		return None
+
+	sql = "select id, document from iceberg_data.documents.metadata order by id asc"
+	
+	documents = runSQL(_connection, sql)
+	
+	return documents

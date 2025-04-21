@@ -1,6 +1,6 @@
 #---------------------------------------------------------------------------------------------
 # Licensed Materials - Property of IBM 
-# (C) Copyright IBM Corp. 2024 All Rights Reserved.
+# (C) Copyright IBM Corp. 2025 All Rights Reserved.
 # US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP 
 # Schedule Contract with IBM Corp.
 #
@@ -45,9 +45,9 @@ with open("/tmp/watsonx.log","r") as fd:
         routine = line[comma1+1:comma2]
         output  = line[comma2+1:]
         if (logfile is None):
-            logfile =  f"{ts:17s}  {routine:17s}  {output}"
+            logfile =  f"{ts:8s}  {routine:17s}  {output}"
         else:
-            logfile += f"{ts:17s}  {routine:17s}  {output}"
+            logfile += f"{ts:8s}  {routine:17s}  {output}"
 
 with st.container(height=500):            
     st.code(logfile,language=None)
@@ -62,11 +62,9 @@ if (st.button("Clear Log")):
                v = sts.version
             else:
                v = "Unknown"
-            today = datetime.datetime.now().strftime("%y-%m-%d %H:%M:%S")
+            today = datetime.datetime.now().strftime("%H:%M:%S")
             fd.write(f"{today},Log Start,================================================\n")
             fd.write(f"{today},Version,{v}\n")
             fd.write("Time,Routine,Message\n")    
     except:
         pass
-
-st.page_link("Watsonx_Milvus_Demo.py",label=":blue-background[Home]",icon=":material/arrow_forward:")

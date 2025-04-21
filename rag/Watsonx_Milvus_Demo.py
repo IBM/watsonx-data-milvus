@@ -1,6 +1,6 @@
 #---------------------------------------------------------------------------------------------
 # Licensed Materials - Property of IBM 
-# (C) Copyright IBM Corp. 2024 All Rights Reserved.
+# (C) Copyright IBM Corp. 2025 All Rights Reserved.
 # US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP 
 # Schedule Contract with IBM Corp.
 #
@@ -46,7 +46,7 @@ if ("initialized" not in sts):
                v = sts.version
             else:
                v = "Unknown"
-            today = datetime.datetime.now().strftime("%y-%m-%d %H:%M:%S")
+            today = datetime.datetime.now().strftime("%H:%M:%S")
             fd.write(f"{today},Log Start,================================================\n")
             fd.write(f"{today},Version,{v}\n")
             fd.write("Time,Routine,Message\n")    
@@ -83,9 +83,7 @@ with st.container(height=row_height, border=False):
 """
                 st.html(html)
             with st.container(height=but_height,border=False):
-                colsfooter = st.columns([0.5,0.5])
-                with colsfooter[1]:
-                    st.page_link("pages/0-Introduction.py",label="Introduction",icon=":material/arrow_forward:")
+                st.page_link("pages/0-Introduction.py",label="Introduction",icon=":material/arrow_forward:")                
                     
     with cols[1]:
         with st.container(height=col_height,border=True):
@@ -96,9 +94,7 @@ with st.container(height=row_height, border=False):
 """
                 st.html(html)
             with st.container(height=but_height,border=False):
-                colsfooter = st.columns([0.5,0.5])
-                with colsfooter[1]:
-                    st.page_link("pages/0-What is RAG.py",label="More on RAG",icon=":material/arrow_forward:")
+                st.page_link("pages/0-What is RAG.py",label="More on RAG",icon=":material/arrow_forward:")
                     
     with cols[2]:
         with st.container(height=col_height,border=True):
@@ -109,9 +105,7 @@ with st.container(height=row_height, border=False):
 """
                 st.html(html,)
             with st.container(height=but_height,border=False):
-                colsfooter = st.columns([0.5,0.5])
-                with colsfooter[1]:
-                    st.page_link("https://ibm.github.io/watsonx-data-milvus",label="Documentation",icon=":material/arrow_forward:")
+                st.page_link("https://ibm.github.io/watsonx-data-milvus",label="Documentation",icon=":material/arrow_forward:")
 
 
 html = """
@@ -130,9 +124,7 @@ with st.container(height=row_height, border=False):
 """
                 st.html(html)
             with st.container(height=but_height,border=False):
-                colsfooter = st.columns([0.5,0.5])
-                with colsfooter[1]:
-                    st.page_link("pages/1-Import Documents.py",label="Import Files",icon=":material/arrow_forward:")
+                st.page_link("pages/1-Import Documents.py",label="Import Files",icon=":material/arrow_forward:")
                     
     with cols[1]:
         with st.container(height=col_height,border=True):
@@ -143,9 +135,7 @@ with st.container(height=row_height, border=False):
 """
                 st.html(html)
             with st.container(height=but_height,border=False):
-                colsfooter = st.columns([0.5,0.5])
-                with colsfooter[1]:
-                    st.page_link("pages/2-Vectorize Document.py",label="Vectorize",icon=":material/arrow_forward:")
+                st.page_link("pages/2-Vectorize Document.py",label="Vectorize",icon=":material/arrow_forward:")
                     
     with cols[2]:
         with st.container(height=col_height,border=True):
@@ -156,9 +146,7 @@ with st.container(height=row_height, border=False):
 """
                 st.html(html,)
             with st.container(height=but_height,border=False):
-                colsfooter = st.columns([0.5,0.5])
-                with colsfooter[1]:
-                    st.page_link("pages/4-Query LLM.py",label="Query LLM",icon=":material/arrow_forward:")					
+                st.page_link("pages/4-Query LLM.py",label="Query LLM",icon=":material/arrow_forward:")					
 
 html = """
 <h3 style='font-family: "IBM Plex Sans";text-decoration: bold;'>LLM Maintenance, Diagnostics and Support</h3>
@@ -176,9 +164,7 @@ with st.container(height=row_height, border=False):
 """
                 st.html(html)
             with st.container(height=but_height,border=False):
-                colsfooter = st.columns([0.5,0.5])
-                with colsfooter[1]:
-                    st.page_link("pages/5-Add LLM Models.py",label="Manage LLMs",icon=":material/arrow_forward:")
+                st.page_link("pages/5-Add LLM Models.py",label="Manage LLMs",icon=":material/arrow_forward:")
                     
     with cols[1]:
         with st.container(height=col_height,border=True):
@@ -189,9 +175,7 @@ with st.container(height=row_height, border=False):
 """
                 st.html(html)
             with st.container(height=but_height,border=False):
-                colsfooter = st.columns([0.5,0.5])
-                with colsfooter[1]:
-                    st.page_link("pages/7-Diagnostics.py",label="Diagnostics",icon=":material/arrow_forward:") 
+                st.page_link("pages/7-Diagnostics.py",label="Diagnostics",icon=":material/arrow_forward:") 
                     
     with cols[2]:
         with st.container(height=col_height,border=True):
@@ -202,9 +186,7 @@ with st.container(height=row_height, border=False):
 """
                 st.html(html)
             with st.container(height=but_height,border=False):
-                colsfooter = st.columns([0.5,0.5])
-                with colsfooter[1]:
-                    st.page_link("pages/8-Log File.py",label="Log File",icon=":material/arrow_forward:")
+                st.page_link("pages/8-Log File.py",label="Log File",icon=":material/arrow_forward:")
                     
 with st.container(height=row_height, border=False):
     cols = st.columns(3)
@@ -217,8 +199,6 @@ with st.container(height=row_height, border=False):
 """
                 st.html(html)
             with st.container(height=but_height,border=False):
-                colsfooter = st.columns([0.5,0.5])
-                with colsfooter[1]:
-                    st.page_link("pages/9-Support.py",label="Support",icon=":material/arrow_forward:")
+                st.page_link("pages/9-Support.py",label="Support",icon=":material/arrow_forward:")
                     
 			
