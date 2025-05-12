@@ -27,22 +27,6 @@ Enter the userid and password below to access the system.
 
 If you stop using the system for a period of time, the Log In screen will re-appear. You may also see an error message displayed that suggests some components are not available. This error is due to the system restarting but several of the parallel processes not being initialized. If this is the case, use the browser refresh button to restart the process and the error message will disappear.
 
-## Initialization
-
-Once you have log into the demo system, it will begin updating the software with the latest version of the application, along with refreshing any demo documents being used in the system. The system will provide a progress indicator:
-
-* Checking Milvus
-![Browser](wxd-images/demo-startup-milvus.png)
-* Checking Presto
-![Browser](wxd-images/demo-startup-presto.png)
-* Removing old collections
-![Browser](wxd-images/demo-startup-collections.png)
-* Insert default documents
-![Browser](wxd-images/demo-startup-insert.png)
-* Updating LLM Engine (not shown)
-
-Once the updates are complete, the main menu will be displayed.
-
 ## Main Menu
 
 The main menu consists of a navigation bar on the left side of the display, and several tiles which provide details and links to the different parts of the application.
@@ -118,13 +102,6 @@ The *LLM Maintenance, Diagnostics and Support* section provides help for situati
 * Support
 
     Links to the various components used in the system are provided in this panel.
-
-## Home Button
-
-On several of the screens you will see a Home button at the bottom of the screen. Pressing the ++"Home"++ button will return you to the main menu.
-
-![Browser](wxd-images/demo-storage-wiki-upload.png)
-
 
 
 

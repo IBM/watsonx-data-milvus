@@ -2,7 +2,7 @@
  
 ## IBM watsonx.data
 
-Copyright © 2024 by International Business Machines Corporation (IBM). All
+Copyright © 2025 by International Business Machines Corporation (IBM). All
 rights reserved. Printed in Canada. Except as permitted under the Copyright Act
 of 1976, no part of this publication may be reproduced or distributed in any
 form or by any means, or stored in a database or retrieval system, without the
@@ -41,7 +41,7 @@ Therefore, no assurance can be given that an individual user will achieve
 results like those stated here.
 
 U.S. Government Users Restricted Rights - Use, duplication or disclosure
-restricted by GSA ADP Schedule Contract with IBM. Information in this eBook
+restricted by GSA ADP Schedule Contract with IBM. Information in this document
 (including information relating to products that have not yet been announced by
 IBM) has been reviewed for accuracy as of the date of initial publication and
 could include unintentional technical or typographical errors. IBM shall have no
@@ -81,7 +81,7 @@ ILOG, Maximo®, MQIntegrator®, MQSeries®, Netcool®, OMEGAMON, OpenPower,
 PureAnalytics™, PureApplication®, pureCluster™, PureCoverage®, PureData®,
 PureExperience®, PureFlex®, pureQuery®, pureScale®, PureSystems®, QRadar®,
 Rational®, Rhapsody®, Smarter Commerce®, SoDA, SPSS, Sterling Commerce®,
-StoredIQ, Tealeaf®, Tivoli®, Trusteer®, Unica®, urban{code}®, Watson,
+StoredIQ, Tealeaf®, Tivoli®, Trusteer®, Unica®, urban{code}®, Watson, watsonx, 
 WebSphere®, Worklight®, X-Force® and System z® Z/OS, are trademarks of
 International Business Machines Corporation, registered in many jurisdictions
 worldwide.

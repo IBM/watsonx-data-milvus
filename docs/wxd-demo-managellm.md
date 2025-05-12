@@ -9,12 +9,14 @@ The LLMs that are currently in the system are:
 | Name     | Author    | Link
 |----------|-----------|------------
 gemma:2b|Google|[https://ollama.com/library/gemma2]()
+granite3-dense|IBM|[https://ollama.com/library/granite3-dense]()
 instructlab/granite-7b-lab|IBM|[https://ollama.com/instructlab/granite-7b-lab]()
 instructlab/merlinite-7b-lab|IBM|[https://ollama.com/instructlab/merlinite-7b-lab]()
 Ilama3|Meta|[https://ollama.com/library/llama3]()
 llama3.2:lb-instruct-q8_0|Meta|[https://ollama.com/library/llama3.2]()
 tinyllama:l.lb-chat-vl-q8_0|StatNLP Research Group|[https://ollama.com/library/tinyllama]()
 mistral-small|Mistral AI|[https://ollama.com/library/mistral-small]()
+phi3.5|Microsoft|[https://ollama.com/library/phi3.5]()
 phi3:3.8b-mini-128k-instruct-q8_0|Microsoft|[https://ollama.com/library/phi3]()
 
 Below the list of LLMs are options to add a new LLM or remove one from the system.

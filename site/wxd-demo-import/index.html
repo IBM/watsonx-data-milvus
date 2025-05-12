@@ -434,8 +434,28 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#upload-document-or-url" class="md-nav__link">
-    Upload Document or URL
+  <a href="#upload-document" class="md-nav__link">
+    Upload Document
+  </a>
+  
+    <nav class="md-nav" aria-label="Upload Document">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#document-types" class="md-nav__link">
+    Document Types
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#upload-url" class="md-nav__link">
+    Upload URL
   </a>
   
 </li>
@@ -443,6 +463,13 @@
           <li class="md-nav__item">
   <a href="#upload-wikipedia-documents" class="md-nav__link">
     Upload Wikipedia Documents
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#upload-watsonxdata-data" class="md-nav__link">
+    Upload watsonx.data Data
   </a>
   
 </li>
@@ -470,6 +497,13 @@
           <li class="md-nav__item">
   <a href="#wiki-pages" class="md-nav__link">
     Wiki Pages
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#watsonxdata-tables" class="md-nav__link">
+    Watsonx.data Tables
   </a>
   
 </li>
@@ -806,8 +840,28 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#upload-document-or-url" class="md-nav__link">
-    Upload Document or URL
+  <a href="#upload-document" class="md-nav__link">
+    Upload Document
+  </a>
+  
+    <nav class="md-nav" aria-label="Upload Document">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#document-types" class="md-nav__link">
+    Document Types
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#upload-url" class="md-nav__link">
+    Upload URL
   </a>
   
 </li>
@@ -815,6 +869,13 @@
           <li class="md-nav__item">
   <a href="#upload-wikipedia-documents" class="md-nav__link">
     Upload Wikipedia Documents
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#upload-watsonxdata-data" class="md-nav__link">
+    Upload watsonx.data Data
   </a>
   
 </li>
@@ -846,6 +907,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#watsonxdata-tables" class="md-nav__link">
+    Watsonx.data Tables
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -873,35 +941,64 @@
 
 
 <h1 id="document-import-and-storage">Document Import and Storage</h1>
-<p>This system requires that you upload documents or URLs to be used for RAG generation. There is one document (IBM 2023 earnings report summary) provided in the system that you can use for your queries. You have the option of uploading documents from your workstation (PDF, PPT, TXT) and having it cataloged in watsonx.data. You can also point to a website (URL) which will be analyzed, and the contents extracted and stored in watsonx.data. Note that the system does not do a web crawl through all links in the web page, but only captures the text on the web page itself.</p>
-<p>Finally, you can query Wikipedia and retrieve documents based on a topic.</p>
-<h2 id="document-storage">Document Storage</h2>
-<p>The Document storage panel contains three sections in it:</p>
+<p>This system requires that you upload documents or URLs to be used for RAG generation. There is one document (IBM 2023 earnings report summary) provided in the system that you can use for your queries. </p>
+<p>You have the option of uploading documents from:</p>
 <ul>
-<li>Document list</li>
-<li>Upload Document or URL</li>
+<li>A file found on your workstation (PDF, PPT, TXT, JPG, PNG, TIFF, DOC, XLS, TXT) </li>
+<li>A website (URL). The contents will be analyzed, extracted and stored in watsonx.data. Note that the system does not do a web crawl through all links in the web page, but only captures the text on the web page itself.</li>
+<li>Wikipedia articles</li>
+<li>Data from a table that is cataloged in watsonx.data. A sample table (complaints) is cataloged in the system.</li>
+</ul>
+<h2 id="document-storage">Document Storage</h2>
+<p>The Document storage panel contains five sections in it:</p>
+<ul>
+<li>Document list and maintenance</li>
+<li>Upload Document</li>
+<li>Upload URL</li>
 <li>Upload Wikipedia Articles</li>
+<li>Upload watsonx.data Table</li>
 </ul>
 <p><img alt="Browser" src="../wxd-images/demo-storage-main.png" /></p>
 <h3 id="document-list">Document List</h3>
 <p>The document list provides the list of documents that are already stored in the system. The IBM 2023 earnings documents are pre-populated in the system for you to use in the LLM queries.</p>
 <p><img alt="Browser" src="../wxd-images/demo-storage-existing.png" /></p>
 <p>The document display provides the name of the document or URL, and the document type. The document type is determined by the original document file type.</p>
-<h3 id="upload-document-or-url">Upload Document or URL</h3>
-<p>The Upload dialog provides a way of uploading a document from your workstation or by uploading the contents of a URL.</p>
+<p>To delete a document, click on the box beside the document name and then press the <span class="keys"><kbd>Delete</kbd></span> button. The list will be updated after the document has been deleted. Deleting a document does not remove any Milvus collections that include the document in the vectors. </p>
+<p>If you add a new document into the system, you will need to use the <span class="keys"><kbd>Refresh</kbd></span> button to see the document list upated.</p>
+<h3 id="upload-document">Upload Document</h3>
+<p>The Upload dialog provides a way of uploading a document from your workstation.</p>
 <p><img alt="Browser" src="../wxd-images/demo-storage-upload.png" /></p>
 <p>For local files, you can either drag and drop a file from your workstation into the dialog, or press the <span class="keys"><kbd>Browse Files</kbd></span> button to display your local file browser (Mac OSX shown).</p>
 <p><img alt="Browser" src="../wxd-images/demo-storage-upload-file.png" /></p>
-<p>Once the file has been selected, it will be display below the drag and drop line. You can only upload one document at a time.</p>
+<p>Once the file has been selected, it will be displayed below the drag and drop line. You can only upload one document at a time.</p>
 <p><img alt="Browser" src="../wxd-images/demo-storage-upload-selected.png" /></p>
-<p>If you have a URL that you want to input into the system, type or paste the URL into the dialog. Once you have selected the file or URL that you want to upload, press the <span class="keys"><kbd>Upload Doc/URL</kbd></span> button to start the upload process. A progress indicator will appear while the document is being uploaded.</p>
-<p><img alt="Browser" src="../wxd-images/demo-storage-upload-progress.png" /></p>
+<p>Press the <span class="keys"><kbd>Upload File</kbd></span> button to initiate the upload of the document. The system will display a success message when the file has been stored in watsonx.data.</p>
+<p><img alt="Browser" src="../wxd-images/demo-storage-upload-successful.png" /></p>
+<p>If the document already exists in the watsonx.data system, it will be replaced with the new copy. If you don't want to overwrite an existing copy, make sure to use a different name for the file.</p>
+<p>The document list at the top of the screen will not be updated to reflect the new document until you press the <span class="keys"><kbd>Refresh</kbd></span> button.</p>
+<h4 id="document-types">Document Types</h4>
+<p>Below the file name is a dialog which summarizes the document type. These settings are automatically populated based on the document type. The default language is English and the Scanned Image setting is set to False for PDFs and text.</p>
+<p><img alt="Browser" src="../wxd-images/demo-storage-upload-type.png" /></p>
+<p>The system allows the following file types to be loaded into watsonx.data:</p>
+<ul>
+<li>PDF (generated)</li>
+<li>PDF (scanned)</li>
+<li>Image (TIFF, JPEG, PNG)</li>
+<li>XLS, PPT, DOC, TXT</li>
+</ul>
+<p>For images and scanned PDFs, there is no information available to determine what language the document contains, nor if it was a scanned image.</p>
+<p><img alt="Browser" src="../wxd-images/demo-storage-upload-options.png" /></p>
+<p>A PDF that is generated by Microsoft Word or a similar product, will contain the written text and control characters. A PDF that was generated by scanning software will embed the scanned images into the PDF, so there will not be any written text. </p>
+<p>If your document is a scanned PDF, you must open the option window and select the scanned document box. If your document is a TIFF, JPEG, or PNG, these fields would have been automatically set for you. </p>
+<p>The default language is English (and it will be included as a language for all documents). If you know the language of your document, select it from the drop-down list. This will provide the text extraction routines some guidance on how to treat the text that is found in the image.</p>
+<h3 id="upload-url">Upload URL</h3>
+<p>If you have a URL that you want to input into the system, type or paste the URL into the dialog. Once you have selected the file or URL that you want to upload, press the <span class="keys"><kbd>Upload URL</kbd></span> button to start the upload process. A progress indicator will appear while the URL is being uploaded.</p>
+<p><img alt="Browser" src="../wxd-images/demo-storage-upload-url.png" /></p>
 <p>When the upload completes, a success (or failure!) message will be displayed.</p>
-<p><img alt="Browser" src="../wxd-images/demo-storage-upload-success.png" /></p>
-<p>The document list at the top of the screen will not be updated to reflect the new document until you press the <span class="keys"><kbd>Refresh List</kbd></span> button.</p>
+<p><img alt="Browser" src="../wxd-images/demo-storage-upload-url-success.png" /></p>
 <div class="admonition warning">
 <p class="admonition-title">URL Scraping</p>
-<p>Make sure that if you decide to use a web page as a source for your RAG examples, that it does not violate any copuright or privacy policies associated with the web page.</p>
+<p>Make sure that if you decide to use a web page as a source for your RAG examples, that it does not violate any copyright or privacy policies associated with the web page.</p>
 </div>
 <h3 id="upload-wikipedia-documents">Upload Wikipedia Documents</h3>
 <p>The bottom of the Document import panel contains an option to search Wikipedia articles for possible documents to use in a RAG prompt.</p>
@@ -912,20 +1009,64 @@
 <p><img alt="Browser" src="../wxd-images/demo-storage-wiki-selected.png" /></p>
 <p>Once you are done selecting the documents, press the <span class="keys"><kbd>Upload</kbd></span> button and a progress indicator will display the progress of retrieving the articles.</p>
 <p><img alt="Browser" src="../wxd-images/demo-storage-wiki-progress.png" /></p>
-<p>Once the files have been uploaded, a message will be displayed.</p>
+<p>Once the files have been uploaded, a completion message will be displayed.</p>
 <p><img alt="Browser" src="../wxd-images/demo-storage-wiki-success.png" /></p>
-<p>In the Document display, the wiki article names are concatenated together, and the file type is shown as "wiki".</p>
+<p>In the Document display, the wiki article names are concatenated together, and the file type is shown as "wiki". Make sure to press the <span class="keys"><kbd>Refresh</kbd></span> button to see the latest uploads.</p>
 <p><img alt="Browser" src="../wxd-images/demo-storage-wiki-display.png" /></p>
+<h3 id="upload-watsonxdata-data">Upload watsonx.data Data</h3>
+<p>You can extract data from watsonx.data tables and use it as input for a RAG prompt or as a document for the LLM to use.</p>
+<p><img alt="Browser" src="../wxd-images/demo-storage-watsonx-data.png" /></p>
+<p>The table must contain a text column that includes comments or instructions that can be used to create a document. The system contains a table called <code>complaints</code> which is a subset of the complaints database found on the <a href="https://www.consumerfinance.gov/data-research/consumer-complaints/">Consumer Finance</a> website. See the <a href="https://www.consumerfinance.gov/privacy/website-privacy-policy/">Legal Notices</a> for use of this data.</p>
+<p>You can load your own data into watsonx.data by using the table load utility. You can load a CSV table up to approximately 2M in size using this method. The <code>iceberg_data</code> catalog and <code>documents</code> schema should be used to load your table. You can use other catalogs or schemas, but this schema has been created for this demonstration system.</p>
+<p><img alt="Browser" src="../wxd-images/demo-storage-load-table.png" /></p>
+<p>Once the data has been loaded or cataloged on watsonx.data, you can select the rows you want to load by using the table selection dialog.</p>
+<p><img alt="Browser" src="../wxd-images/demo-storage-table-selection.png" /></p>
+<p>When you select the catalog list, it will display the catalogs available in watsonx.data.</p>
+<p><img alt="Browser" src="../wxd-images/demo-storage-select-catalog.png" /></p>
+<p>After selecting a catalog, the schemas list will be populated with the schemas found in that catalog.</p>
+<p><img alt="Browser" src="../wxd-images/demo-storage-select-schema.png" /></p>
+<p>One schema has been pre-defined in this system to store the metadata and contents of the documents used for the RAG examples. In addition to the two control tables, the <code>complaints</code> table is found here.</p>
+<p><img alt="Browser" src="../wxd-images/demo-storage-select-table.png" /></p>
+<p>After selecting the table, press the <span class="keys"><kbd>Analyze</kbd></span> button. The system will take a few minutes to create a list of filters.</p>
+<p><img alt="Browser" src="../wxd-images/demo-storage-select-filters.png" /></p>
+<p>The system queries the table to find the columns that have the least number of values (cardinality). Only columns that have less than 100 values are considered when generating this list. The columns are ordered by least number of unique values to the largest one with a maximum of 5 values displayed.</p>
+<p>For each column of interest, select the value you want to filter the rows on.</p>
+<ul>
+<li>One or more columns can be selected in this list</li>
+<li>Values are combined (ANDed) together and only a single selection is allowed per column</li>
+<li>Values are sorted in ascending order to make it easier to find values</li>
+</ul>
+<p>The following selection requests rows that have an issue regarding a "Card Application" with a subissue of "Application denied" in the state of New York "NY". The values are sorted in ascending values to make it easier to find values.</p>
+<p><img alt="Browser" src="../wxd-images/demo-storage-select-example.png" /></p>
+<p>Press the <span class="keys"><kbd>Filter</kbd></span> button to see a sample of the data found in the table. The result will display a maximum of 50 rows.</p>
+<p><img alt="Browser" src="../wxd-images/demo-storage-select-results.png" /></p>
+<p>If you are satisfied with the sample result, you can upload the contents of the table.</p>
+<p><img alt="Browser" src="../wxd-images/demo-storage-document-create.png" /></p>
+<p>There are three values that need to be set before uploading the data.</p>
+<ul>
+<li>Document Name is based on the catalog, schema, and table name that you are selecting data from. Replace this with a more descriptive title.</li>
+<li>Text Column refers to the column in the base table that will contain the text that you want capture in a document.</li>
+<li>Row limit is used to restrict the number of rows to be used in the document. You can select 10 up to 50 rows. Selecting a large number of rows will result in longer run time for vectoring the results and when using the LLM.</li>
+</ul>
+<p>Once you update these fields, press the <span class="keys"><kbd>Upload</kbd></span> button to create a document from the watsonx.data table.</p>
+<p><img alt="Browser" src="../wxd-images/demo-storage-document-settings.png" /></p>
+<p>Once the upload is complete, a success message will be created. </p>
+<p><img alt="Browser" src="../wxd-images/demo-storage-document-settings.png" /></p>
+<p>Viewing the document list at the top of this section (press <span class="keys"><kbd>Refresh</kbd></span>) will display the new document.</p>
+<p><img alt="Browser" src="../wxd-images/demo-storage-document-list.png" /></p>
+<p>This document can now be used in a Milvus collection, or as input to the LLM.</p>
 <h2 id="technical-details">Technical Details</h2>
 <p>Documents and the contents of web pages are stored in watsonx.data. There are two Iceberg tables within watsonx.data that store details of the documents. The first table contains document metadata:
 <div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">iceberg_data</span><span class="p">.</span><span class="n">documents</span><span class="p">.</span><span class="n">metadata</span>
-<span class="w">    </span><span class="p">(</span>
-<span class="w">    </span><span class="ss">&quot;id&quot;</span><span class="w">          </span><span class="nb">int</span><span class="p">,</span>
-<span class="w">    </span><span class="ss">&quot;document&quot;</span><span class="w">    </span><span class="nb">varchar</span><span class="p">,</span>
-<span class="w">    </span><span class="ss">&quot;type&quot;</span><span class="w">        </span><span class="nb">varchar</span>
-<span class="w">    </span><span class="p">)</span>
+<span class="w">   </span><span class="p">(</span>
+<span class="w">   </span><span class="ss">&quot;id&quot;</span><span class="w">       </span><span class="nb">integer</span><span class="p">,</span>
+<span class="w">   </span><span class="ss">&quot;document&quot;</span><span class="w"> </span><span class="nb">varchar</span><span class="p">,</span>
+<span class="w">   </span><span class="ss">&quot;type&quot;</span><span class="w">     </span><span class="nb">varchar</span><span class="p">,</span>
+<span class="w">   </span><span class="ss">&quot;scan&quot;</span><span class="w">     </span><span class="nb">boolean</span><span class="p">,</span>
+<span class="w">   </span><span class="ss">&quot;language&quot;</span><span class="w"> </span><span class="nb">varchar</span>
+<span class="w">   </span><span class="p">)</span><span class="w">    </span>
 </code></pre></div>
-This simple table tracks the document name (or URL) along with the type of document. The type of document will determine what routine will be used to extract the text from the contents.</p>
+This simple table tracks the document name (or URL) along with the type of document. The type of document will determine what routine will be used to extract the text from the contents. For files that can be either text or images (PDFs), the scan field will be used to determine which routine will be used to extract the contents of the file. The language field is used to apply text extraction rules to the document. The English language is always used for all text extraction, but the language field provides an option to include a second language in the detection routine.</p>
 <p>The second table contains the data from the document.
 <div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">iceberg_data</span><span class="p">.</span><span class="n">documents</span><span class="p">.</span><span class="n">rawdata</span>
 <span class="w">    </span><span class="p">(</span>
@@ -934,19 +1075,22 @@ This simple table tracks the document name (or URL) along with the type of docum
 <span class="w">    </span><span class="ss">&quot;chunk&quot;</span><span class="w">       </span><span class="nb">varchar</span>
 <span class="w">    </span><span class="p">)</span>
 </code></pre></div></p>
-<p>The data is split into approximately 1M base64 chunks. The reason for the chunking of the data is due to a Presto client limit of 1M messages. Once the data is stored in watsonx.data, access to the underlying object can be controlled through user and group authentication. The data is read and converted to BASE64 format and stored into a VARCHAR field. Upon retrieval, the document is rebuilt back into its' native format. Wiki files that were loaded into the system are always extracted as text files.</p>
+<p>The data is split into approximately 1M base64 chunks. The reason for the chunking of the data is due to a Presto client limit of 1M messages. Once the data is stored in watsonx.data, access to the underlying object can be controlled through user and group authentication. The data is read and converted to BASE64 format and stored into a VARCHAR field. Upon retrieval, the document is rebuilt back into its native format. Wiki files that were loaded into the system are always extracted as text files.</p>
 <p>An alternate strategy to storing documents would be to upload the document and store it in an S3-like bucket. The downside is that the document is exposed in the bucket rather than obfuscated in Iceberg table format.</p>
 <h3 id="web-pages">Web Pages</h3>
 <p>Regular documents are stored "as-is" in watsonx.data, but URLs are handled differently. A web scraping routine extracts the text from the website and stores it in watsonx.data as a text document. What this means is that the data watsonx.data is valid as of the time the URL was uploaded. If the web page changes, it will not be reflected in the stored document. </p>
 <p>The web scraping program only retrieves the contents of the URL that was provided and does not traverse down any other links that may be on the web page.</p>
 <h3 id="wiki-pages">Wiki Pages</h3>
 <p>The program uses a Wikipedia API to retrieve articles that match the supplied keywords. Once you select which documents you want included in the system, the program will request the full contents of the document(s) from Wikipedia. The documents are concatenated together to create one text document in the database.</p>
+<h3 id="watsonxdata-tables">Watsonx.data Tables</h3>
+<p>One table (complaints) is pre-loaded into the system for you to experiment creating documents from an SQL table.</p>
 <h2 id="pre-loaded-documents">Pre-loaded Documents</h2>
 <p>There is one document that has been pre-loaded into the system for your use (2023 IBM Annual Report). You can choose to upload your own documents to use with the LLMs. Some observations regarding documents.</p>
 <ul>
 <li>PDFs, DOCs, and Text create good RAG prompts with a minimum of 3 sentences</li>
 <li>PPTs require much more time to extract text and require more sentences (&gt;5) to generate useful RAG prompts</li>
 <li>URLs generate RAG prompts that may contain images or gifs that are ignored</li>
+<li>The large the number of sentences in a RAG, or lines in a document, the longer it will take for the LLM to reply to a question.</li>
 </ul>
 
               

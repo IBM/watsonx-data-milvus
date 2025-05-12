@@ -4,13 +4,17 @@ You usually end up in the Diagnostics section because something went wrong with 
 
 ![Browser](wxd-images/demo-diagnostics-main.png)
 
-There are 9 sections in the diagnostics screen. These sections cover the following topics:
+There are 13 sections in the diagnostics screen. These sections cover the following topics:
 
 * [Check Presto Connection](#check-presto-connection)
 * [Check watsonx.data System](#check-watsonxdata-system)
 * [Restart Presto](#restart-presto)
 * [Restart watsonx.data](#restart-watsonxdata)
 * [Restart LLM Service](#restart-llm-service)
+* [Passwords](#passwords)
+* [Certificates](#certificates)
+* [Upload files](#upload-file)
+* [Download file](#download-file)
 * [Rebuild Database](#rebuild-database)
 * [Add Library](#add-library)
 * [Update Software](#update-software)
@@ -70,6 +74,40 @@ If the LLM is not being responsive, you may have to restart the service. Clickin
 
 You may want to restart the service if you come across an error loading an LLM which indicates that the LLM manager is out of date. The can occur when an LLM has features which are not currently supported in the LLM manager. Restarting the LLM manager will automatically refresh the image to the latest version available.
 
+## Passwords
+
+The password section displays all the Userids and passwords used in the watsonx.data system.
+
+![alt](wxd-images/watsonx-diag-passwords.png)
+
+## Certificates
+
+You can use any of the buttons below to download certificates used to connect to watsonx.data. 
+
+![alt](wxd-images/watsonx-diag-certificates.png)
+
+If you want to generate the certificate to "cut and paste" the value into an application, use the Generate Certificate button.
+
+![alt](wxd-images/watsonx-diag-certificate-create.png)
+
+## Upload File
+
+If you need to upload a file into the system, drag and drop the file onto this dialog, or select the file using the local file manager. Note that only one file can be uploaded at a time and is limited in size. The dialog will display the file size limit.
+
+![alt](wxd-images/watsonx-diag-upload.png)
+
+## Download File
+
+You can download a file from the image by using this dialog. There are two steps involved. First enter the name of the file in the dialog and press the Check File button. 
+
+![alt](wxd-images/watsonx-diag-download.png)
+
+If the file can be found on the system, it will generate a link to that file. For instance, the following displays the download link that is generated when requesting the `presto-key.jks` file which is found in the `/certs` directory.
+
+![alt](wxd-images/watsonx-diag-download-ok.png)
+
+You can download the file using the `Download` button that generated.
+
 ## Rebuild Database
 
 ![Browser](wxd-images/demo-diagnostics-database.png)
@@ -114,19 +152,7 @@ Now that the library has been loaded, we can attempt to vectorize the document a
 
 When you deploy an image from TechZone, the latest software for this demonstration program is loaded into the system. If there has been an update (or a fix released for an issue you came across), you can update the software by clicking the ++"Update software"++ button. The current release of the software is shown in the panel.
 
-The update process will take several minutes. The first step will download the software and then switch to the Main screen. The system will then update several services in the system and provide a progress indicator:
-
-* Checking Milvus
-![Browser](wxd-images/demo-startup-milvus.png)
-* Checking Presto
-![Browser](wxd-images/demo-startup-presto.png)
-* Removing old collections
-![Browser](wxd-images/demo-startup-collections.png)
-* Insert default documents
-![Browser](wxd-images/demo-startup-insert.png)
-* Updating LLM Engine (not shown)
-
-Once the update is complete, the main menu will be displayed. You can check the software level by viewing the Update Software section of the Diagnostic panel.
+The update process will take several minutes. The first step will download the software and then switch to the Main screen. Once the update is complete, the main menu will be displayed. You can check the software level by viewing the Update Software section of the Diagnostic panel.
 
 ## Restart Application
 
