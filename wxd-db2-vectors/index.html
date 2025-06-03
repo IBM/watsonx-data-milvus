@@ -1,0 +1,1341 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.3.9">
+    
+    
+      
+        <title>Db2 Vectors - Watsonx.data and Milvus RAG Demonstration</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.1d29e8d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#000000">
+        
+      
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="black">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#db2-and-vector-comparisons" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Watsonx.data and Milvus RAG Demonstration" class="md-header__button md-logo" aria-label="Watsonx.data and Milvus RAG Demonstration" data-md-component="logo">
+      
+  <img src="../wxd-images/IBM_logo®_rev_RGB.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Watsonx.data and Milvus RAG Demonstration
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Db2 Vectors
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Watsonx.data and Milvus RAG Demonstration" class="md-nav__button md-logo" aria-label="Watsonx.data and Milvus RAG Demonstration" data-md-component="logo">
+      
+  <img src="../wxd-images/IBM_logo®_rev_RGB.png" alt="logo">
+
+    </a>
+    Watsonx.data and Milvus RAG Demonstration
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-introduction/" class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Getting Started
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Getting Started" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Getting Started
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-reference-techzone/" class="md-nav__link">
+        Requesting an image
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-reference-access/" class="md-nav__link">
+        Accessing the reservation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-reference-ports/" class="md-nav__link">
+        Available Ports
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-reference-passwords/" class="md-nav__link">
+        Userids and Passwords
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-reference-documentation/" class="md-nav__link">
+        Documentation
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Lab Instructions
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Lab Instructions" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Lab Instructions
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-demo-menu/" class="md-nav__link">
+        Main Menu
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-demo-intro/" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-demo-rag/" class="md-nav__link">
+        RAG
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-demo-import/" class="md-nav__link">
+        Import Documents
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-demo-vectorize/" class="md-nav__link">
+        Vectorize Documents
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-demo-queryllm/" class="md-nav__link">
+        Query LLM
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-demo-managellm/" class="md-nav__link">
+        Manage LLM
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-demo-diagnostics/" class="md-nav__link">
+        Diagnostics
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-demo-log/" class="md-nav__link">
+        Log File
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-demo-examples/" class="md-nav__link">
+        Sample LLM Queries
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Db2 Vectors
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Db2 Vectors
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#db2-vector-support" class="md-nav__link">
+    Db2 Vector Support
+  </a>
+  
+    <nav class="md-nav" aria-label="Db2 Vector Support">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vector-type" class="md-nav__link">
+    VECTOR type
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vector-distance-function" class="md-nav__link">
+    VECTOR distance function
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#helper-functions" class="md-nav__link">
+    Helper Functions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#db2-vector-example" class="md-nav__link">
+    Db2 Vector Example
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-the-shoe-catalog" class="md-nav__link">
+    Create the Shoe Catalog
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#shoe-logic-notebook" class="md-nav__link">
+    Shoe Logic Notebook
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#shoe-search" class="md-nav__link">
+    Shoe Search
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#credits" class="md-nav__link">
+    Credits
+  </a>
+  
+    <nav class="md-nav" aria-label="Credits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#shoe-data" class="md-nav__link">
+    Shoe Data
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-libraries" class="md-nav__link">
+    Python Libraries
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#db2-vector-function" class="md-nav__link">
+    Db2 Vector Function
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-demo-support/" class="md-nav__link">
+        Support
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Appendix
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Appendix" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Appendix
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_1" type="checkbox" id="__nav_4_1" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_1">
+          Watsonx.data Overview
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Watsonx.data Overview" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          Watsonx.data Overview
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-intro-watsonui/" class="md-nav__link">
+        Watsonx UI Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-intro-infrastructure/" class="md-nav__link">
+        Infrastructure Manager
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-intro-datamanager/" class="md-nav__link">
+        Data Manager
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-intro-queryworkspace/" class="md-nav__link">
+        Query Workspace
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-milvus/" class="md-nav__link">
+        Milvus
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-disclaimer/" class="md-nav__link">
+        Disclaimer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wxd-acknowledgements/" class="md-nav__link">
+        Acknowledgements
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#db2-vector-support" class="md-nav__link">
+    Db2 Vector Support
+  </a>
+  
+    <nav class="md-nav" aria-label="Db2 Vector Support">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vector-type" class="md-nav__link">
+    VECTOR type
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vector-distance-function" class="md-nav__link">
+    VECTOR distance function
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#helper-functions" class="md-nav__link">
+    Helper Functions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#db2-vector-example" class="md-nav__link">
+    Db2 Vector Example
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-the-shoe-catalog" class="md-nav__link">
+    Create the Shoe Catalog
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#shoe-logic-notebook" class="md-nav__link">
+    Shoe Logic Notebook
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#shoe-search" class="md-nav__link">
+    Shoe Search
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#credits" class="md-nav__link">
+    Credits
+  </a>
+  
+    <nav class="md-nav" aria-label="Credits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#shoe-data" class="md-nav__link">
+    Shoe Data
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#python-libraries" class="md-nav__link">
+    Python Libraries
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#db2-vector-function" class="md-nav__link">
+    Db2 Vector Function
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+<h1 id="db2-and-vector-comparisons">Db2 and Vector Comparisons</h1>
+<p>The watsonx.data and Milvus includes a Db2 database that demonstrates how vector can be used in a traditional database engine. The Db2 database is loaded with images from a shoe dataset.</p>
+<p>UT Zappos50K (UT-Zap50K) is a large shoe dataset consisting of 50,025 catalog images collected from Zappos.com. The images are divided into 4 major categories — shoes, sandals, slippers, and boots — followed by functional types and individual brands. Details of this dataset and credits are found at the bottom of this section.</p>
+<p>The following section provides some details of the Db2 vector capability. Note that these features may not yet be available for use as this code is part of a fix pack release of Db2.</p>
+<h2 id="db2-vector-support">Db2 Vector Support</h2>
+<p>Db2 12.1 introduces a series of vector functions that provide support for searching data based on vector comparisons. Some usage includes:</p>
+<ul>
+<li>
+<p>GenAI:</p>
+<ul>
+<li>LLMs/RAG</li>
+</ul>
+</li>
+<li>
+<p>Financial:</p>
+<ul>
+<li>Fraud detection </li>
+<li>Credit risk assessment</li>
+</ul>
+</li>
+<li>
+<p>Retail:</p>
+<ul>
+<li>Product recommendation</li>
+<li>Customer segmentation</li>
+</ul>
+</li>
+<li>
+<p>Manufacturing:</p>
+<ul>
+<li>Anomaly detection</li>
+<li>Visual inspection</li>
+</ul>
+</li>
+<li>
+<p>Government:</p>
+<ul>
+<li>Crime analysis</li>
+<li>Document similarity analysis</li>
+</ul>
+</li>
+<li>
+<p>Healthcare:</p>
+<ul>
+<li>Personalized medicine</li>
+<li>Medical diagnosis</li>
+</ul>
+</li>
+</ul>
+<p>Vector support includes a new vector type, vector distance functions, and helper functions.</p>
+<h3 id="vector-type">VECTOR type</h3>
+<ul>
+<li>VECTOR(dimensions, type)</li>
+<li>FLOAT32 and INT8 vectors</li>
+<li>Maximum dimension: 8168 (FLOAT 32), 32672 (INT8)</li>
+</ul>
+<p>Example:
+<div class="highlight"><pre><span></span><code>CREATE TABLE VTABLE (RV VECTOR(100, REAL), IV VECTOR(300, INT8))
+</code></pre></div></p>
+<h3 id="vector-distance-function">VECTOR distance function</h3>
+<ul>
+<li>VECTOR_DISTANCE(vector_1, vector_2, function)</li>
+<li>Metrics: COSINE, EUCLIDEAN, EUCLIDEAN_SQUARED, DOT, HAMMING, MANHATTAN</li>
+</ul>
+<p>Example:
+<div class="highlight"><pre><span></span><code>VECTOR_DISTANCE(vector1, vector2, COSINE)
+</code></pre></div></p>
+<h3 id="helper-functions">Helper Functions</h3>
+<ul>
+<li>Constructor – string to vector typee.g., VECTOR('[-0.0762727, 0.0559632]', REAL) </li>
+<li>Vector serializing – vector type to stringe.g., VECTOR_SERIALIZE(vector1) </li>
+<li>Vector dimension – counting elementse.g., VECTOR_DIMENSION_COUNT(vector1)</li>
+</ul>
+<h2 id="db2-vector-example">Db2 Vector Example</h2>
+<p>The watsonx.data and Milvus system includes a link to a series of Jupyter notebooks that demonstrate how vectors can be used in Db2. In your reservation, you should see a series of ports that are used to access the components in the system.</p>
+<p><img alt="Browser" src="../wxd-images/demo-db2-link.png" /></p>
+<p>Click on the Db2 Vector Demonstration link and if prompted, enter the password <code>watsonx.data</code>. </p>
+<p>Your browser should display the Table of Contents screen.</p>
+<p><img alt="Browser" src="../wxd-images/demo-db2-toc.png" /></p>
+<p>If you are not familiar with Jupyter notebooks, or the use of the Python language, click on the arrow inside the description to open a separate browser screen on the topic. The Introduction to Jupyter Notebooks is shown:</p>
+<p><img alt="Browser" src="../wxd-images/demo-db2-jupyter.png" /></p>
+<p>The three notebooks at the bottom of the screen contain the code to demonstrate the use of vectors in Db2.</p>
+<p><img alt="Browser" src="../wxd-images/demo-db2-vectors.png" /></p>
+<h2 id="create-the-shoe-catalog">Create the Shoe Catalog</h2>
+<p>The first notebook is used to create the table that will be used by the vector search logic.</p>
+<p><img alt="Browser" src="../wxd-images/demo-db2-shoe-load.png" /></p>
+<p>Follow the instructions inside the notebook to generate the <code>SHOE_CATALOG</code> and <code>SHOE_IMAGES</code> tables.</p>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">SHOE_CATALOG</span>
+<span class="w">  </span><span class="p">(</span>
+<span class="w">  </span><span class="n">ID</span><span class="w">            </span><span class="nb">INT</span><span class="w">              </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">GENERATED</span><span class="w"> </span><span class="n">ALWAYS</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">IDENTITY</span><span class="p">,</span>
+<span class="w">  </span><span class="k">TYPE</span><span class="w">          </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span><span class="w">      </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="n">SUBTYPE</span><span class="w">       </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span><span class="w">      </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="n">BRAND</span><span class="w">         </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span><span class="w">      </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="n">LINE</span><span class="w">          </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span><span class="w">      </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="n">CODE</span><span class="w">          </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span><span class="w">      </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">  </span><span class="n">PHASH</span><span class="w">         </span><span class="nb">CHAR</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="n">ORGANIZE</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">ROW</span><span class="p">;</span>
+
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">SHOE_IMAGES</span>
+<span class="w">  </span><span class="p">(</span>
+<span class="w">  </span><span class="n">ID</span><span class="w">            </span><span class="nb">INT</span><span class="w">              </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">GENERATED</span><span class="w"> </span><span class="n">ALWAYS</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">IDENTITY</span><span class="p">,</span>
+<span class="w">  </span><span class="n">IMAGE</span><span class="w">         </span><span class="n">VARBINARY</span><span class="p">(</span><span class="mi">28000</span><span class="p">)</span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="n">ORGANIZE</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">ROW</span><span class="p">;</span>
+</code></pre></div>
+<p>The table contains the following information:</p>
+<ul>
+<li>ID - a unique identifier for the record</li>
+<li>TYPE - the type of shoe. There are four catagories of shoes (Boots, Sandals, Shoes, Slippers)</li>
+<li>SUBTYPE - A further classification of the type of shoe. The subtypes are specific to the type of shoe. For instance, for Slippers there are Slipper Flats, Slipper Heels, and Boots. There is a type of slipper called Boots, instead of a Boot which is a slipper!</li>
+<li>BRAND - The manufacturer of the shoe</li>
+<li>LINE - There may be multiple versions of a shoe (color) and these shoes will have the same LINE number</li>
+<li>CODE - The unique catalog identifier for the shoe</li>
+<li>PHASH - A vector that is used to create a unique signature of the picture based on color separation</li>
+</ul>
+<p>The SHOE_IMAGES table contains the original image of the shoe. This table is separate from the catalog table to improve response times.</p>
+<ul>
+<li>ID - The same identifier as the catalog table above</li>
+<li>IMAGE - A binary copy of the image</li>
+</ul>
+<p>Once the tables have been created, the program will load the tables with the 50,000 shoe images and generate indexes for them. The table creation will take a few minutes as many images are being read and vectors being created for each one. </p>
+<h2 id="shoe-logic-notebook">Shoe Logic Notebook</h2>
+<p><img alt="Browser" src="../wxd-images/demo-db2-shoe-logic.png" /></p>
+<p>The Shoe Logic Notebook contains code to search the images for similar values. You do not need to run any of the code that is found inside this notebook. The notebook will be loaded by the Shoe Search notebook. </p>
+<p>There are two functions (<code>similar</code> and <code>shoe</code>) that are used to retrieve the shoe images from Db2. The <code>similar</code> function contains SQL that compares image vectors using a <code>compare</code> function.</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">CAT</span><span class="p">.</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">CAT</span><span class="p">.</span><span class="n">brand</span><span class="p">,</span><span class="w"> </span><span class="n">CAT</span><span class="p">.</span><span class="n">code</span><span class="p">,</span><span class="w"> </span><span class="n">IMAGES</span><span class="p">.</span><span class="n">image</span><span class="p">,</span><span class="w"> </span>
+<span class="w">       </span><span class="n">compare</span><span class="p">(:</span><span class="n">shoe_phash</span><span class="p">,</span><span class="n">cat</span><span class="p">.</span><span class="n">phash</span><span class="p">,</span><span class="s1">&#39;both&#39;</span><span class="p">)</span><span class="w"> </span>
+<span class="w">  </span><span class="k">FROM</span><span class="w"> </span>
+<span class="w">     </span><span class="n">SHOE_CATALOG</span><span class="w"> </span><span class="n">CAT</span><span class="p">,</span><span class="w"> </span><span class="n">SHOE_IMAGES</span><span class="w"> </span><span class="n">IMAGES</span>
+<span class="w">  </span><span class="k">WHERE</span><span class="w"> </span>
+<span class="w">      </span><span class="n">compare</span><span class="p">(:</span><span class="n">shoe_phash</span><span class="p">,</span><span class="n">cat</span><span class="p">.</span><span class="n">phash</span><span class="p">,</span><span class="s1">&#39;both&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="p">:</span><span class="n">hash_diff</span>
+<span class="w">      </span><span class="k">AND</span><span class="w"> </span><span class="n">IMAGES</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CAT</span><span class="p">.</span><span class="n">id</span>
+<span class="w">      </span><span class="k">AND</span><span class="w"> </span><span class="n">CAT</span><span class="p">.</span><span class="k">TYPE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">:</span><span class="n">shoe_type</span><span class="w"> </span>
+<span class="w">      </span><span class="k">AND</span><span class="w"> </span><span class="n">CAT</span><span class="p">.</span><span class="n">SUBTYPE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">:</span><span class="n">shoe_subtype</span><span class="w">    </span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="k">ASC</span>
+<span class="k">FETCH</span><span class="w"> </span><span class="k">FIRST</span><span class="w"> </span><span class="mi">20</span><span class="w"> </span><span class="k">ROWS</span><span class="w"> </span><span class="k">ONLY</span><span class="w"> </span>
+</code></pre></div>
+<p>The compare function is a C routine that was cataloged in Db2 and is used to check the distance between the two vectors. The Db2 12.1 vector functions are not publically available at the time of publication, so this code was created to simulate the Db2 vector functions. The full code can be found at the bottom of this section.</p>
+<h2 id="shoe-search">Shoe Search</h2>
+<p>The <code>Shoe Search</code> notebook is used to explore the shoes that are stored in Db2.</p>
+<p><img alt="Browser" src="../wxd-images/demo-db2-shoe-search.png" /></p>
+<p>The notebook will take you through several examples including:</p>
+<ul>
+<li>How to view the brands, shoe types, and total shoe count</li>
+<li>How to view "similar" shoes using vectors</li>
+<li>Restrict shoe selection based on vendor, shoe type and subtypes</li>
+<li>Change the maximum vector distance for comparisons</li>
+</ul>
+<p>You can explore the entire collection of shoes using your own favorite shoe brands!</p>
+<h2 id="credits">Credits</h2>
+<h3 id="shoe-data">Shoe Data</h3>
+<p>UT Zappos50K is a large shoe dataset consisting of 50,025 catalog images 
+collected from Zappos.com. The images are divided into 4 major categories — shoes, sandals, slippers, and boots — followed by functional types and individual brands. This dataset is created in the context of an online shopping task, where users care specifically about fine-grained visual 
+differences. The images are mostly 136 x 102 pixels. The shoes are centered on a white background and pictured in the same orientation for convenient analysis.</p>
+<p>The data was based on 2014 images. The vendors, products, and shoes may no longer exist.</p>
+<p>Reference: <a href="https://www.cs.utexas.edu/~grauman/papers/yu-cvpr2014.pdf">https://www.cs.utexas.edu/~grauman/papers/yu-cvpr2014.pdf</a></p>
+<h3 id="python-libraries">Python Libraries</h3>
+<p>The vector function used by the system is based on the <a href="https://pypi.org/project/ImageHash/">ImageHash library</a>. See also <a href="https://github.com/JohannesBuchner/imagehash">Johannes Buchner's</a> Github project.</p>
+<h3 id="db2-vector-function">Db2 Vector Function</h3>
+<div class="highlight"><pre><span></span><code><span class="cm">/****************************************************************************</span>
+<span class="cm">** (c) Copyright IBM Corp. 2025 All rights reserved.</span>
+<span class="cm">** </span>
+<span class="cm">** The following sample of source code (&quot;Sample&quot;) is owned by International </span>
+<span class="cm">** Business Machines Corporation or one of its subsidiaries (&quot;IBM&quot;) and is </span>
+<span class="cm">** copyrighted and licensed, not sold. You may use, copy, modify, and </span>
+<span class="cm">** distribute the Sample in any form without payment to IBM, for the purpose of </span>
+<span class="cm">** assisting you in the development of your applications.</span>
+<span class="cm">** </span>
+<span class="cm">** The Sample code is provided to you on an &quot;AS IS&quot; basis, without warranty of </span>
+<span class="cm">** any kind. IBM HEREBY EXPRESSLY DISCLAIMS ALL WARRANTIES, EITHER EXPRESS OR </span>
+<span class="cm">** IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF </span>
+<span class="cm">** MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. Some jurisdictions do </span>
+<span class="cm">** not allow for the exclusion or limitation of implied warranties, so the above </span>
+<span class="cm">** limitations or exclusions may not apply to you. IBM shall not be liable for </span>
+<span class="cm">** any damages you suffer as a result of using, copying, modifying or </span>
+<span class="cm">** distributing the Sample, even if IBM has been advised of the possibility of </span>
+<span class="cm">** such damages.</span>
+<span class="cm">*****************************************************************************</span>
+<span class="cm">**</span>
+<span class="cm">** SOURCE FILE NAME: compare.c</span>
+<span class="cm">**</span>
+<span class="cm">** Compares two strings and returns the HAMMING distance between the two as an</span>
+<span class="cm">** integer.</span>
+<span class="cm">*****************************************************************************/</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sqlca.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sqludf.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ctype.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;sqlsystm.h&quot;</span>
+<span class="cp">#define uchar unsigned char</span>
+<span class="cp">#define bool int</span>
+<span class="cp">#define true 1</span>
+<span class="cp">#define false 0</span>
+
+<span class="cm">/* Hamming distance at the byte level */</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="n">SQL_API_FN</span><span class="w"> </span><span class="nf">compare</span><span class="p">(</span><span class="n">SQLUDF_CHAR</span><span class="w">    </span><span class="o">*</span><span class="n">phash1</span><span class="p">,</span>
+<span class="w">                        </span><span class="n">SQLUDF_CHAR</span><span class="w">    </span><span class="o">*</span><span class="n">phash2</span><span class="p">,</span>
+<span class="w">                        </span><span class="n">SQLUDF_CHAR</span><span class="w">    </span><span class="o">*</span><span class="n">comparison</span><span class="p">,</span>
+<span class="w">                        </span><span class="n">SQLUDF_INTEGER</span><span class="w"> </span><span class="o">*</span><span class="n">hamming</span><span class="p">,</span>
+<span class="w">                        </span><span class="n">SQLUDF_NULLIND</span><span class="w"> </span><span class="o">*</span><span class="n">phash1NullInd</span><span class="p">,</span>
+<span class="w">                        </span><span class="n">SQLUDF_NULLIND</span><span class="w"> </span><span class="o">*</span><span class="n">phash2NullInd</span><span class="p">,</span>
+<span class="w">                        </span><span class="n">SQLUDF_NULLIND</span><span class="w"> </span><span class="o">*</span><span class="n">comparisonNullInd</span><span class="p">,</span>
+<span class="w">                        </span><span class="n">SQLUDF_NULLIND</span><span class="w"> </span><span class="o">*</span><span class="n">hammingNullInd</span><span class="p">,</span>
+<span class="w">                        </span><span class="n">SQLUDF_TRAIL_ARGS</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="n">diff</span><span class="p">[</span><span class="mi">16</span><span class="p">][</span><span class="mi">16</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
+<span class="w">  </span><span class="p">{{</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">},</span>
+<span class="w">   </span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">},</span>
+<span class="w">   </span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">},</span>
+<span class="w">   </span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">},</span>
+<span class="w">   </span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">},</span>
+<span class="w">   </span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">},</span>
+<span class="w">   </span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">},</span>
+<span class="w">   </span><span class="p">{</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">},</span>
+<span class="w">   </span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">},</span>
+<span class="w">   </span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">},</span>
+<span class="w">   </span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">},</span>
+<span class="w">   </span><span class="p">{</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">},</span>
+<span class="w">   </span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">},</span>
+<span class="w">   </span><span class="p">{</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">},</span>
+<span class="w">   </span><span class="p">{</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">},</span>
+<span class="w">   </span><span class="p">{</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">}};</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="n">diff_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">ham_error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">99999999</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">ich1</span><span class="p">,</span><span class="w"> </span><span class="n">ich2</span><span class="p">,</span><span class="w"> </span><span class="n">start_byte</span><span class="p">,</span><span class="w"> </span><span class="n">end_byte</span><span class="p">;</span>
+<span class="n">uchar</span><span class="w"> </span><span class="n">ch1</span><span class="p">,</span><span class="w"> </span><span class="n">ch2</span><span class="p">;</span>
+<span class="kt">bool</span><span class="w"> </span><span class="n">invalid_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+
+<span class="w">  </span><span class="cm">/* Check to see if either of the values are null */</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">phash1NullInd</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">-1</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">*</span><span class="n">phash2NullInd</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">-1</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="o">*</span><span class="n">hammingNullInd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="w">      </span><span class="o">*</span><span class="n">hamming</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ham_error</span><span class="p">;</span>
+<span class="w">      </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">  </span><span class="cm">/* Check to make that the strings that you sent me are 32 bytes long */</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">strlen</span><span class="p">(</span><span class="n">phash1</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">32</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">strlen</span><span class="p">(</span><span class="n">phash2</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">32</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="o">*</span><span class="n">hamming</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ham_error</span><span class="p">;</span>
+<span class="w">      </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span>
+
+<span class="w">  </span><span class="cm">/* Default is to search the entire HASH code */</span>
+
+<span class="w">  </span><span class="n">start_byte</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="n">end_byte</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">31</span><span class="p">;</span>
+
+<span class="w">  </span><span class="cm">/* Check to see if you want  ROW or COLUMN specific */</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">comparisonNullInd</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">-1</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="cm">/* First half of the hash code is the row */</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">toupper</span><span class="p">(</span><span class="n">comparison</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="sc">&#39;R&#39;</span><span class="p">)</span><span class="w"> </span><span class="cm">/* Row */</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="n">start_byte</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">          </span><span class="n">end_byte</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">15</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="k">else</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="cm">/* Second half of the hash code is the column */</span>
+<span class="w">          </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">toupper</span><span class="p">(</span><span class="n">comparison</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="sc">&#39;C&#39;</span><span class="p">)</span><span class="w"> </span><span class="cm">/* Column */</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">              </span><span class="n">start_byte</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">16</span><span class="p">;</span>
+<span class="w">              </span><span class="n">end_byte</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">31</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">  </span><span class="cm">/* Check and compare each character to get the hamming distance */</span>
+
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">start_byte</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">end_byte</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">invalid_data</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">true</span><span class="p">)</span><span class="w"> </span><span class="k">break</span><span class="p">;</span>
+
+<span class="w">      </span><span class="n">ch1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">toupper</span><span class="p">(</span><span class="n">phash1</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="w">      </span><span class="n">ch2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">toupper</span><span class="p">(</span><span class="n">phash2</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ch1</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="sc">&#39;A&#39;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">ch1</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="sc">&#39;F&#39;</span><span class="p">)</span><span class="w"> </span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="n">ich1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ch1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="sc">&#39;A&#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span>
+<span class="w">      </span><span class="k">else</span><span class="w"> </span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ch1</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="sc">&#39;0&#39;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">ch1</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="sc">&#39;9&#39;</span><span class="p">)</span><span class="w"> </span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">              </span><span class="n">ich1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ch1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="sc">&#39;0&#39;</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">          </span><span class="k">else</span><span class="w"> </span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">              </span><span class="n">invalid_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ch2</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="sc">&#39;A&#39;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">ch2</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="sc">&#39;F&#39;</span><span class="p">)</span><span class="w"> </span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="n">ich2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ch2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="sc">&#39;A&#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span>
+<span class="w">      </span><span class="k">else</span><span class="w"> </span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span>
+<span class="w">          </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ch2</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="sc">&#39;0&#39;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">ch2</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="sc">&#39;9&#39;</span><span class="p">)</span><span class="w"> </span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">              </span><span class="n">ich2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ch2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="sc">&#39;0&#39;</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span>
+<span class="w">          </span><span class="k">else</span><span class="w"> </span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">              </span><span class="n">invalid_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">invalid_data</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">false</span><span class="p">)</span><span class="w"> </span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="n">diff_count</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">diff</span><span class="p">[</span><span class="n">ich1</span><span class="p">][</span><span class="n">ich2</span><span class="p">];</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">invalid_data</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">false</span><span class="p">)</span><span class="w"> </span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="o">*</span><span class="n">hamming</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">diff_count</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="k">else</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="o">*</span><span class="n">hamming</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ham_error</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span><span class="w"> </span>
+</code></pre></div>
+
+              
+            </article>
+            
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../wxd-demo-examples/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Sample LLM Queries" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Sample LLM Queries
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../wxd-demo-support/" class="md-footer__link md-footer__link--next" aria-label="Next: Support" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Support
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 IBM
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.b97dbffb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.6c7ad80a.min.js"></script>
+      
+    
+  </body>
+</html>
