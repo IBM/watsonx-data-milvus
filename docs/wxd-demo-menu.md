@@ -1,10 +1,10 @@
 # Main Menu
 
-Your TechZone reservation will contain two URLs that you will use to connect to the demonstration:
+Your TechZone reservation will contain four URLs that you will use to connect to the demonstration:
 
-![Browser](wxd-images/techzone-my-ports.png)
+![Browser](wxd-images/demo-db2-link.png)
 
-The first URL (IBM watsonx.data and Milvus Demo) is the link that will connect you to the demonstration system. The second link (watsonx.data UI) provides access to the watsonx.data UI where you can explore the contents of the watsonx.data environment. There is a section in the Appendix ([watsonxui](./wxd-intro-watsonui.md)) which provides details on how to navigate watsonx.data using the UI.
+The first URL (SSH) is only required if you need access to the virtual machine. For the demonstration, you want to use the second URL (IBM watsonx.data and Milvus Demo) that will connect you to the demonstration system. The third link is used to demonstrate the use of Vector searches using the Db2 database. Finally, the fourth link (watsonx.data UI) provides access to the watsonx.data UI where you can explore the contents of the watsonx.data environment. There is a section in the Appendix ([watsonxui](./wxd-intro-watsonui.md)) which provides details on how to navigate watsonx.data using the UI.
 
 ## Log In 
 

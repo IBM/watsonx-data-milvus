@@ -35,3 +35,7 @@ If you find that the system is not being responsive, you may want to check the D
 Finally, details about this system and the programs that were used to create this are listed in the Support section.
 
 Remember that this system does not contain GPUs which limits the performance of the LLM. However, it does provide an environment to try out RAG prompts and observe how different LLMs behave with and without RAG prompts.
+
+## Db2 Vector Example
+
+In addition to demonstrating the use of watsonx.data, Milvus, and RAG generation, this system also includes an example of using vectors with a Db2 database. This system uses a perceptual hash vector to classify images in the database. The SQL language will be used in a Jupyter notebook to extract images that match a base image. 

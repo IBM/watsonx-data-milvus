@@ -12,20 +12,11 @@
 
 import streamlit as st
 import wxd_data as db
-from wxd_utilities import log, runOS, checkStatus, check_password, version_reset
+from wxd_utilities import log, runOS, checkStatus, check_password, setPage
 from streamlit import session_state as sts
 import pandas as pd
 
-st.set_page_config(
-    page_title="Support",
-    page_icon=":infinity:",
-    layout="wide"
-)
-
-if not check_password():
-    st.stop()
-
-# version_reset()
+setPage("Support")
 
 st.subheader("Credits",divider=True)
 
@@ -47,7 +38,7 @@ description = '''
 '''    
 st.write(description)
 
-st.subheader("Hardware and Software",divider=True)
+st.subheader("Hardware and Software",divider="blue")
 
 description = '''
 **Server**    
@@ -76,7 +67,7 @@ description = '''
 
 st.write(description)
 
-st.subheader("Documentation",divider=True)
+st.subheader("Documentation",divider="blue")
 
 description = '''
 The documentation for this system can be found at the [watsonx.data and Milvus demo](https://IBM.github.io/watsonx-data-milvus/) site.

@@ -117,30 +117,27 @@ def log(program,text):
 	if (text in [None,""] or program in [None,""]):
 		return
 
-	if "lastprogram" not in sts:
-		sts.lastprogram = "notvalid"
-	
 	with open("/tmp/watsonx.log","a") as fd:
-		if program != sts.lastprogram:
-			sts.lastprogram = program
-			print_program = program
-		else:
-			print_program = ""
 
 		today = datetime.datetime.now().strftime("%H:%M:%S")
 		
 		lines = text.split('\n')
 		initial = True
+		chunk_count = 0
 		for line in lines:
 			out = line.replace('\t',' ')
 			if (out.strip() != ""):
 				chunks = textwrap.wrap(out,width=80)
 				for chunk in chunks:
 					if initial:
-						fd.write(f"{today},{sts.lastprogram[:17]},{chunk}\n")
+						fd.write(f"{today},{program},{chunk}\n")
 						initial = False
 					else:
 						fd.write(f" , ,{chunk}\n")
+					chunk_count = chunk_count + 1
+					if (chunk_count == 5):
+						fd.write(f" , ,*** Output truncated ***\n")
+						return
 
 	return
 
@@ -158,7 +155,7 @@ def setCredentials():
 
 	log("Credentials","Setting credentials for the system.")
 
-	sts['version']         = '1.1.0'
+	sts['version']         = '1.3.0'
 	sts['initialized']     = False
 	sts['minio_host']      = "watsonxdata"
 	sts['minio_port']      = "9000"
@@ -172,6 +169,7 @@ def setCredentials():
 	sts['presto_catalog']  = 'tpch'
 	sts['presto_schema']   = 'tiny'
 	sts['presto_certfile'] = "/certs/lh-ssl-ts.crt"	
+	sts['complaints']      = "/home/watsonx/rag/samples/complaints-2025.csv"
 	sts['rag']			   = True
 	sts['terse']           = True
 	sts['displayrag']      = True
@@ -350,11 +348,13 @@ def setCredentials():
 
 def check_password():
 	"""
-	Returns `True` if the user had a correct password.
+	Returns True if the user had a correct password.
 	"""
 
 	def login_form():
-		"""Form with widgets to collect user information"""
+		"""
+		Form with widgets to collect user information
+		"""
 		col1, col2 = st.columns([0.5,0.5])
 		with col1:
 			with st.form("Credentials"):
@@ -369,7 +369,9 @@ Enter you credentials below.
 				st.form_submit_button("Log in", on_click=password_entered)
 
 	def password_entered():
-		"""Checks whether a password entered by the user is correct."""
+		"""
+		Checks whether a password entered by the user is correct.
+		"""
 		if st.session_state["username"] in st.secrets[
 			"passwords"
 		] and hmac.compare_digest(
@@ -463,3 +465,55 @@ def version_reset():
 
 	return 
 
+def buttonWidth(button_list):
+	"""
+	A shortcut routine used to place buttons on a screen. Since buttons are not placed one after another, the column control needs to be used to place buttons beside one another. The spacing is always an issue, so this routine returns the number of button slots we need which includes 1 column that acts as a spacer at the end.
+
+	Given a list of button names, return the size of the columns needs to display them properly
+	"""
+	if (button_list in [None,""]):
+		return None
+	
+	total_width = 0
+	button_widths = []
+	for button in button_list:
+		button_width = len(button)
+		button_widths.append(button_width)
+		current_width = button_width + 2
+		if (total_width == 0):
+			total_width = current_width
+		else:
+			total_width = total_width + 2 + current_width
+	button_width = 80 - total_width
+	if (button_width < 0):
+		button_width = 0
+	button_widths.append(button_width)
+
+	return button_widths
+	
+def setPage(title):
+	"""
+	This routine is used to set the sidebar width when displaying the screen. Appears that there is no global way of setting the size other than running this code at the beginning of every window.
+	"""
+
+	st.set_page_config(
+		page_title=title,
+		page_icon=":infinity:",
+		layout="wide"    
+	)
+
+	st.markdown(
+		"""
+		<style>
+			section[data-testid="stSidebar"] {
+				width: 250px !important; # Set the width to your desired value
+			}
+		</style>
+		""",
+		unsafe_allow_html=True,
+	)	
+
+	if check_password():
+		return True
+	else:
+		st.stop()

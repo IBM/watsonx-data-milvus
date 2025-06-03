@@ -12,6 +12,9 @@
 #
 
 import streamlit as st
+import pandas as pd
+import sqlalchemy
+from sqlalchemy import create_engine
 from streamlit import session_state as sts
 from wxd_minio import resetMinio
 from wxd_utilities import log
@@ -252,6 +255,8 @@ def rebuildDatabase(_connection):
 	Rebuild the contents of the database.
 	"""
 
+	import csv, prestodb
+
 	program = "rebuildDB"
 
 	if (_connection == None):
@@ -279,15 +284,12 @@ Check the following:
 		return False
 	
 	schema = sts["minio_bucket"]
-	
-	sql = f"DROP TABLE IF EXISTS iceberg_data.{schema}.metadata"
-	_  = runDML(_connection, sql)
-	sql = f"DROP TABLE IF EXISTS iceberg_data.{schema}.rawdata"
-	_ = runDML(_connection, sql)
-	sql = f"DROP TABLE IF EXISTS iceberg_data.{schema}.questions"
-	_ = runDML(_connection, sql)
-	sql = f"DROP TABLE IF EXISTS iceberg_data.{schema}.complaints"
-	_ = runDML(_connection,sql)
+
+	sql = f'show tables from "iceberg_data"."{schema}"'
+	alltables = runSQL(_connection,sql)
+	for table in alltables['Table']:
+		sql = f'DROP TABLE IF EXISTS "iceberg_data"."{schema}"."{table}"'
+		_  = runDML(_connection, sql)
 
 	sql = f"DROP SCHEMA IF EXISTS iceberg_data.{schema}"
 	if (runDML(_connection, sql) == False):
@@ -305,6 +307,7 @@ Check the following:
 		"""
 	if (runDML(_connection, sql) == False):
 		return False
+	
 	sql = f"""
 		CREATE TABLE iceberg_data.{schema}.metadata
 			(
@@ -317,16 +320,138 @@ Check the following:
 		  """
 	if (runDML(_connection,sql) == False):
 		return False
+	
 	sql = f"""
 		CREATE TABLE iceberg_data.{schema}.rawdata
-		(
-		"id"          int,
-		"chunk_id"    int,
-		"chunk"       varchar
-		)
+			(
+			"id"          int,
+			"chunk_id"    int,
+			"chunk"       varchar
+			)
 		"""
 	if (runDML(_connection,sql) == False):
 		return False
+
+	sql = f"""
+		CREATE TABLE iceberg_data.{schema}.complaints 
+			(
+			"issue"     varchar,
+			"subissue"  varchar,
+			"complaint" varchar,
+			"company"   varchar,
+			"state"     varchar
+			)
+		"""
+	if (runDML(_connection,sql) == False):
+		return False
+
+	try:
+		with open(sts.complaints) as csvfile:
+			reader = csv.reader(csvfile, delimiter=',', quotechar='"')
+
+			header = True
+			preINSERT = f'INSERT INTO "iceberg_data"."{schema}"."complaints" VALUES '
+			record_count = 0
+			records = [preINSERT]			
+			comma = ""
+
+			for row in reader:
+				if header: 				# Ignoring the header line
+					header = False
+					continue
+
+				if record_count == 100:
+					sql = " ".join(records)
+					if (runDML(_connection,sql) == False):
+						return False
+					records = [preINSERT]
+					record_count = 0
+					comma = ""
+
+				complaint = row[2].replace("'","`")
+				value = f" {comma} ('{row[0]}','{row[1]}','{complaint}','{row[3]}','{row[4]}')"
+				comma = ","
+				records.append(value)
+				record_count = record_count + 1
+
+			if record_count > 0:
+				sql = " ".join(records)
+				if (runDML(_connection,sql) == False) :
+					return False					
+
+			log(program,f"Complaints table loaded successfully")
+			return True	
+		
+	except Exception as e:
+		log(program,f"Unable to open complaints data file: {repr(e)}")
+		return False
+	
+	# userid     = sts['presto_userid']  
+	# password   = sts['presto_password']
+	# hostname   = sts['presto_host']    
+	# port       = sts['presto_port']    
+	# catalog    = "iceberg_data" 
+	# schema     = "documents"  
+	# table      = "complaints"
+	# certfile   = sts['presto_certfile']	
+
+	# # Connect Statement
+	# try:
+	# 	connection = prestodb.dbapi.connect(
+	# 			host=hostname,
+	# 			port=port,
+	# 			user=userid,
+	# 			catalog=catalog,
+	# 			schema=schema,
+	# 			http_scheme='https',
+	# 			auth=prestodb.auth.BasicAuthentication(userid, password)
+	# 	)
+	# 	if (certfile != None):
+	# 		connection._http_session.verify = certfile
+
+	# 	df = pd.read_csv(sts.complaints)
+
+	# 	data = [tuple(x) for x in df.to_numpy()]
+
+	# 	sql = 'INSERT INTO complaints VALUES (%s, %s, %s, %s, %s)'
+
+	# 	cursor = connection.cursor()
+	# 	cursor.executemany(sql,data)
+	# 	connection.commit()
+	# 	cursor.close()
+
+
+
+	# 	# with open(sts.complaints) as csvfile:
+	# 	# 	reader = csv.reader(csvfile, delimiter=',', quotechar='"')
+	# 	# 	first = True
+	# 	# 	cursor = _connection.cursor()
+
+	# 	# 	for row in reader:
+	# 	# 		if first:
+	# 	# 			first = False
+	# 	# 			continue
+	# 	# 		complaint = row[2].replace("'","`")
+	# 	# 		sql = f"""INSERT INTO "{catalog}"."{schema}"."{table}" values ('{row[0]}','{row[1]}','{complaint}','{row[3]}','{row[4]}')"""	
+	# 	# 		st.write(sql)
+	# 	# 		try:
+	# 	# 			cursor.execute(sql)		
+	# 	# 		except Exception as e:
+	# 	# 			st.error(row[0])
+	# 	# 			st.error(row[1])
+	# 	# 			st.error(row[2])
+	# 	# 			st.error(row[3])
+	# 	# 			st.error(row[4])
+	# 	# 			st.error(repr(e))
+	# 	# 			cursor.close()
+	# 	# 			return False
+
+	# 	# cursor.close()
+	# except Exception as e:
+	# 	st.error(repr(e))	
+	# 	return False
+	
+	# return True
 	
 
 def getDocument(_connection,id):

@@ -1,12 +1,14 @@
 # Watsonx.data and Demonstration Ports
 
-The top of your TechZone reservation will contain two published services at the top of the details page.
+The top of your TechZone reservation will contain four published services at the top of the details page.
 
 ![Browser](wxd-images/techzone-my-details.png)
 
 These URLs and Port numbers are needed to access the demo. The list will contain the following information: 
 
-* IBM watsonx.data and Milvus Demo: http://region.services.cloud.techzone.ibm.com:33333
+* SSH for watsonx userid - ssh -p xxxxx watsonx@region.services.cloud.techzone.ibm.com
+* Milvus and watsonx.data RAG Demo: http://region.services.cloud.techzone.ibm.com:33333
+* Db2 Vector Demonstration - Server: http://useast.services.cloud.techzone.ibm.com:4444/notebooks/
 * Watsonx UI: https://region.services.cloud.techzone.ibm.com:41311
 
 The server URL will be different for each region and data center that your machine is provisioned on. The server name is usually in the format:

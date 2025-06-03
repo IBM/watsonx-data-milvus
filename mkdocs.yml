@@ -3,7 +3,6 @@ site_name: Watsonx.data and Milvus RAG Demonstration
 #   name: material
 nav:
   - Introduction: "wxd-introduction.md"
-  - UI Failure Notice: "wxd-fix.md"
   - Getting Started:
     - Requesting an image: "wxd-reference-techzone.md"
     - Accessing the reservation: "wxd-reference-access.md"
@@ -21,6 +20,7 @@ nav:
     - Diagnostics: "wxd-demo-diagnostics.md"
     - Log File: "wxd-demo-log.md"
     - Sample LLM Queries: "wxd-demo-examples.md"
+    - Db2 Vectors: "wxd-db2-vectors.md"
     - Support: "wxd-demo-support.md"
   - Appendix: 
     - Watsonx.data Overview:
@@ -33,7 +33,7 @@ nav:
     - Acknowledgements: "wxd-acknowledgements.md"
 
   # Copyright
-copyright: Copyright &copy; 2024 IBM 
+copyright: Copyright &copy; 2025 IBM 
 
 # Theme
 theme:

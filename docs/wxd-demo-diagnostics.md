@@ -92,7 +92,7 @@ If you want to generate the certificate to "cut and paste" the value into an app
 
 ## Upload File
 
-If you need to upload a file into the system, drag and drop the file onto this dialog, or select the file using the local file manager. Note that only one file can be uploaded at a time and is limited in size. The dialog will display the file size limit.
+If you need to upload files into the system, drag and drop the files onto this dialog, or select the files using the local file manager. Note that there is a limit to the file size (2Gb). The dialog will display the file size limit.
 
 ![alt](wxd-images/watsonx-diag-upload.png)
 

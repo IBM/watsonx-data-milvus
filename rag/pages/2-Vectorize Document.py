@@ -15,8 +15,9 @@ import wxd_data as db
 import wxd_milvus as wxd_milvus
 import pandas as pd
 import re
+from time import sleep
 from streamlit import session_state as sts
-from wxd_utilities import setCredentials, log, check_password, version_reset
+from wxd_utilities import setCredentials, log, check_password, setPage
 
 def document_selection():
     """
@@ -45,6 +46,9 @@ def getCollectionName():
 
 @st.fragment
 def selectDocuments():
+    """
+    Select the documents you want to place into a collection.
+    """
     connection = db.connectPresto()
     if (connection == None):
         db.badConnection()
@@ -67,17 +71,11 @@ def selectDocuments():
         use_container_width=False
     )
 
-def collection_selection():
+def delete_collection():
     """
-    Collection_selection is called by the list_collections dialog to delete a
-    Milvus collection.
+    Remember the name of the collection you selected
     """
-
-    selected = sts._collection_selected['edited_rows']
-    for item in selected:
-        item_idx = int(item)
-        collection_name = sts.collection_list.iloc[item_idx,1]
-        wxd_milvus.dropCollections(deleteOnly=collection_name)
+    sts["collection_delete"] = sts._collection_delete
 
 @st.fragment
 def list_collections():
@@ -85,37 +83,45 @@ def list_collections():
     Select a Collection that you want to delete, or to refresh the list.
     """
 
-    sts.collection_list = wxd_milvus.listCollections(True)
+    details = wxd_milvus.listCollections(True)
+    sts.collection_list = details
 
-    with st.container(border=True):
+    if ("select_collection" not in sts):
+        sts.selected_collection = None
 
-        sts["selected_vectors"] = st.data_editor(sts.collection_list,
-            column_config={
-            "selected"  : st.column_config.Column(st.column_config.CheckboxColumn("Selected"),width="small"),
-            "collection": st.column_config.Column("Collection",width="small",disabled=True),
-            },
-            # disabled=["id","document","type"],
-            on_change=collection_selection,
-            key="_collection_selected",
-            hide_index=True,
-            use_container_width=False
-        )       
+    with st.container(border=True):    
 
-        refresh = st.button("Refresh")
+        st.selectbox("Collections",sts.collection_list['Collection'],index=None,on_change=delete_collection,key="_collection_delete",placeholder="Select a collection to delete")
 
-    if refresh:
-        st.rerun()
+        columns = st.columns([8,10,80])
 
-st.set_page_config(
-    page_title="Prompts",
-    page_icon=":infinity:",
-    layout="wide"
-)
+        with columns[0]:
+            delete_button = st.button("Delete")
+        with columns[1]:
+            refresh_button = st.button("Refresh")    
 
-if not check_password():
-    st.stop()
+        if delete_button:
 
-# version_reset()    
+            if ("collection_delete" not in sts or sts.collection_delete == None):
+                st.error("You need to select a collection to delete.")
+                return
+            
+            wxd_milvus.dropCollections(deleteOnly=sts.collection_delete)  
+
+            st.success(f"Collection {sts.collection_delete} successfully deleted.") 
+            sleep(0.5)     
+
+            st.rerun()   
+
+        elif refresh_button:
+
+            sts.collection_delete = None
+            st.rerun()
+
+        else:
+            pass
+
+setPage("Vectorize")
 
 if ('initialized' not in sts):
     if (setCredentials() == False):
@@ -136,46 +142,13 @@ The Milvus vector database is used to store sentences extracted from documents, 
 """
 st.write(description)
 
-with st.container(border=False,height=40):
-    cols = st.columns(2)
-    with cols[0]:
-        with st.popover("Technical Details",use_container_width=True):
-            details = \
-            """
-            ###### Press Escape to Close this Window
-            
-            ##### Vectorize Documents
-            In order to create a RAG (Retrieval Augmented Generation), one or more documents must be selected from the database, the text
-            extracted, and then stored into Milvus and vectorized.
-
-            The process to vectorize a document involves converting the document (PPT, PDF, etc...) into RAW text. Once the text
-            is available, the text is split into smaller chunks, with each chunk containing 250 or so words. These chunks are stored
-            in a Milvus database and the text is vectorized using an algorithm (sentence-transformers/all-MiniLM-L6-v2).
-
-            Once the vectorization is completed, we can use search the data for similar sentences when generating a RAG prompt.
-
-            The LLM can run without vectorizing a database, but it will not be able to generate a RAG prompt. The system will display
-            a warning if you attempt to use a RAG prompt without a document that has been vectorized.
-
-            ##### Vector Size
-            The document is broken up into tokens which are then inserted into Milvus. The size of the tokens determines the number of words that are captured in each vector. The three options (Small, Medium, Large) translate to 512, 1024, and 2048 tokens. This is roughly equal to 64, 128, and 256 words per vector. The tradeoffs between the different sizes are:
-
-            * Smaller vector size may require more sentences in the RAG prompt to provide enough details for the LLM
-            * Larger vector size will take more time for the LLM to process
-            * The tradeoff is between number of vectors, processing time, and size of RAG prompt
-
-            ##### Collections
-            One or more documents make up a collection. Select the documents that you want to be included in a collection, and they will be vectorized as a group in Milvus. When you query the LLM, select the collection which best matches your question and the RAG prompt will use the data from the collection to generate the text.
-
-            If you use the name of an existing collection, the contents of that collection will be overwritten with the new documents.
-            """    
-            st.markdown(details)
+st.page_link("https://ibm.github.io/watsonx-data-milvus/wxd-demo-vectorize/", label="Additional Help",icon=":material/help:")
 
 st.subheader("Current Document Collections",divider="blue")
 
 description = \
 """
-The following is a list of document collections that have already been vectorized. To delete a collection, select the checkbox beside the collection name and it will be deleted. To update the list, press the Refresh button after adding a new collection.
+The following is a list of document collections that have already been vectorized. To delete a collection, select the collection from the drop down list and press the Delete button. To update the list, press the Refresh button after adding a new collection.
 """
 
 st.write(description)
@@ -193,7 +166,7 @@ with st.container(border=True):
 
     selectDocuments()
 
-    textColumns = st.columns([20,18,18,18,18,18])
+    textColumns = st.columns([20,80])
 
     with textColumns[0]:
         st.markdown("""
@@ -213,7 +186,7 @@ with st.container(border=True):
         </style><span style="font-size: 14px">Vector Size
         """,unsafe_allow_html=True)
 
-    textColumns = st.columns([20,18,18,18,18,18])    
+    textColumns = st.columns([20,80])    
 
     with textColumns[0]:
         st.text_input("Enter collection name",value="Default",key="_collection_name",on_change=getCollectionName,label_visibility="collapsed")         

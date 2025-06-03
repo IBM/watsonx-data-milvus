@@ -9,8 +9,13 @@
 #
 #   Milvus routines
 #
-#   loadvectors - Given a list of document IDs, load the documents in as vectors into Milvus
-#   querymilvus - Given a string, retrieve the vectors from Milvus that best match
+#   connectMilvis   - Connect to the Milvus system
+#   dropCollections - Drop all collections in Milvus
+#   listCollections - Return a list of collection names
+#   storeVectors    - Store document vectors into Milvus
+#   query_milvus    - Given a string, retrieve the vectors from Milvus that best match
+#   createPrompt    - Create a prompt string based on search results
+#   loadvectors     - Given a list of document IDs, load the documents in as vectors into Milvus
 #
 
 import warnings
@@ -232,12 +237,9 @@ def storeVectors(_connection, collection_name, ids, vectorsize):
     log(program,f"Loading complete")        
     return basic_collection 
 
-#new
-
 def query_milvus(query, collection_name, max_results):
     """
-    Given a query, convert the text into a vector and then look for similar text chunks in the document(s) 
-    that you vectorized. The max_results field determines how many sentences are returned.
+    Given a query, convert the text into a vector and then look for similar text chunks in the document(s) that you vectorized. The max_results field determines how many sentences are returned.
     """
 
     from sentence_transformers import SentenceTransformer

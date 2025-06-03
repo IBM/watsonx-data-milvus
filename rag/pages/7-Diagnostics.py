@@ -12,7 +12,7 @@
 
 import streamlit as st
 import wxd_data as db
-from wxd_utilities import log, runOS, checkStatus, setCredentials, check_password, version_reset
+from wxd_utilities import log, runOS, checkStatus, setCredentials, check_password, setPage
 from wxd_milvus import dropCollections, storeVectors
 from streamlit import session_state as sts
 from time import sleep
@@ -55,16 +55,7 @@ def getFilename():
         except Exception as e:
             sts.file_error = f"Invalid file name: {sts.filename} {repr(e)}"
 
-st.set_page_config(
-    page_title="Diagnostics",
-    page_icon=":infinity:",
-    layout="wide"
-)
-
-if not check_password():
-    st.stop()
-
-# version_reset()
+setPage("Diagnostics")
 
 if ('initialized' not in sts):
     if (setCredentials() == False):
@@ -79,6 +70,9 @@ You are here because something went wrong with the image. Sorry about that. Hope
 wrong and get it back up and running. 
 '''    
 st.write(description)
+
+st.page_link("https://ibm.github.io/watsonx-data-milvus/wxd-demo-diagnostics/", label="Additional Help",icon=":material/help:")  
+
 
 col1, col2, col3, _ = st.columns(4)
 
@@ -386,14 +380,14 @@ st.subheader("Upload File",divider="blue")
 
 with st.form("Upload", clear_on_submit=False):
     description = '''
-To upload one file into the system, either drag or drop the document into the control below or press the Browse Files button. The file is placed into the /tmp directory.
+To upload files into the system, either drag or drop the files into the control below or press the Browse Files button. The files are placed into the /tmp directory.
 ''' 
     st.write(description)
     col1, col2 = st.columns([0.15,0.85])
     with col1:
         submitted = st.form_submit_button("Upload Files")
     with col2:
-        files = st.file_uploader("Select a file to upload",label_visibility="collapsed",accept_multiple_files=True)
+        files = st.file_uploader("Select files to upload",label_visibility="collapsed",accept_multiple_files=True)
     
     if submitted and len(files) > 0:
         for file in files:

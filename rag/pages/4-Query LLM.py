@@ -14,7 +14,7 @@ import streamlit as st
 import pandas as pd
 from streamlit import session_state as sts
 from wxd_milvus import query_milvus, createPrompt, listCollections
-from wxd_utilities import log, runOS, setCredentials, check_password, version_reset
+from wxd_utilities import log, runOS, setCredentials, check_password, setPage
 from wxd_data import getDocuments, connectPresto, badConnection, getDocument
 from wxd_ollama import getLLMs, askLLM
 
@@ -67,24 +67,24 @@ def document_select(connection):
 
 def toSettings():
     settings = []
-    if (sts.displayrag == False):
-        settings.append("Hide RAG")
-    if (sts.random == False):
-        settings.append("Repeatable")
+    if (sts.displayrag == True):
+        settings.append("Verbose")
+    if (sts.random == True):
+        settings.append("Random")
     return settings
 
 def toTemperature():
-    temp = "Medium"
+    temp = "M"
     if (sts.temperature == 0):
-        temp = "None"
+        temp = "Off"
     elif (sts.temperature == 0.3):
-        temp = "Low"
+        temp = "L"
     elif (sts.temperature == 0.7):
-        temp = "Medium"
+        temp = "M"
     elif (sts.temperature == 1.5):
-        temp = "High"
+        temp = "H"
     else:
-        temp = "Medium"
+        temp = "M"
     return temp
 
 def doClear():
@@ -110,13 +110,13 @@ def getTemperature():
     strictly to the facts while moving into higher settings will
     provide for some more flexibility in the answer.
     """
-    if (sts.llm_temperature == "None"):
+    if (sts.llm_temperature == "Off"):
         sts.temperature = 0
-    elif (sts.llm_temperature == "Low"):
+    elif (sts.llm_temperature == "L"):
         sts.temperature = 0.3
-    elif (sts.llm_temperature == "Medium"):
+    elif (sts.llm_temperature == "M"):
         sts.temperature = 0.7
-    elif (sts.llm_temperature == "High"):
+    elif (sts.llm_temperature == "H"):
         sts.temperature = 1.5
     else:
         sts.temperature = 0.7
@@ -126,16 +126,36 @@ def getSettings():
     LLM settings. Display the RAG prompt on the screen (default is yes), and 
     use repeatible seeds when generating the reply (default is no).
     """
-    sts['displayrag'] = True
-    sts['random'] = True
+ 
+    sts['displayrag'] = False
+    sts['random'] = False
     if (len(sts.llm_settings) > 0):
         for key in sts.llm_settings:
-            if ("Hide" in key):
-                sts['displayrag'] = False
-            elif ("Repeatable" in key):
-                sts['random'] = False
+            if ("Verbose" in key):
+                sts['displayrag'] = True
+            elif ("Random" in key):
+                sts['random'] = True
             else:
                 pass
+
+def setButtons():
+    """
+    There are two settings that we want to use to adjust the performance of the LLM: Random seed and a verbose mode. The titles of the buttons will change as you change the values.
+    """
+
+    titles = []
+
+    if (sts.displayrag == True):
+        titles.append("Verbose")
+    else:
+        titles.append("Quiet")
+
+    if (sts.random == True):
+        titles.append("Random")
+    else:
+        titles.append("Fixed")
+
+    return titles
 
 def setMenu():
     """
@@ -143,14 +163,7 @@ def setMenu():
     """            
     sts["menu_inline"] = sts._menu_inline
 
-st.set_page_config(
-    page_title="Chat",
-    page_icon=":infinity:",
-    layout="wide"
-)                
-
-if not check_password():
-    st.stop()
+setPage("Chat")
 
 if ('initialized' not in sts):
     if (setCredentials() == False):
@@ -178,67 +191,7 @@ if (sts.model == None):
     st.error("A model needs to be loaded into the system before you attempt to begin a chat session. Please use the LLM Models screen to upload a model to use.")
     st.stop()
 
-with st.container(border=False,height=40):
-    cols = st.columns(2)
-    with cols[0]:    
-        with st.popover("Technical Details",use_container_width=True):
-            details = \
-    """
-    ###### Press Escape to Close this Window
-
-    ##### LLM Query
-    This dialog is used to query the LLM using a set of parameters to modify the original prompt. 
-
-    The LLM parameters on the left side of the screen provides an opportunity to adjust which LLM to use when requesting a response as well as limit the number of sentences that the RAG process generates.
-
-    ##### Inline Settings
-    Turning this setting ON will place the settings in the Chat window rather than in the sidebar.
-
-    ##### Current LLM Model
-    The LLM pulldown displays the current LLM model being used and provides a list of LLMs that are currently available in the system. Choose which LLM you want to use to answer your query. The default LLM is the Instructlab/granite-7b-lab model.
-
-    ##### Current Collection
-    The current collection pulldown displays the collection that is being used to generate the RAG prompts. You can select from your other document collections by selecting one from the pulldown list. 
-
-    ##### Source Document
-    If you specific a document in this pulldown, the LLM will be provided with the contents of this document before answering your question. Using a document will stop the RAG generation since the generated sentences will already be included in the document.
-
-    ##### LLM Settings
-    To select one of the options, press on the option name so that it is highlighted in red. 
-    * Hide RAG - The system default is to display the RAG prompt that is generated. You can turn this off by selecting the "Hide RAG" option.
-    * Repeatible - The LLM is provided with a random seed every time a question is asked. This usually results in slightly different answers when you repeat a question. By selecting the Repeatible option, the LLM is always provided with the same seed value (42 - Ask the LLM what that number means!).
-
-    ##### Maximum RAG Sentences
-    The **Maximum RAG Sentences** provides values of 0ff, 3, 6, 9 as the maximum number of sentences to generate for a RAG prompt. The default value is 3. Setting the value to Off will turn off the RAG prompt. Using a larger number of sentences will slow down the LLM response but may result in a higher quality answer.
-
-    The **Creativity (Temperature)** values are None (0), Low (0.3), Medium (0.7), and High (1.5). Use a lower temperature value when you want more dependable output. Use a higher temperature value when you want to increase the randomness and variability or the output, such as when you want creative output. Remember, randomness can also lead to inaccurate or nonsensical output. The default setting is Medium.
-
-    ##### Previous Questions
-    The left sidebar includes a list of questions previously sent to the LLM. To copy a question into the LLM prompt, use the following steps:
-    1. Click on the question you want to copy from the list (it will be highlighted)
-    2. Use the keyboard copy button (Windows/Linux &#8963;&#8211;c, Mac &#8984;&#8211;c) to place the value into the clipboard
-    3. Click on the LLM question input line
-    4. Use keyboard paste button (Windows/Linux &#8963;&#8211;v, Mac &#8984;&#8211;v) to place the copied value into the line
-
-    ##### Clear and Stop
-
-    The bottom of the LLM Chat window will have a Clear button. This button will clear the history of questions and LLM responses. 
-
-    The LLM window will display a Stop button while the LLM is answering a question. If you find that the LLM is taking too long to respond (or saying too much), press the Stop LLM button. Note that stopping the LLM will clear the response on the screen.
-
-    ##### Application Logic
-    The process which takes place when you enter a question is:
-    * The question is turned into a vector value
-    * The value is compared to the sentence vectors that were generated in the Vectorize Document step
-    * The 3 best sentences (or whatever you may have set the sentence limit to) will be used to generate a RAG prompt
-    * The RAG prompt is sent to the LLM
-    * The program displays the results as they are generated by the LLM
-
-    Note that this system does not have GPUs available to it. This means that the response from the LLM could be in the order of minutes so you will need some patience! If you think you have seen enough output, press the STOP button.
-
-    If you want to view the Milvus vector distance for the RAG prompts, view the LOG file output.
-    """
-            st.markdown(details)
+st.page_link("https://ibm.github.io/watsonx-data-milvus/wxd-demo-queryllm/", label="Additional Help",icon=":material/help:")    
 
 st.subheader("Chat",divider="blue")
 
@@ -274,7 +227,7 @@ with st.sidebar:
             previous_prompt = None
 
             st.pills("LLM Settings",
-                    ["Hide RAG","Repeatable"],
+                    ["Verbose","Random"],
                     selection_mode="multi",
                     on_change=getSettings,
                     key="llm_settings",
@@ -289,7 +242,7 @@ with st.sidebar:
                     default=sts.sentences
                     )
             st.pills("Creativity (Temperature)",
-                    ["None","Low","Medium","High"],
+                    ["Off","L","M","H"],
                     selection_mode="single",
                     on_change=getTemperature,
                     key="llm_temperature",
@@ -311,7 +264,7 @@ for message in sts.messages:
     with st.chat_message(message["role"],avatar=avatar):
         st.write(message["content"],unsafe_allow_html=True)
     
-cols = st.columns([3,9,9,9,8,8,12])
+cols = st.columns([4,8,8,8,8,8,12])
 with cols[0]:
     _ = st.pills("",["Clear"],selection_mode="single",label_visibility="collapsed",default=None,key="clearit",on_change=doClear)
     if (sts.menu_inline == True):
@@ -334,7 +287,7 @@ with cols[0]:
 
         with cols[4]:
             st.pills("LLM Settings",
-                    ["Hide RAG","Repeatable"],
+                    ["Verbose","Random"],
                     selection_mode="multi",
                     on_change=getSettings,
                     key="llm_settings",
@@ -353,7 +306,7 @@ with cols[0]:
 
         with cols[6]:                    
             st.pills("Creativity (Temperature)",
-                    ["None","Low","Medium","High"],
+                    ["Off","L","M","H"],
                     selection_mode="single",
                     on_change=getTemperature,
                     key="llm_temperature",

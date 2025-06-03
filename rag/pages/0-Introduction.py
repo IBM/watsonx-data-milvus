@@ -12,13 +12,10 @@
 
 import streamlit as st
 from streamlit import session_state as sts
-from wxd_utilities import check_password, version_reset
+from wxd_utilities import check_password, setPage
 
-if not check_password():
-    st.stop()
-    
-# version_reset()	
-
+setPage("Introduction")	
+  
 st.header("Introduction",divider=True)
 
 topic = \

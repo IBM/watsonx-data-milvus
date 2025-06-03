@@ -13,27 +13,20 @@
 import streamlit as st
 import wxd_data as db
 import datetime
-from wxd_utilities import log, runOS, checkStatus, check_password, version_reset
+from wxd_utilities import log, runOS, checkStatus, check_password, setPage
 from streamlit import session_state as sts
 import pandas as pd
 
 
-st.set_page_config(
-    page_title="Log File",
-    page_icon=":infinity:",
-    layout="wide"
-)
-
-if not check_password():
-    st.stop()
-
-# version_reset()
+setPage("Log File")
 
 st.header("Log File",divider=True)
 description = '''
 The log file (/tmp/watsonx.log) contains information on what code was run during your session and any error messages that may have been generated. Use the refresh button to get the latest version of the log file into the display.
 '''    
 st.write(description)
+
+st.page_link("https://ibm.github.io/watsonx-data-milvus/wxd-demo-log/", label="Additional Help",icon=":material/help:") 
 
 logfile = None
 with open("/tmp/watsonx.log","r") as fd:

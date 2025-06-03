@@ -12,10 +12,9 @@
 
 import streamlit as st
 from streamlit import session_state as sts
-from wxd_utilities import check_password, version_reset
+from wxd_utilities import check_password, setPage
 
-if not check_password():
-    st.stop()
+setPage("What is RAG")
 
 st.header("An Introduction to RAG",divider=True)   
 

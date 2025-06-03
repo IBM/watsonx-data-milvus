@@ -13,18 +13,11 @@
 import streamlit as st
 import wxd_ollama
 import pandas as pd
-from wxd_utilities import runOS, setCredentials, log, check_password, version_reset
+from wxd_utilities import runOS, setCredentials, log, check_password, setPage
 from streamlit import session_state as sts
 from wxd_ollama import getLLMs, deleteLLM
 
-st.set_page_config(
-    page_title="Settings",
-    page_icon=":infinity:",
-    layout="wide"
-)
-
-if not check_password():
-    st.stop()
+setPage("Settings")
 
 # version_reset()
 
@@ -34,9 +27,10 @@ if ('initialized' not in sts):
         log("Startup","[1] Unable to get credentials required to connect to watsonx.data")
         st.stop()
 
+
 program = "Settings"
 
-st.header("LLM Models",divider=True)
+st.header("LLM Models",divider="blue")
 
 introduction = \
 '''
@@ -46,7 +40,10 @@ system by using the load option below. Note that not all models can be downloade
 
 st.write(introduction)
 
-st.subheader("Current LLMs",divider=True)
+st.page_link("https://ibm.github.io/watsonx-data-milvus/wxd-demo-managellm/", label="Additional Help",icon=":material/help:")  
+
+
+st.subheader("Current LLMs",divider="blue")
 
 introduction = \
 '''
@@ -61,7 +58,7 @@ with st.form("Refresh", clear_on_submit=True):
 
     button = st.form_submit_button("Refresh List")
 
-st.subheader("Load LLM",divider=True)
+st.subheader("Load LLM",divider="blue")
 
 introduction = \
 '''
@@ -94,7 +91,7 @@ with st.form("Upload", clear_on_submit=False):
     else:
         pass
 
-st.subheader("Remove LLM",divider=True)
+st.subheader("Remove LLM",divider="blue")
 
 introduction = \
 '''

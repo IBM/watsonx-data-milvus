@@ -15,7 +15,7 @@ from streamlit import session_state as sts
 import wxd_data as db
 import pandas as pd 
 import wikipedia
-from wxd_utilities import setCredentials, log, check_password, getLanguageCode
+from wxd_utilities import setCredentials, log, check_password, getLanguageCode, setPage
 from llama_index.readers.web import SimpleWebPageReader
 from wxd_wiki import getArticles
 from time import sleep
@@ -92,50 +92,56 @@ def list_documents():
     with st.container(border=True):
 
         selectDocuments()
-                    
-        columns = st.columns([6,7,87])
+
+        columns = st.columns([8,10,80])
+
         with columns[0]:
-            delete_button = st.button("Delete")  
+            delete_button = st.button("Delete")
         with columns[1]:
-            refresh_button = st.button("Refresh")               
+            refresh_button = st.button("Refresh")         
+        
+        if delete_button: 
+            if ("docs_selected" not in sts or sts.docs_selected == None):
+                st.error("You need to select at least one document to delete.")
+                return
 
-        if delete_button:
-            while True:
-                if ("docs_selected" not in sts):
-                    st.error("You need to select at least one document to delete.")
-                    break
-
-                rows = False
+            rows = False
+            edited_rows = sts.docs_selected['edited_rows']
+          
+            for row_no in edited_rows:
+                if edited_rows[row_no]["Selected"]:
+                    rows = True
+                    break     
+            
+            if (rows == False):
+                st.error("You need to select at least one document to delete.") 
+                return
+                
+            ids = []
+            with st.spinner("Deleting documents"):
                 edited_rows = sts.docs_selected['edited_rows']
                 for row_no in edited_rows:
                     if edited_rows[row_no]["Selected"]:
-                        rows = True
-                        break     
-                
-                if (rows == False):
-                    st.error("You need to select at least one document to delete.") 
-                    break
-                    
-                ids = []
-                with st.spinner("Deleting documents"):
-                    edited_rows = sts.docs_selected['edited_rows']
-                    for row_no in edited_rows:
-                        if edited_rows[row_no]["Selected"]:
-                            df = sts.doc_details
-                            id = df.loc[row_no,'id']
-                            log(program,f"[1] Deleting id={id}")
-                            sql = f"delete from iceberg_data.documents.metadata where id = {id}"
-                            ok = db.runDML(connection,sql)
-                            sql = f"delete from iceberg_data.documents.rawdata  where id = {id}"
-                            ok = db.runDML(connection,sql)                    
+                        df = sts.doc_details
+                        id = df.loc[row_no,'id']
+                        log(program,f"[1] Deleting id={id}")
+                        sql = f"delete from iceberg_data.documents.metadata where id = {id}"
+                        ok = db.runDML(connection,sql)
+                        sql = f"delete from iceberg_data.documents.rawdata  where id = {id}"
+                        ok = db.runDML(connection,sql)                    
 
-                st.rerun()
-                break    
+            sts.docs_selected = None
+            st.rerun()   
 
         elif refresh_button:
+
+            sts.docs_selected = None
             st.rerun()
+
         else:
+
             pass
+
 
 def document_selection():
     """
@@ -659,7 +665,9 @@ def filterColumns(connection):
     if len(sts.selected_columns) > 0:
         for idx in range(0,len(sts.selected_columns)):
             with columns[idx+1]:
-                filter = st.selectbox(sts.selected_columns[idx],sts.selected_values[idx],index=None,label_visibility="collapsed")
+                column_name   = sts.selected_columns[idx]
+                column_values = sts.selected_values[idx].sort_values(by=column_name)
+                filter = st.selectbox(column_name,column_values,index=None,label_visibility="collapsed")
                 sts.selected_filters[idx] = filter
 
     if doFilter:
@@ -799,16 +807,7 @@ def upload_watsonx(connection):
     with st.container(border=True):
         showTables(connection)
 
-
-
-st.set_page_config(
-    page_title="Documents",
-    page_icon=":infinity:",
-    layout="wide"    
-)
-
-if not check_password():
-    st.stop()
+setPage("Documents")
 
 program = "Documents"
 
@@ -831,56 +830,7 @@ This system requires that you upload documents or URLs to be used for RAG genera
 '''
 st.write(introduction)
 
-with st.container(border=False,height=40):
-    cols = st.columns(2)
-    with cols[0]:
-        with st.popover("Technical Details",use_container_width=True):
-            details = \
-    """
-    ###### Press Escape to Close this Window
-         
-    ##### Document Storage
-    This screen is used to stored documents into watsonx.data. There are two Iceberg tables within watsonx.data that store
-    details of the documents. The first table contains document metadata:
-    ```sql
-    CREATE TABLE iceberg_data.documents.metadata
-        (
-        "id"          int,
-        "document"    varchar,
-        "type"        varchar,
-        "scan"        boolean,
-        "language"    varchar
-        )
-    ```
-    The METADATA table tracks the document name (or URL) along with the type of document. The type of document will determine
-    what routine will be used to extract the text from the contents. The scan field is required to differentiate scanned PDF documents (e.g., using a scanner, or print to PDF of an image) and images. The language field must also be set when using scanned images. A pre-processing step is required to extract the text from these documents before vectorizing them and the language field makes the text extraction more accurate.
-
-    The RAWDATA table contains the data from the document.
-    ```sql
-    CREATE TABLE iceberg_data.documents.rawdata
-        (
-        "id"          int,
-        "chunk_id"    int,
-        "chunk"       varchar
-        )
-    ```
-
-    The data is split into approximately 1M base64 chunks. The reason for the chunking of the data is due to a Presto client limit
-    of 1M messages. Once the data is stored in watsonx.data, access to the underlying object can be controlled through
-    user and group authentication. 
-
-    An alternate strategy would be to upload the document and store it in an S3-like bucket. The downside is that the document is exposed in the bucket rather than obfuscated in Iceberg table format.
-
-    ##### Web Pages
-    Regular documents are stored "as-is" in watsonx.data, but URLs are handled differently. A web scraping routine extracts the text from the website and stores it in watsonx.data as a text document. What this means is that the data watsonx.data is valid as of the time the URL was uploaded. If the web page changes, it will not be reflected in the stored document. 
-
-    ##### Pre-loaded Documents
-    There is one document that has been pre-loaded into the system for your use (2023 IBM Annual Report). You can choose to upload your own documents to use with the LLMs. Some observations regarding documents.
-    * PDFs, DOCs, and Text create good RAG prompts with a minimum of 3 sentences
-    * PPTs require much more time to extract text and require more sentences (>5) to generate useful RAG prompts
-    * URLs generate RAG prompts that may contain images that are ignored
-    """
-            st.markdown(details)
+st.page_link("https://ibm.github.io/watsonx-data-milvus/wxd-demo-import/", label="Additional Help",icon=":material/help:")
 
 # Display current Documents
 list_documents()

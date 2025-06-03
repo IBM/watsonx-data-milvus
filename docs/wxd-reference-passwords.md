@@ -7,3 +7,4 @@ This table lists the passwords for the services in the system.
 |Virtual Machine|watsonx|watsonx.data
 |watsonx.data UI|ibmlhadmin|password
 |Demonstration UI|watsonx|watsonx.data
+|Jupyter Notebook|none|watsonx.data
